@@ -1,0 +1,426 @@
+{
+  "active": false,
+  "connections": {
+    "Consulta Venda na Hotmart": {
+      "main": [
+        [
+          {
+            "node": "Consulta Users na Hotmart",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "trata_dados": {
+      "main": [
+        [
+          {
+            "node": "dados_da_compra",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados_da_compra": {
+      "main": [
+        [
+          {
+            "node": "entra_na_fila_compra_aprovada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta Users na Hotmart": {
+      "main": [
+        [
+          {
+            "node": "trata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "compra_aprovada": {
+      "main": [
+        [
+          {
+            "node": "Consulta Venda na Hotmart",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.503Z",
+  "id": "I47msfQsVgJnTQyJ",
+  "meta": null,
+  "name": "[L060524-APA] - Compra aprovada na Hotmart",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://developers.hotmart.com/payments/api/v1/sales/history",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "transaction",
+              "value": "={{ $node[\"compra_aprovada\"].json[\"body\"][\"data\"][\"purchase\"][\"transaction\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5d726023-82a3-4df2-ab34-47ab54ec3ebf",
+      "name": "Consulta Venda na Hotmart",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        840,
+        440
+      ],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "1ZBkZAiKpYixNmVA",
+          "name": "[HOTMART] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "queue": "L060524 - APA - Compra aprovada",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "0427a435-a397-4c40-82e9-b3933097bc3d",
+      "name": "entra_na_fila_compra_aprovada",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1,
+      "position": [
+        1620,
+        440
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RabbitMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Acessando o objeto JSON do webhook \"compra_cancelada\"\nconst compraAprovada = $node[\"compra_aprovada\"].json;\nconst consultaUsers = $node[\"Consulta Users na Hotmart\"].json;\nconst consultaVenda = $node[\"Consulta Venda na Hotmart\"].json;\n\nfunction formatarDataMilissegundos(dataMilissegundos) {\n  const data = new Date(dataMilissegundos);\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0');\n  const ano = data.getFullYear();\n  const horas = String(data.getHours()).padStart(2, '0');\n  const minutos = String(data.getMinutes()).padStart(2, '0');\n  const segundos = String(data.getSeconds()).padStart(2, '0');\n  return `${ano}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;\n}\n\n// Função para formatar o nome com a primeira letra de cada parte em maiúscula\nfunction formatName(str) {\n  return str\n    .split(' ')\n    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())\n    .join(' ');\n}\n\nconst nomeClienteOriginal = consultaUsers?.items?.[0]?.users?.[1]?.user?.name || '';\nconst nomeClienteFormatado = formatName(nomeClienteOriginal);\nconst emailCliente = consultaUsers?.items?.[0]?.users?.[1]?.user?.email.toLowerCase().replace(/\\s/g, '') || '';\n\n// Tratamento do número de telefone\nconst telefoneClienteOriginal = consultaUsers?.items?.[0]?.users?.[1]?.user?.phone || '';\nconst telefoneLimpo = telefoneClienteOriginal.replace(/\\D/g, \"\");\nconst DDI = '55';\nconst DDD = telefoneLimpo.slice(0, 2);\nconst last8Digits = telefoneLimpo.slice(-8);\nconst telefoneManychat = DDI + DDD + '9' + last8Digits;\n\n// Determinar o número de telefone final\nlet telefoneFinal;\nif (parseInt(DDD) > 28) {\n  telefoneFinal = `${DDI}${DDD}${telefoneLimpo.slice(-8)}`;\n} else {\n  telefoneFinal = `${DDI}${DDD}${telefoneLimpo.slice(-9)}`;\n}\n\nconst moedaCompra = compraAprovada.body.data.purchase.original_offer_price.currency_value || '';\nconst product_id = compraAprovada.body.data.product.id || '';\nconst motivoRecusa = compraAprovada.body.data.purchase.payment.refusal_reason || '';\n\n// Mapeamento das formas de pagamento em inglês para PT-BR\nconst formasPagamento = {\n  CREDIT_CARD: \"Cartão de Crédito\",\n  PIX: \"PIX\",\n  BILLET: \"Boleto\",\n  PAYPAL: \"PayPal\",\n  WALLET: \"Carteira da Hotmart\",\n  FINANCED_BILLET: \"Boleto Parcelado\",\n  CASH_PAYMENT: \"Dinheiro Vivo\",\n  DIRECT_BANK_TRANSFER: \"Transferência Bancária\",\n  DIRECT_DEBIT: \"Débito Direto\",\n  FINANCED_INSTALLMENT: \"Parcelamento Financiado\",\n  GOOGLE_PAY: \"Google Pay\",\n  HOTCARD: \"Cartão da Hotmart\",\n  HYBRID: \"Híbrido\",\n  MANUAL_TRANSFER: \"Transferência Manual\",\n  PAYPAL_INTERNACIONAL: \"PayPal Internacional\",\n  PICPAY: \"PicPay\",\n};\n\n// Mapeamento dos status de compra em inglês para PT-BR\nconst statusCompra = {\n  APPROVED: 'Compra Aprovada',\n  BLOCKED: 'Compra Bloqueada',\n  CANCELLED: 'Compra Cancelada',\n  CHARGEBACK: 'Chargeback',\n  COMPLETE: 'Compra Completa',\n  EXPIRED: 'Compra Expirada',\n  OVERDUE: 'Compra Atrasada',\n  NO_FUNDS: 'Sem Fundos',\n  PRINTED_BILLET: 'Boleto Gerado',\n  PARTIALLY_REFUNDED: 'Parcialmente Reembolsada',\n  PROCESSING_TRANSACTION: 'Processando Transação',\n  PRE_ORDER: 'Compra Reservada',\n  STARTED: 'Compra Iniciada',\n  PROTESTED: 'Compra Reclamada',\n  REFUNDED: 'Compra Reembolsada',\n  WAITING_PAYMENT: 'Aguardando Pagamento',\n  UNDER_ANALISYS: 'Em Análise',\n  CANCELED: \"Compra Cancelada\",\n  COMPLETED: \"Compra Completa\"\n};\n\n// Assuming your JSON data is stored in the variable 'jsonData'\nconst trackingSource = consultaVenda.items[0]?.purchase?.tracking?.source || '';\n\n// Check if trackingSource is not empty before splitting\nconst [utmSource, utmCampaign, utmTerm, utmMedium, utmContent] = trackingSource ? trackingSource.split('-') : ['', '', '', '', ''];\n\n// Obtendo os dados formatados\nconst nomeProduto = compraAprovada.body.data.product.name || '';\nconst comissaoGateway = compraAprovada.body.data.commissions[0]?.value || '';\nconst ofertaCompra = compraAprovada.body.data.purchase.offer.code || '';\nconst valorCompra = compraAprovada.body.data.purchase.price.value || '';\nconst numeroParcelas = compraAprovada.body.data.purchase.payment.installments_number || '';\nconst metodoPagamento = formasPagamento[compraAprovada.body.data.purchase.payment.type] || '';\nconst idTransacao = compraAprovada.body.data.purchase.transaction || '';\nconst dataPedidoFormatada = formatarDataMilissegundos(compraAprovada.body.data.purchase.approved_date);\nconst pix_qr_code = compraAprovada.body.data.purchase.payment.pix_qrcode || '';\nconst linhadig_pix = compraAprovada.body.data.purchase.payment.pix_code || '';\nconst dataVencimentoPix = formatarDataMilissegundos(compraAprovada.body.data.purchase.payment.pix_expiration_date) || '';\nconst billet_url = compraAprovada.body.data.purchase.payment.billet_url || '';\nconst billet_barcode = compraAprovada.body.data.purchase.payment.billet_barcode || '';\n\n// Encontre o valor do documento (CPF ou CNPJ) do comprador onde o 'role' é 'BUYER'\nlet cpfcnpj_cliente = null;\nconst users = $node[\"Consulta Users na Hotmart\"].json[\"items\"][0][\"users\"];\n\nif (users) {\n  const buyer = users.find(user => user.role === 'BUYER');\n  if (buyer) {\n    cpfcnpj_cliente = buyer.user.documents[0]?.value || null;\n  }\n}\n\nif (cpfcnpj_cliente) {\n  if (cpfcnpj_cliente.length === 11) {\n    // Formatar CPF (11 dígitos) XXX.XXX.XXX-XX\n    cpfcnpj_cliente = cpfcnpj_cliente.replace(/(\\d{3})(\\d{3})(\\d{3})(\\d{2})/, '$1.$2.$3-$4');\n  } else if (cpfcnpj_cliente.length === 14) {\n    // Formatar CNPJ (14 dígitos) XX.XXX.XXX/0001-XX\n    cpfcnpj_cliente = cpfcnpj_cliente.replace(/(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})/, '$1.$2.$3/$4-$5');\n  }\n}\n\n// Verificar se o status da compra é \"BILLET_PRINTED\"\nif (compraAprovada.body.data.purchase.status === 'BILLET_PRINTED') {\n  // Verificar o tipo de pagamento e atualizar o status da compra\n  if (compraAprovada.body.data.purchase.payment.type === 'BILLET') {\n    compraAprovada.body.data.purchase.status = 'Boleto Gerado';\n  } else if (compraAprovada.body.data.purchase.payment.type === 'PIX') {\n    compraAprovada.body.data.purchase.status = 'PIX Gerado';\n  }\n}\n\n// Substituir \"CANCELED\" por \"Compra Cancelada\"\nif (compraAprovada.body.data.purchase.status === 'APPROVED') {\n  compraAprovada.body.data.purchase.status = 'Compra Aprovada';\n}\n\n// Função para formatar a data no formato YYYY-MM-DD\nfunction formatarDataGarantia(dataMilissegundos) {\n  if (!dataMilissegundos) {\n    return null;\n  }\n\n  const data = new Date(dataMilissegundos);\n  const dia = String(data.getDate()).padStart(2, '0');\n  const mes = String(data.getMonth() + 1).padStart(2, '0');\n  const ano = data.getFullYear();\n\n  return `${ano}-${mes}-${dia}`;\n}\n\nconst status = compraAprovada.body.data.purchase.status;\n// Adicionando a obtenção da data de garantia\nconst dataGarantia = formatarDataGarantia(consultaVenda.items[0].purchase.warranty_expire_date || null);\n\n// Resultado\nconst dadosFormatados = {\n  nomeProduto,\n  comissaoGateway,\n  ofertaCompra,\n  valorCompra,\n  numeroParcelas,\n  dataGarantia,\n  metodoPagamento,\n  idTransacao,\n  status,\n  dataPedidoFormatada,\n  nomeClienteFormatado,\n  emailCliente,\n  telefoneFinal,\n  cpfcnpj_cliente,\n  moedaCompra,\n  pix_qr_code,\n  linhadig_pix,\n  dataVencimentoPix,\n  billet_barcode,\n  billet_url,\n  product_id,\n  DDD,\n  telefoneManychat,\n  utm_source: utmSource,\n  utm_campaign: utmCampaign,\n  utm_term: utmTerm,\n  utm_medium: utmMedium,\n  utm_content: utmContent,\n  motivoRecusa\n};\n\n// Saída dos dados formatados\nreturn dadosFormatados;\n"
+      },
+      "id": "5ba1be45-8859-4b4a-bfbe-c615bf54a40a",
+      "name": "trata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "id_fluxo_compra_aprovada",
+              "value": "content20240202213418_857951"
+            },
+            {
+              "name": "API-KEY",
+              "value": "471ea28d-9577-4d0e-9a55-045f2fd14545"
+            },
+            {
+              "name": "url_api_activecampaign",
+              "value": "amaralgmota90953"
+            },
+            {
+              "name": "Api-Token",
+              "value": "2f15b66d77d6f08d786c2f48c5033502fdff35a61f22ff7f9f0ba880188fba012700dd82"
+            },
+            {
+              "name": "Nome do Cliente",
+              "value": "={{ $node[\"trata_dados\"].json[\"nomeClienteFormatado\"] }}"
+            },
+            {
+              "name": "E-mail do Cliente",
+              "value": "={{ $node[\"trata_dados\"].json[\"emailCliente\"] }}"
+            },
+            {
+              "name": "Telefone do Cliente - Formato BC",
+              "value": "=+{{ $node[\"trata_dados\"].json[\"telefoneFinal\"] }}"
+            },
+            {
+              "name": "cpf/cnpj",
+              "value": "={{ $node[\"trata_dados\"].json[\"cpfcnpj_cliente\"] }}"
+            },
+            {
+              "name": "nome_produto",
+              "value": "={{ $node[\"trata_dados\"].json[\"nomeProduto\"] }}"
+            },
+            {
+              "name": "transaction_id",
+              "value": "={{ $node[\"trata_dados\"].json[\"idTransacao\"] }}"
+            },
+            {
+              "name": "product_id",
+              "value": "={{ $node[\"trata_dados\"].json[\"product_id\"] }}"
+            },
+            {
+              "name": "value",
+              "value": "={{ $node[\"trata_dados\"].json[\"valorCompra\"] }}"
+            },
+            {
+              "name": "offer_code",
+              "value": "={{ $node[\"trata_dados\"].json[\"ofertaCompra\"] }}"
+            },
+            {
+              "name": "subscription_code",
+              "value": "={{ $node[\"trata_dados\"].json[\"Código da Inscrição\"] }}"
+            },
+            {
+              "name": "gateway_comission",
+              "value": "={{ $node[\"trata_dados\"].json[\"comissaoGateway\"] }}"
+            },
+            {
+              "name": "plan",
+              "value": "={{ $node[\"trata_dados\"].json[\"Plano\"] }}"
+            },
+            {
+              "name": "currency",
+              "value": "={{ $node[\"trata_dados\"].json[\"moedaCompra\"] }}"
+            },
+            {
+              "name": "payment_method",
+              "value": "={{ $node[\"trata_dados\"].json[\"metodoPagamento\"] }}"
+            },
+            {
+              "name": "trans_status",
+              "value": "={{ $node[\"trata_dados\"].json[\"status\"] }}"
+            },
+            {
+              "name": "conversion_date",
+              "value": "={{ $node[\"trata_dados\"].json[\"dataPedidoFormatada\"] }}"
+            },
+            {
+              "name": "warranty_date",
+              "value": "={{ $node[\"trata_dados\"].json[\"dataGarantia\"] }}"
+            },
+            {
+              "name": "installments",
+              "value": "={{ $node[\"trata_dados\"].json[\"numeroParcelas\"] }}"
+            },
+            {
+              "name": "ddd",
+              "value": "={{ $node[\"trata_dados\"].json[\"DDD\"] }}"
+            },
+            {
+              "name": "cep",
+              "value": "={{ $node[\"trata_dados\"].json[\"CEP\"] }}"
+            },
+            {
+              "name": "utm_source",
+              "value": "={{ $node[\"trata_dados\"].json[\"utm_source\"] }}"
+            },
+            {
+              "name": "utm_campaign",
+              "value": "={{ $node[\"trata_dados\"].json[\"utm_campaign\"] }}"
+            },
+            {
+              "name": "utm_medium",
+              "value": "={{ $node[\"trata_dados\"].json[\"utm_medium\"] }}"
+            },
+            {
+              "name": "utm_content",
+              "value": "={{ $node[\"trata_dados\"].json[\"utm_content\"] }}"
+            },
+            {
+              "name": "utm_term",
+              "value": "={{ $node[\"trata_dados\"].json[\"utm_term\"] }}"
+            },
+            {
+              "name": "link_pagamento_pix",
+              "value": "={{ $json[\"pix_qr_code\"] }}"
+            },
+            {
+              "name": "link_pagamento_boleto",
+              "value": "={{ $node[\"trata_dados\"].json[\"billet_url\"] }}"
+            },
+            {
+              "name": "id_campo_id_banco_de_dados_bot_conversa",
+              "value": "1828129"
+            },
+            {
+              "name": "id_campo_utm_var_bot_conversa",
+              "value": "1828130"
+            },
+            {
+              "name": "id_campo_utm_fun_bot_conversa",
+              "value": "1828131"
+            },
+            {
+              "name": "id_campo_utm_medium_bot_conversa",
+              "value": "1828161"
+            },
+            {
+              "name": "id_campo_utm_source_bot_conversa",
+              "value": "1828133"
+            },
+            {
+              "name": "id_campo_utm_campaign_bot_conversa",
+              "value": "1828167"
+            },
+            {
+              "name": "id_campo_utm_term_bot_conversa",
+              "value": "1828169"
+            },
+            {
+              "name": "id_campo_utm_content_bot_conversa",
+              "value": "1828175"
+            },
+            {
+              "name": "id_campo_idleadac_bot_conversa",
+              "value": "1828179"
+            },
+            {
+              "name": "id_campo_email_da_compra_bot_conversa",
+              "value": "1828180"
+            },
+            {
+              "name": "id_campo_id_banco_de_dados_ac",
+              "value": "638"
+            },
+            {
+              "name": "Telefone do Cliente - Formato Z-API",
+              "value": "={{ $node[\"trata_dados\"].json[\"telefoneFinal\"] }}"
+            },
+            {
+              "name": "id_campo_cpf_cnpj_bot_conversa",
+              "value": "1828182"
+            },
+            {
+              "name": "id_campo_id_da_compra_bot_conversa",
+              "value": "1828184"
+            },
+            {
+              "name": "id_campo_transacao_manychat",
+              "value": "10511163"
+            },
+            {
+              "name": "TOKEN-MANYCHAT",
+              "value": "126414673880608:c782c5e2605736f2c5bb5e5ae89202ef"
+            },
+            {
+              "name": "id_campo_email_manychat",
+              "value": "10511165"
+            },
+            {
+              "name": "id_campo_link_pagamento_pix_bot_conversa",
+              "value": "1828185"
+            },
+            {
+              "name": "id_campo_link_pagamento_boleto_bot_conversa",
+              "value": "1828186"
+            },
+            {
+              "name": "id_campo_linha_digitavel_boleto_bot_conversa",
+              "value": "1828187"
+            },
+            {
+              "name": "id_campo_linha_digitavel_pix_bot_conversa",
+              "value": "1828189"
+            },
+            {
+              "name": "telefone_manychat",
+              "value": "={{ $node[\"trata_dados\"].json[\"telefoneManychat\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "86f1c26b-31ba-4458-a2ab-b779d80ae2ec",
+      "name": "dados_da_compra",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1420,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://developers.hotmart.com/payments/api/v1/sales/users",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "transaction",
+              "value": "={{ $node[\"compra_aprovada\"].json[\"body\"][\"data\"][\"purchase\"][\"transaction\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b1be8508-321b-4329-b4f4-0258aaac739a",
+      "name": "Consulta Users na Hotmart",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        1040,
+        440
+      ],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "1ZBkZAiKpYixNmVA",
+          "name": "[HOTMART] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "APA-compra-aprovada",
+        "options": {}
+      },
+      "id": "a19946d4-b7ac-49f6-a94a-8cc3b67bb691",
+      "name": "compra_aprovada",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        640,
+        440
+      ],
+      "webhookId": "1332482d-357e-4030-9e54-291af4ebb423"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "saveManualExecutions": true
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.503Z",
+  "versionId": "cf60066c-5d71-4e1e-ad25-3bbdf7916c97"
+}
