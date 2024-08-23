@@ -1,0 +1,127 @@
+{
+  "active": false,
+  "connections": {
+    "google_forms": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados": {
+      "main": [
+        [
+          {
+            "node": "entra_na_fila",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.421Z",
+  "id": "2G9HoJUpEin52vOj",
+  "meta": null,
+  "name": "[COACHING] - Compra aprovada - Parte 1",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "[COACHING] - Compra aprovada",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "5bc31d16-429b-4e16-90ec-d46bddac71cb",
+      "name": "entra_na_fila",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1.1,
+      "position": [
+        160,
+        120
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "69142a88-ba50-422b-97ec-53c5356ad0ca",
+        "options": {}
+      },
+      "id": "79910a50-18fe-47ba-a754-2b94b25d0cb1",
+      "name": "google_forms",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -260,
+        120
+      ],
+      "webhookId": "69142a88-ba50-422b-97ec-53c5356ad0ca"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "63a32718-bc43-413a-8be2-6d7056ca9b49",
+              "name": "name",
+              "value": "={{ $node[\"google_forms\"].json[\"body\"][\"NOME DO ALUNO\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "c89496fd-8296-4378-9825-3bbaa1ad0196",
+              "name": "email",
+              "value": "={{ $node[\"google_forms\"].json[\"body\"][\"E-MAIL DE COMPRA\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "44d75fdb-9036-4f6c-ade7-07389af50672",
+              "name": "phone",
+              "value": "={{ $node[\"google_forms\"].json[\"body\"][\"TELEFONE (XX) XXXXX-XXXX\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "ca702c3f-455e-47b4-8aff-66ee2a588438",
+              "name": "programa escolhido",
+              "value": "={{ $node[\"google_forms\"].json[\"body\"][\"PROGRAMA ESCOLHIDO\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6152db62-504b-4fd3-b03a-9ae7554bb293",
+      "name": "dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        -60,
+        120
+      ]
+    }
+  ],
+  "pinData": null,
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.421Z",
+  "versionId": "32b78c26-0d67-463a-bc54-4b71345700e9"
+}
