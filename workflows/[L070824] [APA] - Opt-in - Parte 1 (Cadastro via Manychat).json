@@ -1,0 +1,398 @@
+{
+  "active": false,
+  "connections": {
+    "inscreve_manychat": {
+      "main": [
+        [
+          {
+            "node": "formata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_ou_atualiza_contato": {
+      "main": [
+        [
+          {
+            "node": "adiciona_tag_lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "formata_dados": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adiciona_tag_lead": {
+      "main": [
+        [
+          {
+            "node": "ajusta_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ajusta_dados": {
+      "main": [
+        [
+          {
+            "node": "entra_na_fila",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "cria_ou_atualiza_contato",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.391Z",
+  "id": "DkKqTJaQMEpDcdYR",
+  "meta": null,
+  "name": "[L070824] [APA] - Opt-in - Parte 1 (Cadastro via Manychat)",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1IoeFr11GSTAhfwhfimbnLeI3bKNSHID3B788Kxnr4T0",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads do Manychat",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IoeFr11GSTAhfwhfimbnLeI3bKNSHID3B788Kxnr4T0/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "id": "cb14142e-5943-4836-aaf5-ea8bd8acaabc",
+      "name": "inscreve_manychat",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        620,
+        360
+      ],
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "W7vUgaU6BZudRp3b",
+          "name": "[SHEETS TRIGGER] - apoiowaldrich7@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "314",
+        "contactId": "={{ $json[\"id\"] }}"
+      },
+      "id": "4b49e65c-90df-42e7-8047-6bc9e0b4d445",
+      "name": "adiciona_tag_lead",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        340
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "gVnAGwgGjilyjqdX",
+          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "email": "={{ $json[\"email\"] }}",
+        "updateIfExists": true,
+        "additionalFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "={{ 200 }}",
+                "value": "={{ $node[\"formata_dados\"].json[\"utm_source\"] }}"
+              },
+              {
+                "field": "={{ 201 }}",
+                "value": "={{ $node[\"formata_dados\"].json[\"utm_medium\"] }}"
+              },
+              {
+                "field": "={{ 202 }}",
+                "value": "={{ $node[\"formata_dados\"].json[\"utm_campaign\"] }}"
+              },
+              {
+                "field": "={{ 203 }}",
+                "value": "={{ $node[\"formata_dados\"].json[\"utm_term\"] }}"
+              },
+              {
+                "field": "={{ 204 }}",
+                "value": "={{ $node[\"formata_dados\"].json[\"utm_content\"] }}"
+              },
+              {
+                "field": "={{ 205 }}",
+                "value": "={{ $node[\"formata_dados\"].json[\"utm_id\"] }}"
+              }
+            ]
+          },
+          "firstName": "={{ $json[\"fname\"] }}",
+          "lastName": "={{ $json[\"lname\"] }}",
+          "phone": "={{ $json[\"whatsapp\"] }}"
+        }
+      },
+      "id": "eb907687-137d-403c-bd0d-2cb312cefceb",
+      "name": "cria_ou_atualiza_contato",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1700,
+        340
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "gVnAGwgGjilyjqdX",
+          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Supondo que o Google Sheets retorne um array de linhas\nconst data = items.map(item => item.json); // items é o array de entradas do node anterior\n\n// Função para capitalizar nomes\nfunction capitalizeName(fullName) {\n    if (!fullName) {\n        return { fname: '', lname: '', fullname: '' };\n    }\n\n    const lowerCaseWords = ['da', 'de', 'do', 'di', 'du'];\n    let words = fullName.toLowerCase().split(' ').map((word, index) => {\n        if (lowerCaseWords.includes(word) && index !== 0) {\n            return word;\n        }\n        return word.charAt(0).toUpperCase() + word.slice(1);\n    });\n\n    let fname = words.shift();\n    let lname = words.join(' ');\n\n    return { fname, lname, fullname: fname + ' ' + lname };\n}\n\n// Função para formatar email\nfunction formatEmail(email) {\n    return email.toLowerCase().trim();\n}\n\n// Processamento de cada linha do Google Sheets\nconst results = data.map(row => {\n    const fullNameAnswer = row[\"NOME\"] || \"\";\n    const emailAnswer = row[\"EMAIL\"] || \"\";\n    const telefoneClienteOriginal = row[\"WHATSAPP\"] || \"\";\n\n    // Garantir que telefoneClienteOriginal seja uma string antes de usar replace\n    const telefoneLimpo = String(telefoneClienteOriginal).replace(/\\D/g, \"\");\n    const DDI = '55';\n    const DDD = telefoneLimpo.slice(0, 2);\n\n    // Determinar o número de telefone final\n    const telefoneFinal = `${DDI}${DDD}${telefoneLimpo.slice(-9)}`;\n\n    // Formatar nomes e email\n    const formattedNames = capitalizeName(fullNameAnswer);\n    const formattedEmail = formatEmail(emailAnswer);\n    const utm_source = \"direct2\";\n    const utm_medium = \"organico\";\n    const utm_campaign = \"direct2\";\n    const utm_id = \"APA\";\n    const utm_content = \"direct2\";\n    const utm_term = \"direct2\"\n\n    // Montar o resultado para cada linha\n    return {\n        json: {\n            ...formattedNames, // Nome formatado\n            email: formattedEmail, // Email formatado\n            whatsapp: telefoneFinal, // WhatsApp formatado\n            utm_source: utm_source,\n            utm_medium: utm_medium,\n            utm_campaign: utm_campaign,\n            utm_term: utm_term,\n            utm_content: utm_content,\n            utm_id: utm_id\n\n        }\n    };\n});\n\n// Retornar os resultados processados para o próximo node no workflow\nreturn results;\n"
+      },
+      "id": "83c9776d-fd78-4423-89bc-5d82258e4276",
+      "name": "formata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        840,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "queue": "=[L070824] - Opt in",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "03cbdba3-c35c-46ea-8768-e5bb3b0f9e8a",
+      "name": "entra_na_fila",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        340
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6391350e-b1f4-4654-996b-edf76765c753",
+              "name": "fname",
+              "value": "={{ $node[\"formata_dados\"].json[\"fname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "48614d4e-5351-4522-9047-d67280e26180",
+              "name": "lname",
+              "value": "={{ $node[\"formata_dados\"].json[\"lname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "1030c484-cfab-4418-b24b-453e7089594e",
+              "name": "fullname",
+              "value": "={{ $node[\"formata_dados\"].json[\"fullname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "01ae3ba3-8aab-4f9e-aeed-2a1977183633",
+              "name": "email",
+              "value": "={{ $node[\"formata_dados\"].json[\"email\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2a63556c-f48a-4596-8e0d-bf7321e5ea09",
+              "name": "whatsapp",
+              "value": "={{ $node[\"formata_dados\"].json[\"whatsapp\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2dc58ea8-d7b0-4c00-8ec2-f369464cbd0a",
+              "name": "utm_source",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_source\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "d9360580-f83e-4a7c-b475-8e0720527512",
+              "name": "=utm_medium",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_medium\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "84156413-eaf6-4e39-b69d-6ba4b452fbe4",
+              "name": "utm_campaign",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_campaign\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4304338c-e5f2-44aa-b152-7be73e8232b1",
+              "name": "utm_term",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_term\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "b7be6196-f968-4496-8bfc-3899644ded46",
+              "name": "utm_content",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_content\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "7080bd5b-bb39-446b-b68e-63c7fda78666",
+              "name": "=utm_id",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "48ffde97-baf9-4e24-85f3-ca630480c9f8",
+              "name": "data do cadastro",
+              "value": "={{ $now.format(\"yyyy-MM-dd HH:mm:ss\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8caf7e93-d5f4-4f96-8c46-8d463c049f4f",
+      "name": "ajusta_dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2120,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a65cfefe-37b7-429a-9228-9125cc44b900",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1060,
+        360
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "11b32d14-ed2b-4ba5-aed9-17a8820601cd",
+      "name": "Replace Me",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "2ca884b2-d25f-448c-a085-a1071df0d6c9",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        420
+      ],
+      "webhookId": "5e2d6b35-adf0-4b22-a974-0577f5130e9a"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "saveManualExecutions": true
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.391Z",
+  "versionId": "8f239f48-92ce-49ca-90e1-462a284691ac"
+}
