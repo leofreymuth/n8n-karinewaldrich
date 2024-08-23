@@ -1,0 +1,146 @@
+{
+  "active": false,
+  "connections": {
+    "ajusta_dados": {
+      "main": [
+        [
+          {
+            "node": "envia_msg_evolution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "error_trigger": {
+      "main": [
+        [
+          {
+            "node": "ajusta_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.282Z",
+  "id": "Ppi2Q8rUEdph2WkT",
+  "meta": null,
+  "name": "⌚[GERAL] - Aviso de Workflow com Erro",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://evolution.leonardofreymuth.com.br/message/sendText/leo-pessoal",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=ebd92156-2906-4599-9941-470f592a0b5a"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "=555121654475"
+            },
+            {
+              "name": "textMessage.text",
+              "value": "=🚨 *Workflow com erro no N8N da Karine Waldrich*\n\nO Workflow *{{ $json[\"workflow\"][\"name\"] }}, do **ID {{ $json[\"workflow\"][\"id\"] }}*, acabou de apresentar um erro.\n\nAssim que puder, dê uma conferida e ajuste o erro apresentado."
+            },
+            {
+              "name": "options.presence",
+              "value": "composing"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "4abbded4-9776-45d0-833a-3c3e6359ba21",
+      "name": "envia_msg_evolution",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        900,
+        320
+      ],
+      "typeVersion": 4
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "number": [
+            {
+              "name": "execution.id",
+              "value": "={{ $node[\"error_trigger\"].json[\"execution\"][\"id\"] }}"
+            }
+          ],
+          "string": [
+            {
+              "name": "error.message",
+              "value": "={{ $node[\"error_trigger\"].json[\"execution\"][\"error\"][\"message\"] }}"
+            },
+            {
+              "name": "error.stack",
+              "value": "={{ $node[\"error_trigger\"].json[\"execution\"][\"error\"][\"stack\"] }}"
+            },
+            {
+              "name": "workflow.id",
+              "value": "={{ $node[\"error_trigger\"].json[\"workflow\"][\"id\"] }}"
+            },
+            {
+              "name": "workflow.name",
+              "value": "={{ $node[\"error_trigger\"].json[\"workflow\"][\"name\"] }}"
+            },
+            {
+              "name": "execution.link",
+              "value": "={{ $node[\"error_trigger\"].json[\"execution\"][\"url\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6ef4731a-45a8-4056-87ed-ca9f5deee4d2",
+      "name": "ajusta_dados",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        680,
+        320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "fe0b4f6b-4834-4174-a0c0-adb391813bf8",
+      "name": "error_trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        480,
+        320
+      ]
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.282Z",
+  "versionId": "8e71c71b-f666-4662-a6fd-a4a743533a88"
+}
