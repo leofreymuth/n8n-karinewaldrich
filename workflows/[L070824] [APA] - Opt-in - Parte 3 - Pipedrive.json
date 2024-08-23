@@ -1,0 +1,1123 @@
+{
+  "active": false,
+  "connections": {
+    "procura_pessoa": {
+      "main": [
+        [
+          {
+            "node": "pessoa_existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pessoa_existe?": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_deal",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_pessoa": {
+      "main": [
+        [
+          {
+            "node": "busca_planilha_leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "busca_planilha_leads": {
+      "main": [
+        [
+          {
+            "node": "lead_existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lead_existe?": {
+      "main": [
+        [
+          {
+            "node": "atualiza_lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_lead": {
+      "main": [
+        [
+          {
+            "node": "deal_existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_lead": {
+      "main": [
+        [
+          {
+            "node": "deal_existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deal_existe?": {
+      "main": [
+        [
+          {
+            "node": "atualiza_deal",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_deal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_deal": {
+      "main": [
+        [
+          {
+            "node": "insere_planilha_leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_deal": {
+      "main": [
+        [
+          {
+            "node": "insere_planilha_leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "chega_da_fila": {
+      "main": [
+        [
+          {
+            "node": "procura_closer_da_vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "procura_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_deal": {
+      "main": [
+        [
+          {
+            "node": "deal_existe?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deal_existe?1": {
+      "main": [
+        [
+          {
+            "node": "atualiza_deal1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_deal1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "verifica_closer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verifica_closer": {
+      "main": [
+        [
+          {
+            "node": "atualiza_closer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "atualiza_closer1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_closer1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_closer": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procura_closer_da_vez": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.576Z",
+  "id": "ZJXqFRZBZvO6TyI4",
+  "meta": null,
+  "name": "[L070824] [APA] - Opt-in - Parte 3 - Pipedrive",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "[L070824] - Pipedrive",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "acknowledge": "executionFinishesSuccessfully",
+          "jsonParseBody": true,
+          "parallelMessages": 1
+        }
+      },
+      "id": "8de2c4b1-a1d7-451f-8449-59bcc3ce45b6",
+      "name": "chega_da_fila",
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        240
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "id": "41ab492b-a7f4-48e3-b576-1aeba5a3b873",
+      "name": "procura_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        200
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "8af697ad-d947-412c-b0f7-19fa896d6d6b",
+              "leftValue": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5fd76b9f-576d-4952-8609-be0e58edd77e",
+      "name": "pessoa_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1940,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "name": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "additionalFields": {
+          "email": [
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}"
+          ],
+          "phone": [
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"whatsapp\"] }}"
+          ]
+        }
+      },
+      "id": "e1df3c69-0280-4622-8722-670954e42ed1",
+      "name": "cria_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        560
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM",
+          "mode": "list",
+          "cachedResultName": "[L070824] - Dashboard de leads do lançamento",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads inscritos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email",
+              "lookupValue": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c99efdfc-117e-40e0-86fa-364b726b0c0c",
+      "name": "busca_planilha_leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        2440,
+        560
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ub5DG8xHrdBshGfL",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "793d5083-f531-4652-87db-57a3a9f73005",
+              "leftValue": "={{ $node[\"busca_planilha_leads\"].json[\"ID Lead Pipedrive\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "8b39557a-b399-4dcd-a8e2-d70b70ce5a92",
+      "name": "lead_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2680,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "lead",
+        "operation": "update",
+        "leadId": "={{ $node[\"busca_planilha_leads\"].json[\"ID Lead Pipedrive\"] }}",
+        "updateFields": {}
+      },
+      "id": "6f300710-713b-4713-a0eb-9fbe295be0f7",
+      "name": "atualiza_lead",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2900,
+        380
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dealId": "={{ $node[\"busca_planilha_leads\"].json[\"ID Deal Pipedrive\"] }}",
+        "updateFields": {
+          "currency": "BRL",
+          "user_id": "={{ $node[\"procura_closer_da_vez\"].json[\"id CRM\"] }}",
+          "person_id": "={{   $node[\"cria_pessoa\"].runIndex >= 0        ? $node[\"cria_pessoa\"].json[\"id\"] : $node[\"procura_pessoa\"].runIndex >= 0      ? $node[\"procura_pessoa\"].json[\"id\"]     : null }}"
+        }
+      },
+      "id": "0844424c-10d1-4b91-90dd-f8b2cca9dd02",
+      "name": "atualiza_deal",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        3380,
+        400
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "lead",
+        "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "associateWith": "person",
+        "person_id": "={{   $node[\"cria_pessoa\"].runIndex >= 0        ? $node[\"cria_pessoa\"].json[\"id\"] : $node[\"procura_pessoa\"].runIndex >= 0      ? $node[\"procura_pessoa\"].json[\"id\"]     : null }}",
+        "additionalFields": {}
+      },
+      "id": "c5699930-23de-4c3e-abcb-5ea30cf979a9",
+      "name": "cria_lead",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2900,
+        720
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "=[L070824] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "associateWith": "person",
+        "person_id": "={{   $node[\"cria_pessoa\"].runIndex >= 0        ? $node[\"cria_pessoa\"].json[\"id\"] : $node[\"procura_pessoa\"].runIndex >= 0      ? $node[\"procura_pessoa\"].json[\"id\"]     : null }}",
+        "additionalFields": {
+          "currency": "BRL",
+          "customProperties": {
+            "property": [
+              {
+                "name": "19f75e0d64ec323764a616acb08e6de525fee5a4",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"data do cadastro\"] }}"
+              },
+              {
+                "name": "240b86c3727374674186111aff57e48c1f546b83",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_campaign\"] }}"
+              },
+              {
+                "name": "ccfbc50fbd8dd3470eebfdb1bd4eab171e46ad78",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_content\"] }}"
+              },
+              {
+                "name": "3edb25c8227aa018c8bb8c1dbff99ff37a86064f",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_medium\"] }}"
+              },
+              {
+                "name": "fc10082a9760b75370a50a5c4397b1f34edbe295",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_source\"] }}"
+              },
+              {
+                "name": "84525393044084d7b382d86519a5325a9cc39b3e",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_term\"] }}"
+              }
+            ]
+          },
+          "stage_id": 35,
+          "status": "open",
+          "user_id": "={{ $node[\"procura_closer_da_vez\"].json[\"id CRM\"] }}"
+        }
+      },
+      "id": "f0b61d70-0f1f-46b8-991d-17d802929d69",
+      "name": "cria_deal",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        3380,
+        700
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "793d5083-f531-4652-87db-57a3a9f73005",
+              "leftValue": "={{ $node[\"busca_planilha_leads\"].json[\"ID Deal Pipedrive\"].toString() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3990998e-f01e-45ea-9d45-fc018941b837",
+      "name": "deal_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3160,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM",
+          "mode": "list",
+          "cachedResultName": "[L070824] - Dashboard de leads do lançamento",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1780670846,
+          "mode": "list",
+          "cachedResultName": "Banco de emails + CRM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM/edit#gid=1780670846"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+            "Nome": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"] }}",
+            "ID Lead Pipedrive": "={{   $node[\"cria_lead\"].runIndex >= 0        ? $node[\"cria_lead\"].json[\"id\"] : $node[\"atualiza_lead\"].runIndex >= 0      ? $node[\"atualiza_lead\"].json[\"id\"]     : null }}",
+            "ID Deal Pipedrive": "={{   $node[\"cria_deal\"].runIndex >= 0        ? $node[\"cria_deal\"].json[\"id\"] : $node[\"atualiza_deal\"].runIndex >= 0      ? $node[\"atualiza_deal\"].json[\"id\"]     : null }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID Lead Pipedrive",
+              "displayName": "ID Lead Pipedrive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID Deal Pipedrive",
+              "displayName": "ID Deal Pipedrive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5f570f12-b1fe-4cc2-b106-e5aa2ef1a5d8",
+      "name": "insere_planilha_leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        3800,
+        360
+      ],
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ub5DG8xHrdBshGfL",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "202ea5ef-75e2-4489-afa6-15c9307d27c0",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        660,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "c2b46ab2-afd8-4013-b929-e4e93ade448b",
+      "name": "Replace Me",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "2682f16a-6296-469d-ab8a-f3bda474076d",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        920,
+        460
+      ],
+      "webhookId": "dfa43154-784c-4ef8-8db0-e587db30195e"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "term": "=[L070824]",
+        "additionalFields": {
+          "personId": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}"
+        }
+      },
+      "id": "9a432fb8-abd7-4bff-96b4-328dc683d5ec",
+      "name": "pesquisa_deal",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2840,
+        -20
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dealId": "={{ $node[\"deal_existe?1\"].json[\"id\"] }}",
+        "updateFields": {
+          "currency": "BRL",
+          "user_id": "={{ $node[\"procura_closer_da_vez\"].json[\"id CRM\"] }}",
+          "person_id": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}"
+        }
+      },
+      "id": "4d64ec43-f05d-44c2-b739-a2a2c33b9034",
+      "name": "atualiza_deal1",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        3340,
+        -180
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "=[L070824] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "associateWith": "person",
+        "person_id": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+        "additionalFields": {
+          "currency": "BRL",
+          "customProperties": {
+            "property": [
+              {
+                "name": "19f75e0d64ec323764a616acb08e6de525fee5a4",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"data do cadastro\"] }}"
+              },
+              {
+                "name": "240b86c3727374674186111aff57e48c1f546b83",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_campaign\"] }}"
+              },
+              {
+                "name": "ccfbc50fbd8dd3470eebfdb1bd4eab171e46ad78",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_content\"] }}"
+              },
+              {
+                "name": "3edb25c8227aa018c8bb8c1dbff99ff37a86064f",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_medium\"] }}"
+              },
+              {
+                "name": "fc10082a9760b75370a50a5c4397b1f34edbe295",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_source\"] }}"
+              },
+              {
+                "name": "84525393044084d7b382d86519a5325a9cc39b3e",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_term\"] }}"
+              }
+            ]
+          },
+          "stage_id": 35,
+          "status": "open",
+          "user_id": "={{ $node[\"procura_closer_da_vez\"].json[\"id CRM\"] }}"
+        }
+      },
+      "id": "dba5ee09-6d7e-480e-8453-207527da09f0",
+      "name": "cria_deal1",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        3340,
+        120
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "793d5083-f531-4652-87db-57a3a9f73005",
+              "leftValue": "={{ $node[\"pesquisa_deal\"].json[\"id\"].toString() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "bf5ed371-0b01-478e-be04-c6a8cdce4402",
+      "name": "deal_existe?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3120,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "dc7236c1-e2c6-4096-85de-b5e81cde34a3",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -140,
+        240
+      ],
+      "webhookId": "611c91ba-6936-4110-9876-88838f162431"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1LqhM6lSC_J9Bp4YfK24JLaWsL0lwCE9yfNRGOKLRy9w",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1972376342,
+          "mode": "list",
+          "cachedResultName": "Closer da vez",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LqhM6lSC_J9Bp4YfK24JLaWsL0lwCE9yfNRGOKLRy9w/edit#gid=1972376342"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "2",
+            "Closer da vez": "=2"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Closer da vez",
+              "displayName": "Closer da vez",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9c242d09-0cdd-44a3-9337-b68cc631f783",
+      "name": "atualiza_closer",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        360,
+        60
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ub5DG8xHrdBshGfL",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c6e0e089-d500-4226-b65e-ed2bb2a50096",
+              "leftValue": "={{ $node[\"procura_closer_da_vez\"].json[\"Id\"] }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "14d388a7-bb41-4c29-b6c5-33bf1cb1b565",
+      "name": "verifica_closer",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        80,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1LqhM6lSC_J9Bp4YfK24JLaWsL0lwCE9yfNRGOKLRy9w",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1972376342,
+          "mode": "list",
+          "cachedResultName": "Closer da vez",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LqhM6lSC_J9Bp4YfK24JLaWsL0lwCE9yfNRGOKLRy9w/edit#gid=1972376342"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "2",
+            "Closer da vez": "=1"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Closer da vez",
+              "displayName": "Closer da vez",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e3e89422-a1e3-414e-912d-e2e8b31530de",
+      "name": "atualiza_closer1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        360,
+        380
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ub5DG8xHrdBshGfL",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1LqhM6lSC_J9Bp4YfK24JLaWsL0lwCE9yfNRGOKLRy9w",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Closer",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LqhM6lSC_J9Bp4YfK24JLaWsL0lwCE9yfNRGOKLRy9w/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Id",
+              "lookupValue": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"closer da vez\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "dc2c016d-9abf-4afe-b48a-793cbfeeab73",
+      "name": "procura_closer_da_vez",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        -360,
+        240
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ub5DG8xHrdBshGfL",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+        }
+      }
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "saveExecutionProgress": false,
+    "saveManualExecutions": true
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.576Z",
+  "versionId": "a8635cb5-42a8-4d44-8637-b42bd041ff1b"
+}
