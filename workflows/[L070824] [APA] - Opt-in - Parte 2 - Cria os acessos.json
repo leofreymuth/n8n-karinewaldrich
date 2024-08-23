@@ -1,0 +1,304 @@
+{
+  "active": false,
+  "connections": {
+    "ajusta_dados": {
+      "main": [
+        [
+          {
+            "node": "entra_na_fila_manychat",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "entra_na_fila_pipedrive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procura_closer_da_vez": {
+      "main": [
+        [
+          {
+            "node": "ajusta_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "procura_closer_da_vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "chega_da_fila": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.383Z",
+  "id": "SciV2kb0mGfAL8gK",
+  "meta": null,
+  "name": "[L070824] [APA] - Opt-in - Parte 2 - Cria os acessos",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "[L070824] - Opt in",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "acknowledge": "executionFinishesSuccessfully",
+          "jsonParseBody": true,
+          "parallelMessages": 1
+        }
+      },
+      "id": "e5e6657e-c765-49b6-bfaa-c7af849e5be9",
+      "name": "chega_da_fila",
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        640,
+        160
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6391350e-b1f4-4654-996b-edf76765c753",
+              "name": "fname",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "48614d4e-5351-4522-9047-d67280e26180",
+              "name": "lname",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"lname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "1030c484-cfab-4418-b24b-453e7089594e",
+              "name": "fullname",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "01ae3ba3-8aab-4f9e-aeed-2a1977183633",
+              "name": "email",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2a63556c-f48a-4596-8e0d-bf7321e5ea09",
+              "name": "whatsapp",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"whatsapp\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2dc58ea8-d7b0-4c00-8ec2-f369464cbd0a",
+              "name": "utm_source",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_source\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8cc8043f-0ced-4cc4-8835-c7b9801f9873",
+              "name": "utm_medium",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_medium\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "3e319701-a968-4c07-b04e-f676a206d268",
+              "name": "utm_campaign",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_campaign\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6ed6a856-666a-40b4-b8df-2cdb84ebf662",
+              "name": "utm_term",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_term\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "569e3ac0-b5e2-4f28-8221-17a5ff42c1e5",
+              "name": "utm_content",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_content\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "3f2af8a3-5bd2-4a2e-ac1e-b4e33b4d7655",
+              "name": "utm_id",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "ec33d086-32ea-4dff-baeb-e9665f598340",
+              "name": "data do cadastro",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"data do cadastro\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "080c9dea-d2d9-4b82-8113-2ca280e67084",
+              "name": "closer da vez",
+              "value": "={{ $node[\"procura_closer_da_vez\"].json[\"Closer da vez\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b77bb407-019f-4e23-9404-2338c991f1f8",
+      "name": "ajusta_dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1380,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "queue": "=[L070824] - Manychat",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "d7e17e71-162c-4705-8420-8aed51418e85",
+      "name": "entra_na_fila_manychat",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        -40
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "queue": "=[L070824] - Pipedrive",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "cd5b3f49-7e42-4ff3-9364-2a2aaf1a852c",
+      "name": "entra_na_fila_pipedrive",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        380
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1LqhM6lSC_J9Bp4YfK24JLaWsL0lwCE9yfNRGOKLRy9w",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1972376342,
+          "mode": "list",
+          "cachedResultName": "Closer da vez",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LqhM6lSC_J9Bp4YfK24JLaWsL0lwCE9yfNRGOKLRy9w/edit#gid=1972376342"
+        },
+        "options": {}
+      },
+      "id": "a186cc11-d1de-44e7-bf91-90be99645458",
+      "name": "procura_closer_da_vez",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        1140,
+        160
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ub5DG8xHrdBshGfL",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "f4321725-7b7d-4ee5-993b-27bee78953f4",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        160
+      ],
+      "webhookId": "127493d9-9bcc-4570-a961-8331104ae127"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.383Z",
+  "versionId": "2fb144ed-d182-4cb0-abf1-8697b76a3581"
+}
