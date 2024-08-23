@@ -1,0 +1,648 @@
+{
+  "active": false,
+  "connections": {
+    "cria_contato_manychat": {
+      "main": [
+        [
+          {
+            "node": "verifica_whatsapp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "nao_encontrou_telefone": {
+      "main": [
+        [
+          {
+            "node": "procura_id_manychat_pelo_email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "atualiza_contato_manychat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procura_id_manychat_pelo_email": {
+      "main": [
+        [
+          {
+            "node": "nao_encontrou_email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "nao_encontrou_email": {
+      "main": [
+        [
+          {
+            "node": "cria_contato_manychat",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "atualiza_contato_manychat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "erro_de_email": {
+      "main": [
+        [
+          {
+            "node": "envia_fluxo_boas_vindas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "envia_fluxo_boas_vindas": {
+      "main": [
+        [
+          {
+            "node": "fim",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ajusta_dados": {
+      "main": [
+        [
+          {
+            "node": "procura_id_manychat_pelo_telefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "chega_da_fila": {
+      "main": [
+        [
+          {
+            "node": "ajusta_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procura_id_manychat_pelo_telefone": {
+      "main": [
+        [
+          {
+            "node": "nao_encontrou_telefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verifica_whatsapp": {
+      "main": [
+        [],
+        [
+          {
+            "node": "atualiza_contato_manychat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_contato_manychat": {
+      "main": [
+        [
+          {
+            "node": "erro_de_email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.102Z",
+  "id": "ePLU2BrJhd5SUlg5",
+  "meta": null,
+  "name": "[L070824] [APA] - Opt-in - Parte 3 - Manychat + Boas vindas (API oficial)",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/createSubscriber",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer 1746222495610114:98411c837cea31efbec616a060b6ed72"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "first_name",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"fname\"] }}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"lname\"] }}"
+            },
+            {
+              "name": "has_opt_in_sms",
+              "value": "true"
+            },
+            {
+              "name": "has_opt_in_email",
+              "value": "true"
+            },
+            {
+              "name": "consent_phrase",
+              "value": "Olá, aqui é a Karine Waldrich. Posso ter seu contato?"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"whatsapp\"] }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"email\"] }}"
+            },
+            {
+              "name": "whatsapp_phone",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"whatsapp\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2ae0ed3f-a1c6-4c6b-9736-23315a752fa5",
+      "name": "cria_contato_manychat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2160,
+        -140
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/sending/sendFlow",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer 1746222495610114:98411c837cea31efbec616a060b6ed72"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "flow_ns",
+              "value": "=content20240725213129_463170"
+            },
+            {
+              "name": "subscriber_id",
+              "value": "={{\n  $node[\"cria_contato_manychat\"].runIndex >= 0 \n    ? $node[\"cria_contato_manychat\"].json[\"data\"][\"id\"]\n    : $node[\"procura_id_manychat_pelo_email\"].runIndex >= 0 \n      ? $node[\"procura_id_manychat_pelo_email\"].json[\"data\"][\"id\"]    : $node[\"procura_id_manychat_pelo_telefone\"].runIndex >= 0 \n      ? $node[\"procura_id_manychat_pelo_telefone\"].json[\"data\"][\"0\"][\"id\"]\n              : null\n}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6c34c56e-4b1f-48c4-b664-7891ff085fa9",
+      "name": "envia_fluxo_boas_vindas",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3160,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"procura_id_manychat_pelo_telefone\"].json[\"data\"] }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "c53458bf-b2a3-419e-bcc2-921f61fec9ad",
+      "name": "nao_encontrou_telefone",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.manychat.com/fb/subscriber/findBySystemField",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer 1746222495610114:98411c837cea31efbec616a060b6ed72"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "87d57247-d2c9-43f6-b0c2-abe302123216",
+      "name": "procura_id_manychat_pelo_email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"procura_id_manychat_pelo_email\"].json[\"data\"] }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "f01d0502-6130-4144-8ffb-0b87246019db",
+      "name": "nao_encontrou_email",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/updateSubscriber",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer 1746222495610114:98411c837cea31efbec616a060b6ed72"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "first_name",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"fname\"] }}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"lname\"] }}"
+            },
+            {
+              "name": "has_opt_in_sms",
+              "value": "true"
+            },
+            {
+              "name": "has_opt_in_email",
+              "value": "true"
+            },
+            {
+              "name": "consent_phrase",
+              "value": "Olá, aqui é a Karine Waldrich. Posso ter seu contato?"
+            },
+            {
+              "name": "whatsapp_phone",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"whatsapp\"] }}"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"whatsapp\"] }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"email\"] }}"
+            },
+            {
+              "name": "subscriber_id",
+              "value": "={{\n  $node[\"cria_contato_manychat\"].runIndex >= 0 \n    ? $node[\"cria_contato_manychat\"].json[\"data\"][\"id\"]\n    : $node[\"procura_id_manychat_pelo_email\"].runIndex >= 0 \n      ? $node[\"procura_id_manychat_pelo_email\"].json[\"data\"][\"id\"]    : $node[\"procura_id_manychat_pelo_telefone\"].runIndex >= 0 \n      ? $node[\"procura_id_manychat_pelo_telefone\"].json[\"data\"][\"0\"][\"id\"]\n              : null\n}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "677440bc-e467-4bd7-b266-b3c571964b69",
+      "name": "atualiza_contato_manychat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2560,
+        200
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json[\"error\"][\"message\"] }}",
+              "operation": "contains",
+              "value2": "This email address already exists"
+            },
+            {
+              "value1": "={{ $node[\"atualiza_contato_manychat\"].json[\"data\"][\"id\"] }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        },
+        "combineOperation": "any"
+      },
+      "id": "59faf01b-1bcf-4fa3-8a30-b53117b92aed",
+      "name": "erro_de_email",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2820,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error ocurred!"
+      },
+      "id": "836acb83-01ae-4645-880d-e1cc81fd973e",
+      "name": "Stop and Error",
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        3160,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "queue": "[L070824] - Manychat",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "acknowledge": "executionFinishesSuccessfully",
+          "jsonParseBody": true,
+          "parallelMessages": 3
+        }
+      },
+      "id": "0de3381a-3148-4455-8662-d4cfdd8bfed5",
+      "name": "chega_da_fila",
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        700,
+        180
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "9334f232-33e4-4164-b330-370a5a1bdda7",
+      "name": "fim",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3360,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6391350e-b1f4-4654-996b-edf76765c753",
+              "name": "fname",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "48614d4e-5351-4522-9047-d67280e26180",
+              "name": "lname",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"lname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "1030c484-cfab-4418-b24b-453e7089594e",
+              "name": "fullname",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "01ae3ba3-8aab-4f9e-aeed-2a1977183633",
+              "name": "email",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2a63556c-f48a-4596-8e0d-bf7321e5ea09",
+              "name": "whatsapp",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"whatsapp\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2dc58ea8-d7b0-4c00-8ec2-f369464cbd0a",
+              "name": "utm_source",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_source\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8cc8043f-0ced-4cc4-8835-c7b9801f9873",
+              "name": "utm_medium",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_medium\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "3e319701-a968-4c07-b04e-f676a206d268",
+              "name": "utm_campaign",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_campaign\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6ed6a856-666a-40b4-b8df-2cdb84ebf662",
+              "name": "utm_term",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_term\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "569e3ac0-b5e2-4f28-8221-17a5ff42c1e5",
+              "name": "utm_content",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_content\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "1f7b87e9-3d53-4b7a-8f61-9cffc5034e90",
+              "name": "utm_id",
+              "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "168514e1-51e7-4482-b827-4ae5aa0d2c1b",
+              "name": "data do cadastro",
+              "value": "={{ $node[\"chega_da_fila\"].json.content['data do cadastro'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7965ae86-09a6-4681-81e1-d0e6554955e8",
+      "name": "ajusta_dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        940,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.manychat.com/fb/subscriber/findByCustomField",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "field_id",
+              "value": "=11512540"
+            },
+            {
+              "name": "field_value",
+              "value": "={{ $node[\"ajusta_dados\"].json[\"whatsapp\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer 1746222495610114:98411c837cea31efbec616a060b6ed72"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ebba4423-df65-4546-b0d2-17144ca4e4a4",
+      "name": "procura_id_manychat_pelo_telefone",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1160,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "0b43ebf2-3b3b-4851-b3ff-a91252309dfd",
+              "leftValue": "={{ $node[\"cria_contato_manychat\"].json[\"error\"][\"message\"] }}",
+              "rightValue": "The input value is not a valid WhatsApp ID",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9db198b5-9857-4ffd-8f54-f729ba08e7a0",
+      "name": "verifica_whatsapp",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2380,
+        -140
+      ]
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "saveExecutionProgress": false,
+    "saveManualExecutions": true
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.102Z",
+  "versionId": "7ba35afe-54ce-4393-a6c5-36b64724af77"
+}
