@@ -1,0 +1,265 @@
+{
+  "active": false,
+  "connections": {
+    "trata_dados": {
+      "main": [
+        [
+          {
+            "node": "dados_da_compra",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados_da_compra": {
+      "main": [
+        [
+          {
+            "node": "entra_na_fila",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "chamada_guru": {
+      "main": [
+        [
+          {
+            "node": "trata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.318Z",
+  "id": "g9Yp68SpjXdPVUWr",
+  "meta": null,
+  "name": "[AcessoEstendido_APA] - Compra aprovada - Guru - Parte 1",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "[APA] - Compra aprovada",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "ee6da811-04be-4669-9e79-467ae77fdc85",
+      "name": "entra_na_fila",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        440
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Acessando diretamente os dados com $json\nconst item = $node[\"chamada_guru\"].json;\n\n// Extraindo os dados necessários\nconst oferta = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"offer\"][\"name\"] || '';\nconst assinatura = item || {};\nconst metas_assinatura = assinatura.metas ?? []; // Atualize se houver um campo específico para isso\n// Extraindo informações adicionais\nconst id_assinatura = $node[\"chamada_guru\"].json[\"payload\"][\"id\"]  || '';\nconst nome_assinatura = $node[\"chamada_guru\"].json[\"payload\"][\"product\"][\"name\"] || ''; // Nome da Assinatura\nconst last_status = $node[\"chamada_guru\"].json[\"payload\"][\"last_status\"] || ''; // Último Status\nconst metodo_pagamento = traduzirMetodoPagamento($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"method\"] || '');\nconst tipo_produto = traduzirTipoProduto($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"type\"] || '');\nconst cep = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"address_zip_code\"] || '';\n\nconst cpf = formatarCPF($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"doc\"] || '');\nlet status_compra = traduzirStatus($node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"status\"] || '');\nconst link_boleto = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"payment_url\"] || '';\nconst codigo_boleto = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"code\"] || ''; // Atualize se houver um campo específico para isso\nconst codigo_pix = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"code\"] || ''; // Atualize se houver um campo específico para isso\nconst data_limite_pix = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"period_end\"] || ''; // Atualize se houver um campo específico para isso\nconst data_limite_boleto = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"period_end\"] || ''; // Atualize se houver um campo específico para isso\nconst nome_produto = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"name\"] || '';\nconst data_garantia_extendida = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"dates\"][\"warranty_until\"].slice(0,10) || '';\nconst nome_completo = capitalizarNome($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"name\"] || '');\nconst email_formatado = formatarEmail($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"email\"] || '');\nconst valor = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"value\"] || '';\nconst data_atualizacao = assinatura.dates?.last_status_at ? new Date(assinatura.dates.last_status_at) : new Date();\nconst comissao_gateway = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"marketplace_value\"] || '';\nconst parametros_utm = extrairParametrosUtm(metas_assinatura);\nconst id_produto = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"id\"] || '';\nconst hash_oferta = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"offer\"][\"id\"] || '';\nconst parcelas = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"installments\"][\"qty\"] || '';\nconst data_expiracao = $node[\"chamada_guru\"].json[\"payload\"][\"dates\"][\"cycle_end_date\"];\nconst phone = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"phone_local_code\"] + $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"phone_number\"] || '';\n// Verificando se o objeto dates existe antes de acessar suas propriedades\nconst data_inicio = $node[\"chamada_guru\"].json[\"payload\"][\"dates\"][\"cycle_start_date\"] || ''; // Data de Início do Ciclo\nconst data_fim = $node[\"chamada_guru\"].json[\"payload\"][\"dates\"][\"cycle_end_date\"] || ''; // Data de Fim do Ciclo\nconst telefone = formatarTelefone(phone || '');\nconst moeda = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"currency\"]  || '';\nconst valor_parcelas = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"installments\"][\"value\"] || '';\nconst prazo_dias = $node[\"chamada_guru\"].json[\"payload\"][\"charged_every_days\"]  || '';\n// Define o output com todas as informações\nreturn {\n  // Informações do Cliente\n  nome_cliente: nome_completo,\n  email_cliente: email_formatado,\n  telefone_cliente: telefone,\n  cpf_cnpj: cpf,\n  cep,\n\n  // Informações da Venda\n  id_assinatura,\n  nome_assinatura,\n  last_status,\n  plano: tipo_produto,\n  id_produto,\n  codigo_assinatura: id_assinatura,\n  comissao_gateway,\n  moeda: moeda,\n  metodo_pagamento,\n  status_compra,\n  data_compra: formatarDataHora(data_atualizacao),\n  codigo_oferta: hash_oferta,\n  oferta,\n  valor_compra: valor,\n  parcelas,\n  valor_parcelas,\n  data_expiracao,\n  \n  // Informações do Endereço\n  link_boleto,\n  codigo_boleto,\n  codigo_pix,\n  data_limite_pix,\n  data_limite_boleto,\n  nome_produto,\n\n  // Detalhes Adicionais\n  data_garantia: data_garantia_extendida,\n  data_inicio,\n  data_fim,\n  prazo_dias,\n  \n  // Parâmetros UTM\n  utm_campaign: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_campaign\"] || '',\n  utm_content: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_content\"] || '',\n  utm_medium: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_medium\"] || '',\n  utm_source: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_source\"] || '',\n  utm_term: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_term\"] || '',\n};\n\n// Traduz o método de pagamento para pt-BR\nfunction traduzirMetodoPagamento(metodo) {\n  const mapaMetodosPagamento = {\n    \"credit_card\": \"Cartão de Crédito\",\n    \"pix\": \"PIX\",\n    \"boleto\": \"Boleto Bancário\",\n    \"paypal\": \"PayPal\"\n  };\n  return mapaMetodosPagamento[metodo] ?? metodo;\n}\n\n// Traduz o status para pt-BR\nfunction traduzirStatus(status, metodo_pagamento) {\n  const mapaStatus = {\n    \"refused\": \"Compra Cancelada\",\n    \"paid\": \"Compra Aprovada\",\n    \"refunded\": \"Compra Reembolsada\",\n    \"chargedback\": \"Chargeback\",\n    \"waiting_payment\": \"Aguardando Pagamento\"\n  };\n  let statusTraduzido = mapaStatus[status] ?? '';\n  if (statusTraduzido === \"Aguardando Pagamento\") {\n    if (metodo_pagamento === \"Boleto Bancário\") {\n      statusTraduzido = \"Boleto Gerado\";\n    } else if (metodo_pagamento === \"PIX\") {\n      statusTraduzido = \"PIX Gerado\";\n    }\n  }\n  return statusTraduzido;\n}\n\n// Traduz o tipo de produto para pt-BR\nfunction traduzirTipoProduto(tipo) {\n  const mapaTipoProduto = {\n    \"plan\": \"Assinatura\",\n    \"transaction\": \"Transação\",\n    \"subscription\": \"Assinatura\"\n  };\n  return mapaTipoProduto[tipo] ?? tipo;\n}\n\n// Função para formatar o CPF\nfunction formatarCPF(cpf) {\n  return cpf.replace(/(\\d{3})(\\d{3})(\\d{3})(\\d{2})/, \"$1.$2.$3-$4\");\n}\n\n// Função para formatar o telefone\nfunction formatarTelefone(telefone) {\n  const telefoneLimpo = telefone.replace(/[\\+\\s-]/g, '');\n  const ddi = telefoneLimpo.slice(0, 2);\n  if (ddi === '55') {\n    const ddd = telefoneLimpo.slice(2, 4);\n    return ddd > 28 ? '55' + telefoneLimpo.slice(2, 4) + telefoneLimpo.slice(-8) : '55' + telefoneLimpo.slice(2, 4) + telefoneLimpo.slice(-9);\n  }\n  return telefoneLimpo;\n}\n\n// Função para capitalizar o nome\nfunction capitalizarNome(nome_completo) {\n  const palavrasMinusc = ['da', 'de', 'do', 'di', 'du'];\n  const palavras = nome_completo.toLowerCase().split(' ');\n  return palavras.map(palavra => {\n    if (palavrasMinusc.includes(palavra)) {\n      return palavra;\n    }\n    return palavra.charAt(0).toUpperCase() + palavra.slice(1);\n  }).join(' ');\n}\n\n// Função para formatar a data e hora\nfunction formatarDataHora(data) {\n  const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };\n  return new Intl.DateTimeFormat('pt-BR', options).format(new Date(data));\n}\n\n\n// Função para formatar o e-mail\nfunction formatarEmail(email) {\n  return email.toLowerCase();\n}\n\n// Função para extrair parâmetros UTM de metas\nfunction extrairParametrosUtm(metas) {\n  const parametros = {\n    utm_campaign: '',\n    utm_content: '',\n    utm_medium: '',\n    utm_source: '',\n    utm_term: ''\n  };\n\n  metas.forEach(meta => {\n    if (meta.name) {\n      const partes = meta.name.split('&');\n      partes.forEach(parte => {\n        const [chave, valor] = parte.split('=');\n        if (parametros.hasOwnProperty(chave)) {\n          parametros[chave] = valor || '';\n        }\n      });\n    }\n  });\n\n  return parametros;\n}\n\n// Função para calcular a data com base em um intervalo\nfunction calcularData(data, dias) {\n  const novaData = new Date(data);\n  novaData.setDate(novaData.getDate() + dias);\n  return novaData.toISOString().split('T')[0];\n}"
+      },
+      "id": "1332630b-5b22-42a4-bcbb-caa1d155a21c",
+      "name": "trata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        900,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "nome",
+              "value": "={{ $node[\"trata_dados\"].json[\"nome_cliente\"] }}"
+            },
+            {
+              "name": "E-mail do Cliente",
+              "value": "={{ $node[\"trata_dados\"].json[\"email_cliente\"] }}"
+            },
+            {
+              "name": "cpf/cnpj",
+              "value": "={{ $node[\"trata_dados\"].json[\"cpf_cnpj\"] }}"
+            },
+            {
+              "name": "nome_produto",
+              "value": "={{ $node[\"trata_dados\"].json[\"nome_produto\"] }}"
+            },
+            {
+              "name": "transaction_id",
+              "value": "={{ $node[\"trata_dados\"].json[\"id_assinatura\"] }}"
+            },
+            {
+              "name": "product_id",
+              "value": "={{ $node[\"trata_dados\"].json[\"id_produto\"] }}"
+            },
+            {
+              "name": "value",
+              "value": "={{ $node[\"trata_dados\"].json[\"valor_compra\"] }}"
+            },
+            {
+              "name": "offer_code",
+              "value": "={{ $node[\"trata_dados\"].json[\"codigo_oferta\"] }}"
+            },
+            {
+              "name": "subscription_code",
+              "value": "={{ $node[\"trata_dados\"].json[\"codigo_assinatura\"] }}"
+            },
+            {
+              "name": "gateway_comission",
+              "value": "={{ $node[\"trata_dados\"].json[\"comissao_gateway\"] }}"
+            },
+            {
+              "name": "plan",
+              "value": "={{ $node[\"trata_dados\"].json[\"plano\"] }}"
+            },
+            {
+              "name": "currency",
+              "value": "={{ $node[\"trata_dados\"].json[\"moeda\"] }}"
+            },
+            {
+              "name": "payment_method",
+              "value": "={{ $node[\"trata_dados\"].json[\"metodo_pagamento\"] }}"
+            },
+            {
+              "name": "trans_status",
+              "value": "={{ $node[\"trata_dados\"].json[\"status_compra\"] }}"
+            },
+            {
+              "name": "conversion_date",
+              "value": "={{ $node[\"trata_dados\"].json[\"data_compra\"] }}"
+            },
+            {
+              "name": "warranty_date",
+              "value": "={{ $node[\"trata_dados\"].json[\"data_garantia\"] }}"
+            },
+            {
+              "name": "installments",
+              "value": "={{ $node[\"trata_dados\"].json[\"parcelas\"] }}"
+            },
+            {
+              "name": "cep",
+              "value": "={{ $node[\"trata_dados\"].json[\"cep\"] }}"
+            },
+            {
+              "name": "utm_source",
+              "value": "={{ $node[\"trata_dados\"].json[\"utm_source\"] }}"
+            },
+            {
+              "name": "utm_campaign",
+              "value": "={{ $node[\"trata_dados\"].json[\"utm_campaign\"] }}"
+            },
+            {
+              "name": "utm_medium",
+              "value": "={{ $node[\"trata_dados\"].json[\"utm_medium\"] }}"
+            },
+            {
+              "name": "utm_content",
+              "value": "={{ $node[\"trata_dados\"].json[\"utm_content\"] }}"
+            },
+            {
+              "name": "utm_term",
+              "value": "={{ $node[\"trata_dados\"].json[\"utm_term\"] }}"
+            },
+            {
+              "name": "link_pagamento_pix",
+              "value": "={{ $node[\"trata_dados\"].json[\"codigo_pix\"] }}"
+            },
+            {
+              "name": "link_pagamento_boleto",
+              "value": "={{ $node[\"trata_dados\"].json[\"link_boleto\"] }}"
+            },
+            {
+              "name": "Telefone do Cliente - Formato BC",
+              "value": "={{ $node[\"trata_dados\"].json[\"telefone_cliente\"] ? '+' + $node[\"trata_dados\"].json[\"telefone_cliente\"] : ''}}"
+            },
+            {
+              "name": "funil",
+              "value": "1"
+            },
+            {
+              "name": "expiration_date",
+              "value": "={{ $node[\"trata_dados\"].json[\"data_expiracao\"] }}"
+            },
+            {
+              "name": "tag_do_lancamento"
+            },
+            {
+              "name": "Telefone do Cliente - Formato Z-API",
+              "value": "={{ $node[\"trata_dados\"].json[\"telefone_cliente\"]}}"
+            },
+            {
+              "name": "prazo_de_acesso_em_dias",
+              "value": "={{ $node[\"trata_dados\"].json[\"prazo_dias\"]}}"
+            },
+            {
+              "name": "offer",
+              "value": "={{ $node[\"trata_dados\"].json[\"oferta\"] }}"
+            },
+            {
+              "name": "installments_value",
+              "value": "={{ $node[\"trata_dados\"].json[\"valor_parcelas\"] }}"
+            },
+            {
+              "name": "link_boleto",
+              "value": "={{ $node[\"trata_dados\"].json[\"link_boleto\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d34ea726-da16-40be-a419-4739abaec888",
+      "name": "dados_da_compra",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ae33843e-2eb9-4f52-8cdd-b77c32534d7d",
+        "options": {}
+      },
+      "id": "b770dfba-96a2-4f30-bad5-7d764dcf3b0b",
+      "name": "chamada_guru",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        680,
+        440
+      ],
+      "webhookId": "ae33843e-2eb9-4f52-8cdd-b77c32534d7d"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "saveManualExecutions": true
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.318Z",
+  "versionId": "8731c15e-d6cb-4e30-9e94-075de2fe2df3"
+}
