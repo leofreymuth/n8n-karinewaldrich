@@ -48,7 +48,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.514Z",
   "id": "NFNIbMb7N291L2cK",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[L070824] [APA] - Opt-in - Parte 1 (Cadastro via Página de captura)",
   "nodes": [
     {
@@ -90,7 +92,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        800,
+        780,
         180
       ]
     },
@@ -225,7 +227,7 @@
       "webhookId": "a61ad843-4784-49be-ab73-7923d4beff39"
     }
   ],
-  "pinData": null,
+  "pinData": {},
   "settings": {
     "saveExecutionProgress": false,
     "saveManualExecutions": true
@@ -233,6 +235,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.514Z",
-  "versionId": "fafef50f-251f-406e-ad9e-0f6095fee41b"
+  "updatedAt": "2024-08-23T14:50:25.315Z",
+  "versionId": "676ad13c-a039-4f9c-b26e-b0695e1dd466"
 }
