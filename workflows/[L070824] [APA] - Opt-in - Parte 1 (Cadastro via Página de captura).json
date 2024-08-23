@@ -1,0 +1,238 @@
+{
+  "active": false,
+  "connections": {
+    "formata_dados": {
+      "main": [
+        [
+          {
+            "node": "cria_ou_atualiza_contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_ou_atualiza_contato": {
+      "main": [
+        [
+          {
+            "node": "ajusta_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ajusta_dados": {
+      "main": [
+        [
+          {
+            "node": "entra_na_fila",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cadastro_lead_active": {
+      "main": [
+        [
+          {
+            "node": "formata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.514Z",
+  "id": "NFNIbMb7N291L2cK",
+  "meta": null,
+  "name": "[L070824] [APA] - Opt-in - Parte 1 (Cadastro via Página de captura)",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "=[L070824] - Opt in",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "f3817695-3894-413a-943f-c00b26d36f20",
+      "name": "entra_na_fila",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        180
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const firstName = $node[\"cadastro_lead_active\"].json[\"body\"][\"contact[first_name]\"] || \"\";\nconst lastName = $node[\"cadastro_lead_active\"].json[\"body\"][\"contact[last_name]\"] || \"\";\nconst emailAnswer = $node[\"cadastro_lead_active\"].json[\"body\"][\"contact[email]\"] || \"\";\nconst telefoneClienteOriginal = $node[\"cadastro_lead_active\"].json[\"body\"][\"contact[phone]\"] || \"\";\n\nfunction capitalizeName(name) {\n    return name.split(' ').map(word => {\n        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();\n    }).join(' ');\n}\n\nfunction formatEmail(email) {\n    return email.toLowerCase().trim();\n}\n\n// Garantir que telefoneClienteOriginal seja uma string antes de usar replace\nconst telefoneLimpo = String(telefoneClienteOriginal).replace(/\\D/g, \"\");\nconst DDI = '55';\nconst DDD = telefoneLimpo.slice(0, 2);\n\n// Determinar o número de telefone final\nconst telefoneFinal = `${DDI}${DDD}${telefoneLimpo.slice(-9)}`;\n\nconst formattedFirstName = capitalizeName(firstName);\nconst formattedLastName = capitalizeName(lastName);\nconst formattedFullName = `${formattedFirstName} ${formattedLastName}`;\nconst formattedEmail = formatEmail(emailAnswer);\nconst utm_source = $node[\"cadastro_lead_active\"].json[\"body\"][\"contact[fields][utm_source]\"] || \"\";\nconst utm_campaign = $node[\"cadastro_lead_active\"].json[\"body\"][\"contact[fields][utm_campaign]\"] || \"\";\nconst utm_medium = $node[\"cadastro_lead_active\"].json[\"body\"][\"contact[fields][utm_medium]\"] || \"\";\nconst utm_term = $node[\"cadastro_lead_active\"].json[\"body\"][\"contact[fields][utm_term]\"] || \"\";\nconst utm_content = $node[\"cadastro_lead_active\"].json[\"body\"][\"contact[fields][utm_content]\"] || \"\";\nconst utm_id = $node[\"cadastro_lead_active\"].json[\"body\"][\"contact[fields][utm_id]\"] || \"\";\n\nconst result = {\n    fname: formattedFirstName,\n    lname: formattedLastName,\n    fullname: formattedFullName,\n    email: formattedEmail,\n    whatsapp: telefoneFinal,\n    utm_source: utm_source,\n    utm_campaign: utm_campaign,\n    utm_term: utm_term,\n    utm_medium: utm_medium,\n    utm_content: utm_content,\n    utm_id: utm_id\n};\n\n// Aqui estamos ajustando a estrutura do retorno para se adequar ao que o n8n espera\nreturn [{ json: result }];\n"
+      },
+      "id": "ba1a14b8-ad32-4f3b-a235-812cd32825f0",
+      "name": "formata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "email": "={{ $json[\"email\"] }}",
+        "updateIfExists": true,
+        "additionalFields": {
+          "firstName": "={{ $json[\"fname\"] }}",
+          "lastName": "={{ $json[\"lname\"] }}",
+          "phone": "={{ $json[\"whatsapp\"] }}"
+        }
+      },
+      "id": "a9047bd7-4d92-46ce-9bd3-3f0098b72357",
+      "name": "cria_ou_atualiza_contato",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        960,
+        180
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "gVnAGwgGjilyjqdX",
+          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6391350e-b1f4-4654-996b-edf76765c753",
+              "name": "fname",
+              "value": "={{ $node[\"formata_dados\"].json[\"fname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "48614d4e-5351-4522-9047-d67280e26180",
+              "name": "lname",
+              "value": "={{ $node[\"formata_dados\"].json[\"lname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "1030c484-cfab-4418-b24b-453e7089594e",
+              "name": "fullname",
+              "value": "={{ $node[\"formata_dados\"].json[\"fullname\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "01ae3ba3-8aab-4f9e-aeed-2a1977183633",
+              "name": "email",
+              "value": "={{ $node[\"formata_dados\"].json[\"email\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2a63556c-f48a-4596-8e0d-bf7321e5ea09",
+              "name": "whatsapp",
+              "value": "={{ $node[\"formata_dados\"].json[\"whatsapp\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "2dc58ea8-d7b0-4c00-8ec2-f369464cbd0a",
+              "name": "utm_source",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_source\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "8cc8043f-0ced-4cc4-8835-c7b9801f9873",
+              "name": "utm_medium",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_medium\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "3e319701-a968-4c07-b04e-f676a206d268",
+              "name": "utm_campaign",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_campaign\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6ed6a856-666a-40b4-b8df-2cdb84ebf662",
+              "name": "utm_term",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_term\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "569e3ac0-b5e2-4f28-8221-17a5ff42c1e5",
+              "name": "utm_content",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_content\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "81b13ec4-818f-4b3d-b323-0ff9f08ef814",
+              "name": "utm_id",
+              "value": "={{ $node[\"formata_dados\"].json[\"utm_id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "5eb7b345-fbe5-435b-9678-a73b905afe33",
+              "name": "data do cadastro",
+              "value": "={{ $now.format(\"yyyy-MM-dd HH:mm:ss\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e234c815-dec4-4bcd-928f-9f0cfcb087d6",
+      "name": "ajusta_dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1140,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "y4siUH1AvTMIBtQOXwXTXQoA3G5fJ0Lk",
+        "options": {}
+      },
+      "id": "94a04c24-9ab5-4c3f-9cf1-59f1c6389acd",
+      "name": "cadastro_lead_active",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        600,
+        180
+      ],
+      "webhookId": "a61ad843-4784-49be-ab73-7923d4beff39"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "saveExecutionProgress": false,
+    "saveManualExecutions": true
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.514Z",
+  "versionId": "fafef50f-251f-406e-ad9e-0f6095fee41b"
+}
