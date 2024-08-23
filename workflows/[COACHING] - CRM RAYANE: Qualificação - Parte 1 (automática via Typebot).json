@@ -1,0 +1,101 @@
+{
+  "active": false,
+  "connections": {
+    "formata_dados": {
+      "main": [
+        [
+          {
+            "node": "entra_na_fila",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "preencheu_typebot": {
+      "main": [
+        [
+          {
+            "node": "formata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.229Z",
+  "id": "dbW8ytv2AU0viJWu",
+  "meta": null,
+  "name": "[COACHING] - CRM RAYANE: Qualificação - Parte 1 (automática via Typebot)",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const fullNameAnswer = $node[\"preencheu_typebot\"].json[\"body\"][\"nome\"] || \"\";\nconst emailAnswer = $node[\"preencheu_typebot\"].json[\"body\"][\"email\"] || \"\";\nconst telefoneClienteOriginal = $node[\"preencheu_typebot\"].json[\"body\"][\"telefone\"] || '';\nconst carreira = $node[\"preencheu_typebot\"].json[\"body\"][\"carreira\"] || '';\nconst tempo = $node[\"preencheu_typebot\"].json[\"body\"][\"tempo\"] || '';\nconst qualificacao = $node[\"preencheu_typebot\"].json[\"body\"][\"qualificacao\"] || '';\n\nfunction capitalizeName(fullName) {\n    if (typeof fullName === 'undefined') {\n        return { fname: '', lname: '', fullname: '' };\n    }\n\n    const lowerCaseWords = ['da', 'de', 'do', 'di', 'du'];\n    let words = fullName.toLowerCase().split(' ').map((word, index) => {\n        if (lowerCaseWords.includes(word) && index !== 0) {\n            return word;\n        }\n        return word.charAt(0).toUpperCase() + word.slice(1);\n    });\n\n    let fname = words.shift();\n    let lname = words.join(' ');\n\n    return { fname, lname, fullname: fname + ' ' + lname };\n}\n\nfunction formatEmail(email) {\n    return email.toLowerCase().trim();\n}\n\n  const telefoneLimpo = telefoneClienteOriginal.replace(/\\D/g, \"\");\n  const DDI = '55';\n  const DDD = telefoneLimpo.slice(0, 2); // Correção: Extrair os primeiros dois dígitos para obter o DDD\n\n  // Determinar o número de telefone final\n  if (parseInt(DDD) > 28) {\n    telefoneFinal = `${DDI}${DDD}${telefoneLimpo.slice(-8)}`;\n  } else {\n    telefoneFinal = `${DDI}${DDD}${telefoneLimpo.slice(-9)}`;\n  }\n\n\nconst formattedNames = capitalizeName(fullNameAnswer);\nconst formattedEmail = formatEmail(emailAnswer);\nconst result = {\n    ...formattedNames, // Nome formatado\n    email: formattedEmail, // Email formatado\n    whatsapp: telefoneFinal, // WhatsApp formatado\n    carreira: carreira,\n    tempo: tempo,\n    qualificacao: qualificacao\n};\n\n// Aqui estamos ajustando a estrutura do retorno para se adequar ao que o n8n espera\nreturn [{ json: result }];\n"
+      },
+      "id": "f9e790c9-79d5-4ac0-8d15-8f4e9c4cc3bc",
+      "name": "formata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        920,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "queue": "[COACHING] - Aguardando agendamento da SE - Rayane",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "4de576d6-e8a3-4f2c-948d-b8643d754654",
+      "name": "entra_na_fila",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1.1,
+      "position": [
+        1160,
+        360
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "3feaa887-1912-499a-9e15-84783df33db9",
+        "options": {}
+      },
+      "id": "6b8f509c-87f8-43e1-8537-db836868ee4c",
+      "name": "preencheu_typebot",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        700,
+        360
+      ],
+      "webhookId": "3feaa887-1912-499a-9e15-84783df33db9"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "saveManualExecutions": true
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.229Z",
+  "versionId": "606bfaa9-b485-4ac1-9f23-20cb69105d14"
+}
