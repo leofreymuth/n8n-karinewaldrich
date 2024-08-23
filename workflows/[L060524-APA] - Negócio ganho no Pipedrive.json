@@ -1,0 +1,457 @@
+{
+  "active": false,
+  "connections": {
+    "chega_da_fila": {
+      "main": [
+        [
+          {
+            "node": "search_person",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "lead_exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create_person": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_person": {
+      "main": [
+        [
+          {
+            "node": "person_exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_lead": {
+      "main": [
+        [
+          {
+            "node": "deal_exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create_lead": {
+      "main": [
+        [
+          {
+            "node": "deal_exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deal_exist": {
+      "main": [
+        [
+          {
+            "node": "update_deal",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "create_deal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lead_exist": {
+      "main": [
+        [
+          {
+            "node": "update_lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "create_lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "person_exist": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "create_person",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.651Z",
+  "id": "Uqp273jLUmxsVpzA",
+  "meta": null,
+  "name": "[L060524-APA] - Negócio ganho no Pipedrive",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "L060524 - APA - Compra aprovada",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "acknowledge": "executionFinishesSuccessfully",
+          "jsonParseBody": "={{ true }}",
+          "parallelMessages": 3
+        }
+      },
+      "id": "27ee48f9-2a84-49c9-9f98-4ac05ce15ddb",
+      "name": "chega_da_fila",
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        -920,
+        160
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RabbitMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_uywqVCHrXK2S0jzfDWUhS4S19H9f_JJXfmgAScS5mQ",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1659133143,
+          "mode": "list",
+          "cachedResultName": "Leads Inscritos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_uywqVCHrXK2S0jzfDWUhS4S19H9f_JJXfmgAScS5mQ/edit#gid=1659133143"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email",
+              "lookupValue": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}"
+            }
+          ]
+        },
+        "combineFilters": "OR",
+        "options": {}
+      },
+      "id": "2ec6bafd-5983-428f-84c9-150137b54a57",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        -40,
+        140
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dPTs0RyiFC2nRzLf",
+          "name": "[DRIVE] - Leonardo Freymuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "name": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"Nome do Cliente\"] }}",
+        "additionalFields": {
+          "email": [
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}"
+          ],
+          "phone": [
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"Telefone do Cliente - Formato Z-API\"] }}"
+          ]
+        }
+      },
+      "id": "a5ecec5d-c784-4046-837d-989af32d89db",
+      "name": "create_person",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        340
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "id": "05c9067a-e43d-4a3a-b844-a67c3f6f1d7e",
+      "name": "search_person",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        -680,
+        160
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "lead",
+        "operation": "update",
+        "leadId": "={{ $node[\"Google Sheets\"].json[\"ID Lead Pipedrive\"] }}",
+        "updateFields": {}
+      },
+      "id": "ae2e23e7-5d04-4ed4-aca8-3683686d7457",
+      "name": "update_lead",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        420,
+        -40
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"Nome do Cliente\"] }}",
+        "associateWith": "person",
+        "person_id": "={{   $node[\"create_person\"].runIndex >= 0        ? $node[\"create_person\"].json[\"id\"] : $node[\"search_person\"].runIndex >= 0      ? $node[\"search_person\"].json[\"id\"]     : null }}",
+        "additionalFields": {
+          "currency": "BRL",
+          "status": "won"
+        }
+      },
+      "id": "dbe7d948-3919-444b-a602-44581430ec64",
+      "name": "create_deal",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        900,
+        280
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "lead",
+        "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"Nome do Cliente\"] }}",
+        "associateWith": "person",
+        "person_id": "={{   $node[\"create_person\"].runIndex >= 0        ? $node[\"create_person\"].json[\"id\"] : $node[\"search_person\"].runIndex >= 0      ? $node[\"search_person\"].json[\"id\"]     : null }}",
+        "additionalFields": {}
+      },
+      "id": "f819ab42-4e25-44b1-94cd-820bfee4742d",
+      "name": "create_lead",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        420,
+        300
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dealId": "={{ $node[\"Google Sheets\"].json[\"ID Deal Pipedrive\"] }}",
+        "updateFields": {
+          "currency": "BRL",
+          "person_id": "={{   $node[\"create_person\"].runIndex >= 0        ? $node[\"create_person\"].json[\"id\"] : $node[\"search_person\"].runIndex >= 0      ? $node[\"search_person\"].json[\"id\"]     : null }}",
+          "status": "won"
+        }
+      },
+      "id": "0dcf22d6-afb4-4149-82cf-fcb25bccc40b",
+      "name": "update_deal",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        900,
+        -20
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "qqXBDTetpAq7HsFM",
+          "name": "[PIPEDRIVE] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "793d5083-f531-4652-87db-57a3a9f73005",
+              "leftValue": "={{ $node[\"Google Sheets\"].json[\"ID Deal Pipedrive\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "32b6954c-b991-4240-9823-4470481a8571",
+      "name": "deal_exist",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        680,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "793d5083-f531-4652-87db-57a3a9f73005",
+              "leftValue": "={{ $node[\"Google Sheets\"].json[\"ID Lead Pipedrive\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d75b5f78-055b-44c4-937f-aff26e6969fe",
+      "name": "lead_exist",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        200,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "8af697ad-d947-412c-b0f7-19fa896d6d6b",
+              "leftValue": "={{ $node[\"search_person\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "999518c3-7a1b-4fb8-9a40-a7155914e1ec",
+      "name": "person_exist",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        160
+      ]
+    }
+  ],
+  "pinData": null,
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.651Z",
+  "versionId": "71eb984f-345b-4584-a2e3-8140f6485254"
+}
