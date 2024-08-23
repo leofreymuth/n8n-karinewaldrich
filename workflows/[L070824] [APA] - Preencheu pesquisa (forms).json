@@ -1,0 +1,301 @@
+{
+  "active": false,
+  "connections": {
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "simplifica_dados",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adiciona_tag_pesquisa": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "simplifica_dados": {
+      "main": [
+        [
+          {
+            "node": "busca_contato_email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "busca_contato_email": {
+      "main": [
+        [
+          {
+            "node": "adiciona_tag_pesquisa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados": {
+      "main": [
+        [
+          {
+            "node": "entra_na_fila",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "preenche_pesquisa": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.533Z",
+  "id": "XvwoxQrm6sQ0x9on",
+  "meta": null,
+  "name": "[L070824] [APA] - Preencheu pesquisa (forms)",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "5dac2814-99dd-4b0f-b167-63ca62e5b885",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        860,
+        560
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "3ad49fed-b930-4c39-af70-ca9a9f3f94ab",
+      "name": "Replace Me",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "79c8cd72-e415-4c32-9493-44f2cb2fce74",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        620
+      ],
+      "webhookId": "b7dfea37-13e2-4b54-b638-0156eefbc793"
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "350",
+        "contactId": "={{\n  $node[\"busca_contato_email\"].runIndex >= 0 \n    ? $node[\"busca_contato_email\"].json[\"id\"]\n    : $node[\"busca_contato_telefone\"].runIndex >= 0 \n      ? $node[\"busca_contato_telefone\"].json[\"id\"]\n              : null\n}}"
+      },
+      "id": "e930a664-24e2-492f-a16e-896cf5e7e47a",
+      "name": "adiciona_tag_pesquisa",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        540
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "gVnAGwgGjilyjqdX",
+          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "queue": "=[L070824] - CRM: preencheu pesquisa",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "d1c1c989-9595-465e-88af-f97e741151d1",
+      "name": "entra_na_fila",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        540
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "6klSivWaJBCNmE5C",
+          "name": "[RABBITMQ] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1dadea38-a1fa-429b-adcf-b6b1a3435ede",
+              "name": "Email",
+              "value": "={{ $node[\"preenche_pesquisa\"].json[\"body\"][\"E-mail usado para cadastro na Jornada\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4743a349-b3f0-4a72-98fd-7ade8f797626",
+      "name": "simplifica_dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1560,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "additionalFields": {
+          "email": "={{ $node[\"simplifica_dados\"].json[\"Email\"] }}"
+        }
+      },
+      "id": "09fac433-d194-4efe-b9a4-57b51251663d",
+      "name": "busca_contato_email",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        540
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "gVnAGwgGjilyjqdX",
+          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7d69bf69-7a08-419a-87d2-19a86bbaeb3d",
+              "name": "email",
+              "value": "={{ $node[\"preenche_pesquisa\"].json[\"body\"][\"E-mail usado para cadastro na Jornada\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "d4b99172-51a7-4a4c-a4ae-2da57bbbcea6",
+              "name": "carreira",
+              "value": "={{ $node[\"preenche_pesquisa\"].json[\"body\"][\"Qual carreira você deseja seguir?\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "cc246b4e-b6f4-4da3-886d-30c0c4b6ded4",
+              "name": "renda",
+              "value": "={{ $node[\"preenche_pesquisa\"].json[\"body\"][\"Qual a sua faixa de remuneração?\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "8cd40ca4-c04b-488b-9260-918af22fac9b",
+      "name": "dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2240,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "daac9ecd-920a-4d11-91e5-ba8bb9c7efdb",
+        "options": {}
+      },
+      "id": "bd698a54-d998-47d7-8ca2-3769e68c445b",
+      "name": "preenche_pesquisa",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        620,
+        560
+      ],
+      "webhookId": "daac9ecd-920a-4d11-91e5-ba8bb9c7efdb"
+    }
+  ],
+  "pinData": null,
+  "settings": {
+    "saveManualExecutions": true
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-23T00:27:28.533Z",
+  "versionId": "b8edb569-cf63-424f-8a6d-2a61944dab69"
+}
