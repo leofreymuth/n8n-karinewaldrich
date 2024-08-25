@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "Loop Over Items": {
       "main": [
@@ -99,7 +99,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.533Z",
   "id": "XvwoxQrm6sQ0x9on",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[L070824] [APA] - Preencheu pesquisa (forms)",
   "nodes": [
     {
@@ -156,8 +158,8 @@
       ],
       "credentials": {
         "activeCampaignApi": {
-          "id": "gVnAGwgGjilyjqdX",
-          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+          "id": "DdE6CDpRlb1vgwt7",
+          "name": "[ACTIVE CAMPAIGN] - KarineWaldrich"
         }
       }
     },
@@ -186,8 +188,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -231,8 +233,8 @@
       ],
       "credentials": {
         "activeCampaignApi": {
-          "id": "gVnAGwgGjilyjqdX",
-          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+          "id": "DdE6CDpRlb1vgwt7",
+          "name": "[ACTIVE CAMPAIGN] - KarineWaldrich"
         }
       }
     },
@@ -289,13 +291,72 @@
       "webhookId": "daac9ecd-920a-4d11-91e5-ba8bb9c7efdb"
     }
   ],
-  "pinData": null,
+  "pinData": {
+    "preenche_pesquisa": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8nwebhookkarinewaldrich.leonardofreymuth.com.br",
+            "user-agent": "Mozilla/5.0 (compatible; Google-Apps-Script; beanserver; +https://script.google.com; id: UAEmdDd999AezGtSYRnOYtlRKqyCBc-GcMX8)",
+            "content-length": "2130",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "35.187.143.34",
+            "x-forwarded-host": "n8nwebhookkarinewaldrich.leonardofreymuth.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "79f32772410f",
+            "x-real-ip": "35.187.143.34"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Nome": "leonardo freymuth",
+            "E-mail usado para cadastro na Jornada": "leofreymuth@gmail.com",
+            "DDD + Telefone (coloque apenas números, como no exemplo: 11912341234) ": "51994696045",
+            "Qual carreira você deseja seguir?": "Fiscal",
+            "Qual seu gênero?": "Masculino",
+            "Qual sua idade?": "25 a 34 anos.",
+            "Qual a sua faixa de remuneração?": "Entre 5001 e 10000 reais por mês.",
+            "Você possui cartão de crédito para ajudar a gerenciar suas despesas?": "Sim",
+            "Qual o modelo do seu celular (isso nos ajuda a melhor transmitir as aulas em vídeo)?": "Iphone",
+            "Em qual estado vc mora?": "Rio Grande do Sul",
+            "Há quanto tempo você me acompanha?": "Mais de 1 ano",
+            "Por onde conheceu a prof?": "Indicação",
+            "Qual a sua formação?": "Formado",
+            "Qual a sua graduação?": "Engenharia",
+            "Quantas vezes você já prestou uma prova para concurso?": "Nenhuma vez",
+            "Você possui notebook?": "Sim",
+            "Você possui tablet?": "Não",
+            "Você possui assinatura de algum cursinho?": "Não",
+            "Caso você possua assinatura de algum cursinho, escreva abaixo qual é o cursinho:": "Não possuo cursinho",
+            "Se você tivesse a oportunidade de ter 1 hora de consultoria comigo, qual a primeira pergunta que me faria?": "s",
+            "Qual o seu maior SONHO?": "s",
+            "Qual o seu maior SOFRIMENTO NA VIDA hoje?": "s",
+            "Qual a sua maior DIFICULDADE NO ESTUDO para concurso público? ": "s",
+            "O que você sente que mais te IMPEDE de alcançar a aprovação??": "a",
+            "Por qual motivo principal você gostaria de passar em um concurso?": "Remuneração",
+            "Você assiste meu conteúdo com frequência?": "Assisto seus vídeos e te acompanho",
+            "Você já assistiu a algum evento (Jornada, Imersão) anterior que a prof tenha feito?": "Não! Primeira vez!",
+            "A Jornada dos 85% em Provas antecede a abertura de vagas para meu treinamento com mentoria, o Ação Para Aprovação, que tem como objetivo pegar você pela mão por 1 ano para fazer você ser aprovado e mudar de vida. Você teria interesse em se tornar meu aluno (a) para ter o meu acompanhamento?": "Adoraria, mas não sei se o valor caberá no meu orçamento",
+            "De 0 a 10, qual é o seu nível de comprometimento em participar ativamente da Jornada?": "10"
+          },
+          "webhookUrl": "https://n8nwebhookkarinewaldrich.leonardofreymuth.com.br/webhook/daac9ecd-920a-4d11-91e5-ba8bb9c7efdb",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "settings": {
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.533Z",
-  "versionId": "b8edb569-cf63-424f-8a6d-2a61944dab69"
+  "triggerCount": 1,
+  "updatedAt": "2024-08-24T17:21:43.267Z",
+  "versionId": "3e3bdf88-ab12-4f0a-8eb3-9dd17140d1f0"
 }
