@@ -1,0 +1,161 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "get-n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get-n8n": {
+      "main": [
+        [
+          {
+            "node": "config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "config": {
+      "main": [
+        [
+          {
+            "node": "create-n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:26:49.874Z",
+  "id": "Ht2difNGEai59MUi",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[N8N] - Puxa workflows de outro n8n",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "065b7430-0e11-4a8a-9b9c-8a45bc6931f8",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "d78c9c4a-966d-4c2e-a567-eb9ddc6f7cd7",
+      "name": "get-n8n",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        660,
+        460
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "esKhQAZJ2n3smki4",
+          "name": "[N8N] - KarineWaldrich (antigo)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "workflowObject": "={ \"name\": \"{{ JSON.stringify($json[\"name\"]).replaceAll('\"','') }}\", \"nodes\": {{ JSON.stringify($json[\"nodes\"]) }}, \"connections\": {{ JSON.stringify($json[\"connections\"]) }}, \"settings\": {{ JSON.stringify($json[\"settings\"]) }}}",
+        "requestOptions": {}
+      },
+      "id": "268dbd74-7af9-4451-874a-3cc819aa6ed5",
+      "name": "create-n8n",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        460
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "3rQ6f3UMFkfdUCPT",
+          "name": "[N8N] - KarineWaldrich (novo)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "name",
+              "value": "={{ $json.name }}"
+            },
+            {
+              "name": "=nodes",
+              "value": "={{ $json.nodes }}"
+            },
+            {
+              "name": "connections",
+              "value": "={{ $json.connections }}"
+            },
+            {
+              "name": "settings.saveDataErrorExecution",
+              "value": "={{ $json[\"settings\"][\"saveDataErrorExecution\"] }}"
+            },
+            {
+              "name": "staticData.lastId",
+              "value": "1"
+            },
+            {
+              "name": "settings.saveDataSuccessExecution",
+              "value": "={{ $json[\"settings\"][\"saveDataSuccessExecution\"] }}"
+            },
+            {
+              "name": "settings.saveExecutionProgress",
+              "value": "={{ $json[\"settings\"][\"saveExecutionProgress\"] }}"
+            },
+            {
+              "name": "settings.saveManualExecutions",
+              "value": "={{ $json[\"settings\"][\"saveManualExecutions\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8e1f474e-333e-475e-8736-4f095ef2e6fc",
+      "name": "config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        860,
+        460
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-08-24T17:27:09.241Z",
+  "versionId": "cb7a2005-654c-45d7-aca1-511edf3c30f3"
+}
