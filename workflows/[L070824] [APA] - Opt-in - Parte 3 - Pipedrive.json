@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "procura_pessoa": {
       "main": [
@@ -277,7 +277,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.576Z",
   "id": "ZJXqFRZBZvO6TyI4",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[L070824] [APA] - Opt-in - Parte 3 - Pipedrive",
   "nodes": [
     {
@@ -307,8 +309,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -332,8 +334,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -393,8 +395,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -435,8 +437,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       }
     },
@@ -490,8 +492,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -515,8 +517,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -538,8 +540,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -593,8 +595,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -714,8 +716,8 @@
       "maxTries": 5,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       },
       "onError": "continueRegularOutput"
@@ -776,8 +778,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -801,8 +803,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -856,8 +858,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -968,8 +970,8 @@
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       }
     },
@@ -1065,8 +1067,8 @@
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       }
     },
@@ -1104,20 +1106,23 @@
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       }
     }
   ],
-  "pinData": null,
+  "pinData": {},
   "settings": {
     "saveExecutionProgress": false,
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1"
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.576Z",
-  "versionId": "a8635cb5-42a8-4d44-8637-b42bd041ff1b"
+  "triggerCount": 1,
+  "updatedAt": "2024-08-24T17:26:13.502Z",
+  "versionId": "aaf583b9-2d48-4516-a1a3-9ebbfdc485c9"
 }
