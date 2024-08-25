@@ -134,7 +134,13 @@
     },
     "chega_da_fila": {
       "main": [
-        []
+        [
+          {
+            "node": "procura_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "pesquisa_deal": {
@@ -210,7 +216,7 @@
       "parameters": {
         "resource": "person",
         "operation": "search",
-        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}",
         "additionalFields": {
           "fields": "email"
         }
@@ -267,13 +273,13 @@
     {
       "parameters": {
         "resource": "person",
-        "name": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "name": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"nome\"] }}",
         "additionalFields": {
           "email": [
-            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}"
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}"
           ],
           "phone": [
-            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"whatsapp\"] }}"
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"Telefone do Cliente - Formato Z-API\"] }}"
           ]
         }
       },
@@ -312,7 +318,7 @@
           "values": [
             {
               "lookupColumn": "Email",
-              "lookupValue": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}"
+              "lookupValue": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}"
             }
           ]
         },
@@ -545,8 +551,8 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Email": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
-            "Nome": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"] }}",
+            "Email": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}",
+            "Nome": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"nome\"] }}",
             "ID Lead Pipedrive": "={{   $node[\"cria_lead\"].runIndex >= 0        ? $node[\"cria_lead\"].json[\"id\"] : $node[\"atualiza_lead\"].runIndex >= 0      ? $node[\"atualiza_lead\"].json[\"id\"]     : null }}",
             "ID Deal Pipedrive": "={{   $node[\"cria_deal\"].runIndex >= 0        ? $node[\"cria_deal\"].json[\"id\"] : $node[\"atualiza_deal\"].runIndex >= 0      ? $node[\"atualiza_deal\"].json[\"id\"]     : null }}"
           },
@@ -751,7 +757,60 @@
       ]
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-oDk78VquN2UQU4Z08iAhIA",
+            "deliveryTag": 1,
+            "redelivered": false,
+            "exchange": "",
+            "routingKey": "[APA] - Compra aprovada"
+          },
+          "properties": {
+            "headers": {}
+          },
+          "content": {
+            "nome": "Marcelo Silva",
+            "E-mail do Cliente": "marcelosilva@hotmail.com",
+            "cpf/cnpj": "000.000.000-00",
+            "nome_produto": "NomeDoMeuProduto",
+            "transaction_id": "sub_MUEQ3525NFZzDTWT6Is",
+            "product_id": "1698890988",
+            "value": 1259.04,
+            "offer_code": "9b9c581a-a3d2-47w279-a090-7c98fb312c96",
+            "subscription_code": "sub_MUEQ3525NFZzDTWT6Is",
+            "gateway_comission": 26.37,
+            "plan": "Assinatura",
+            "currency": "BRL",
+            "payment_method": "Cartão de Crédito",
+            "trans_status": "Compra Aprovada",
+            "conversion_date": "24/08/2024, 14:51:17",
+            "warranty_date": "2024-08-27",
+            "installments": 12,
+            "cep": "",
+            "utm_source": "",
+            "utm_campaign": "",
+            "utm_medium": "",
+            "utm_content": "",
+            "utm_term": "",
+            "link_pagamento_pix": "in_nvoPBrtyU231Y2hquXNd",
+            "link_pagamento_boleto": "https://pay.io/pay/9ca15045223-f883-445422e-9ee3454-fe5476a0038f9a/invoice",
+            "Telefone do Cliente - Formato BC": "+5511999934799",
+            "funil": "1",
+            "expiration_date": "2025-07-28",
+            "tag_do_lancamento": "",
+            "Telefone do Cliente - Formato Z-API": "5511999934799",
+            "prazo_de_acesso_em_dias": 365,
+            "offer": "NomeDoMeuProduto | Oferta Oficial",
+            "installments_value": 104.92,
+            "link_boleto": "https://pay.io/pay/9ca15045223-f883-445422e-9ee3454-fe5476a0038f9a/invoice"
+          }
+        }
+      }
+    ]
+  },
   "settings": {
     "saveExecutionProgress": false,
     "saveManualExecutions": true,
@@ -769,6 +828,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-24T17:51:11.408Z",
-  "versionId": "d1079b7b-2567-4d28-ad0a-21c8801a271d"
+  "updatedAt": "2024-08-25T15:06:36.305Z",
+  "versionId": "135e437f-6f99-4c74-88a0-2de5a46e5759"
 }
