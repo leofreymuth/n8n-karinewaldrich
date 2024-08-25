@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "ajusta_dados": {
       "main": [
@@ -53,7 +53,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.383Z",
   "id": "SciV2kb0mGfAL8gK",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[L070824] [APA] - Opt-in - Parte 2 - Cria os acessos",
   "nodes": [
     {
@@ -83,8 +85,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -208,8 +210,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -238,8 +240,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -271,8 +273,8 @@
       "waitBetweenTries": 5000,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       }
     },
@@ -291,14 +293,49 @@
       "webhookId": "127493d9-9bcc-4570-a961-8331104ae127"
     }
   ],
-  "pinData": null,
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-skTjiUaV3qkbuzoQqbOF0w",
+            "deliveryTag": 1,
+            "redelivered": false,
+            "exchange": "",
+            "routingKey": "[L070824] - Opt in"
+          },
+          "properties": {
+            "headers": {}
+          },
+          "content": {
+            "fname": "Leo",
+            "lname": "Freymuth",
+            "fullname": "Leo Freymuth",
+            "email": "leonardo.freymuth@gmail.com",
+            "whatsapp": "5551994696045",
+            "utm_source": "1",
+            "utm_medium": "2",
+            "utm_campaign": "3",
+            "utm_term": "4",
+            "utm_content": "5",
+            "utm_id": "6",
+            "data do cadastro": "2024-08-24 13:55:09"
+          }
+        }
+      }
+    ]
+  },
   "settings": {
     "saveExecutionProgress": true,
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.383Z",
-  "versionId": "2fb144ed-d182-4cb0-abf1-8697b76a3581"
+  "triggerCount": 1,
+  "updatedAt": "2024-08-24T17:22:31.381Z",
+  "versionId": "92adcea5-34a0-42c7-b676-a2795402d4a7"
 }
