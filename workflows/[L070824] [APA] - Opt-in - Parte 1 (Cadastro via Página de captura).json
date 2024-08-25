@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "formata_dados": {
       "main": [
@@ -78,8 +78,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -116,8 +116,8 @@
       ],
       "credentials": {
         "activeCampaignApi": {
-          "id": "gVnAGwgGjilyjqdX",
-          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+          "id": "DdE6CDpRlb1vgwt7",
+          "name": "[ACTIVE CAMPAIGN] - KarineWaldrich"
         }
       }
     },
@@ -227,14 +227,61 @@
       "webhookId": "a61ad843-4784-49be-ab73-7923d4beff39"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "cadastro_lead_active": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8nwebhookkarinewaldrich.leonardofreymuth.com.br",
+            "user-agent": "GuzzleHttp/6.5.5 curl/8.3.0 PHP/8.1.23",
+            "content-length": "588",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-forwarded-for": "23.22.14.42",
+            "x-forwarded-host": "n8nwebhookkarinewaldrich.leonardofreymuth.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "79f32772410f",
+            "x-real-ip": "23.22.14.42",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "contact[id]": "53745",
+            "contact[email]": "leonardo.freymuth@gmail.com",
+            "contact[first_name]": "leo",
+            "contact[last_name]": "freymuth",
+            "contact[phone]": "51994696045",
+            "contact[orgname]": "",
+            "contact[customer_acct_name]": "",
+            "contact[tags]": "L060524_APA_Lead, L060524_APA_Lead_Quente",
+            "contact[ip4]": "127.0.0.1",
+            "contact[fields][kw_baixou_ebook_revisoes]": "Não",
+            "contact[fields][utm_source]": "1",
+            "contact[fields][utm_medium]": "2",
+            "contact[fields][utm_campaign]": "3",
+            "contact[fields][utm_term]": "4",
+            "contact[fields][utm_content]": "5",
+            "contact[fields][utm_id]": "6",
+            "seriesid": "984"
+          },
+          "webhookUrl": "https://n8nwebhookkarinewaldrich.leonardofreymuth.com.br/webhook/l060524-apa-cadastro",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "settings": {
     "saveExecutionProgress": false,
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T14:50:25.315Z",
-  "versionId": "676ad13c-a039-4f9c-b26e-b0695e1dd466"
+  "triggerCount": 1,
+  "updatedAt": "2024-08-24T17:22:16.841Z",
+  "versionId": "c2da5681-9d0e-43e0-9852-b506a4ceefe0"
 }
