@@ -388,11 +388,15 @@
   ],
   "pinData": null,
   "settings": {
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-08-23T14:47:37.428Z",
-  "versionId": "8f239f48-92ce-49ca-90e1-462a284691ac"
+  "updatedAt": "2024-08-24T17:23:14.812Z",
+  "versionId": "5923b35a-f438-4ae7-87a2-c880ca4c7967"
 }
