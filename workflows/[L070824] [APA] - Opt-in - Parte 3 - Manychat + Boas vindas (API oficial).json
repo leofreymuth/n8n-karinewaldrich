@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "cria_contato_manychat": {
       "main": [
@@ -147,7 +147,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.102Z",
   "id": "ePLU2BrJhd5SUlg5",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[L070824] [APA] - Opt-in - Parte 3 - Manychat + Boas vindas (API oficial)",
   "nodes": [
     {
@@ -457,8 +459,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -635,14 +637,50 @@
       ]
     }
   ],
-  "pinData": null,
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-sCKOihuDN06JlQKVLBC0Og",
+            "deliveryTag": 1,
+            "redelivered": false,
+            "exchange": "",
+            "routingKey": "[L070824] - Manychat"
+          },
+          "properties": {
+            "headers": {}
+          },
+          "content": {
+            "fname": "Leo",
+            "lname": "Freymuth",
+            "fullname": "Leo Freymuth",
+            "email": "leonardo.freymuth@gmail.com",
+            "whatsapp": "5551994696045",
+            "utm_source": "1",
+            "utm_medium": "2",
+            "utm_campaign": "3",
+            "utm_term": "4",
+            "utm_content": "5",
+            "utm_id": "6",
+            "data do cadastro": "2024-08-24 13:55:09",
+            "closer da vez": "2"
+          }
+        }
+      }
+    ]
+  },
   "settings": {
     "saveExecutionProgress": false,
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.102Z",
-  "versionId": "7ba35afe-54ce-4393-a6c5-36b64724af77"
+  "triggerCount": 1,
+  "updatedAt": "2024-08-24T17:22:45.818Z",
+  "versionId": "eeee8977-493b-4b1a-9715-741d73eb47d7"
 }
