@@ -20,115 +20,6 @@
             "type": "main",
             "index": 0
           }
-        ],
-        [
-          {
-            "node": "cria_pessoa",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "cria_pessoa": {
-      "main": [
-        [
-          {
-            "node": "busca_planilha_leads",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "busca_planilha_leads": {
-      "main": [
-        [
-          {
-            "node": "lead_existe?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "lead_existe?": {
-      "main": [
-        [
-          {
-            "node": "atualiza_lead",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "cria_lead",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "atualiza_lead": {
-      "main": [
-        [
-          {
-            "node": "deal_existe?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "cria_lead": {
-      "main": [
-        [
-          {
-            "node": "deal_existe?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "deal_existe?": {
-      "main": [
-        [
-          {
-            "node": "atualiza_deal",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "cria_deal",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "cria_deal": {
-      "main": [
-        [
-          {
-            "node": "insere_planilha_leads",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "atualiza_deal": {
-      "main": [
-        [
-          {
-            "node": "insere_planilha_leads",
-            "type": "main",
-            "index": 0
-          }
         ]
       ]
     },
@@ -147,25 +38,43 @@
       "main": [
         [
           {
-            "node": "deal_existe?1",
+            "node": "ja_fez_call?",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "deal_existe?1": {
+    "ja_fez_call?": {
       "main": [
         [
           {
-            "node": "atualiza_deal1",
+            "node": "distribui_closer1",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "cria_deal1",
+            "node": "fecha_negocio_sem_comissao",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "distribui_closer1": {
+      "main": [
+        [
+          {
+            "node": "fecha_negocio_comissao_rayane",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "fecha_negocio_comissao_jessica",
             "type": "main",
             "index": 0
           }
@@ -216,7 +125,7 @@
       "parameters": {
         "resource": "person",
         "operation": "search",
-        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}",
+        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
         "additionalFields": {
           "fields": "email"
         }
@@ -272,356 +181,6 @@
     },
     {
       "parameters": {
-        "resource": "person",
-        "name": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"nome\"] }}",
-        "additionalFields": {
-          "email": [
-            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}"
-          ],
-          "phone": [
-            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"Telefone do Cliente - Formato Z-API\"] }}"
-          ]
-        }
-      },
-      "id": "bf7e2f82-e803-41e0-aa9a-5c2b2bed5872",
-      "name": "cria_pessoa",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        2200,
-        560
-      ],
-      "credentials": {
-        "pipedriveApi": {
-          "id": "39J8KZF1iPy2gjSt",
-          "name": "[PIPEDRIVE] - KarineWaldrich"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM",
-          "mode": "list",
-          "cachedResultName": "[L070824] - Dashboard de leads do lançamento",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Leads inscritos",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM/edit#gid=0"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "Email",
-              "lookupValue": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "d8d18741-907f-4bb3-b98e-9c942af591eb",
-      "name": "busca_planilha_leads",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.3,
-      "position": [
-        2440,
-        560
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "GkwdOuW9sYg3j9Px",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict"
-          },
-          "conditions": [
-            {
-              "id": "793d5083-f531-4652-87db-57a3a9f73005",
-              "leftValue": "={{ $node[\"busca_planilha_leads\"].json[\"ID Lead Pipedrive\"] }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "notEmpty",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "db7bdbe6-3b73-456e-b78d-d2a8ff9c0d7d",
-      "name": "lead_existe?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        2680,
-        560
-      ]
-    },
-    {
-      "parameters": {
-        "resource": "lead",
-        "operation": "update",
-        "leadId": "={{ $node[\"busca_planilha_leads\"].json[\"ID Lead Pipedrive\"] }}",
-        "updateFields": {}
-      },
-      "id": "839d5e19-8692-49d5-ba99-267ac1ef0296",
-      "name": "atualiza_lead",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        2900,
-        380
-      ],
-      "credentials": {
-        "pipedriveApi": {
-          "id": "39J8KZF1iPy2gjSt",
-          "name": "[PIPEDRIVE] - KarineWaldrich"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "dealId": "={{ $node[\"busca_planilha_leads\"].json[\"ID Deal Pipedrive\"] }}",
-        "updateFields": {
-          "currency": "BRL",
-          "user_id": "={{ $node[\"procura_closer_da_vez\"].json[\"id CRM\"] }}",
-          "person_id": "={{   $node[\"cria_pessoa\"].runIndex >= 0        ? $node[\"cria_pessoa\"].json[\"id\"] : $node[\"procura_pessoa\"].runIndex >= 0      ? $node[\"procura_pessoa\"].json[\"id\"]     : null }}"
-        }
-      },
-      "id": "32995d6e-8891-452a-8a9e-44466e4fbccc",
-      "name": "atualiza_deal",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        3380,
-        400
-      ],
-      "credentials": {
-        "pipedriveApi": {
-          "id": "39J8KZF1iPy2gjSt",
-          "name": "[PIPEDRIVE] - KarineWaldrich"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "lead",
-        "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
-        "associateWith": "person",
-        "person_id": "={{   $node[\"cria_pessoa\"].runIndex >= 0        ? $node[\"cria_pessoa\"].json[\"id\"] : $node[\"procura_pessoa\"].runIndex >= 0      ? $node[\"procura_pessoa\"].json[\"id\"]     : null }}",
-        "additionalFields": {}
-      },
-      "id": "d10dfe75-a83d-44ce-a98e-50b61cc9da1a",
-      "name": "cria_lead",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        2900,
-        720
-      ],
-      "credentials": {
-        "pipedriveApi": {
-          "id": "39J8KZF1iPy2gjSt",
-          "name": "[PIPEDRIVE] - KarineWaldrich"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "title": "=[L070824] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
-        "associateWith": "person",
-        "person_id": "={{   $node[\"cria_pessoa\"].runIndex >= 0        ? $node[\"cria_pessoa\"].json[\"id\"] : $node[\"procura_pessoa\"].runIndex >= 0      ? $node[\"procura_pessoa\"].json[\"id\"]     : null }}",
-        "additionalFields": {
-          "currency": "BRL",
-          "customProperties": {
-            "property": [
-              {
-                "name": "19f75e0d64ec323764a616acb08e6de525fee5a4",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"data do cadastro\"] }}"
-              },
-              {
-                "name": "240b86c3727374674186111aff57e48c1f546b83",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_campaign\"] }}"
-              },
-              {
-                "name": "ccfbc50fbd8dd3470eebfdb1bd4eab171e46ad78",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_content\"] }}"
-              },
-              {
-                "name": "3edb25c8227aa018c8bb8c1dbff99ff37a86064f",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_medium\"] }}"
-              },
-              {
-                "name": "fc10082a9760b75370a50a5c4397b1f34edbe295",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_source\"] }}"
-              },
-              {
-                "name": "84525393044084d7b382d86519a5325a9cc39b3e",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_term\"] }}"
-              }
-            ]
-          },
-          "stage_id": 35,
-          "status": "open",
-          "user_id": "={{ $node[\"procura_closer_da_vez\"].json[\"id CRM\"] }}"
-        }
-      },
-      "id": "a752c4fb-afb9-4f59-b20e-6af9baab5460",
-      "name": "cria_deal",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        3380,
-        700
-      ],
-      "credentials": {
-        "pipedriveApi": {
-          "id": "39J8KZF1iPy2gjSt",
-          "name": "[PIPEDRIVE] - KarineWaldrich"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict"
-          },
-          "conditions": [
-            {
-              "id": "793d5083-f531-4652-87db-57a3a9f73005",
-              "leftValue": "={{ $node[\"busca_planilha_leads\"].json[\"ID Deal Pipedrive\"].toString() }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "notEmpty",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "5cd85390-d2a6-4810-b157-bcb035faab12",
-      "name": "deal_existe?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        3160,
-        560
-      ]
-    },
-    {
-      "parameters": {
-        "operation": "appendOrUpdate",
-        "documentId": {
-          "__rl": true,
-          "value": "1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM",
-          "mode": "list",
-          "cachedResultName": "[L070824] - Dashboard de leads do lançamento",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1780670846,
-          "mode": "list",
-          "cachedResultName": "Banco de emails + CRM",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k8O9LuVh888Ppim9wSSzDyiPQI_55W_Dvwp48Vm-ywM/edit#gid=1780670846"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Email": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"E-mail do Cliente\"] }}",
-            "Nome": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"nome\"] }}",
-            "ID Lead Pipedrive": "={{   $node[\"cria_lead\"].runIndex >= 0        ? $node[\"cria_lead\"].json[\"id\"] : $node[\"atualiza_lead\"].runIndex >= 0      ? $node[\"atualiza_lead\"].json[\"id\"]     : null }}",
-            "ID Deal Pipedrive": "={{   $node[\"cria_deal\"].runIndex >= 0        ? $node[\"cria_deal\"].json[\"id\"] : $node[\"atualiza_deal\"].runIndex >= 0      ? $node[\"atualiza_deal\"].json[\"id\"]     : null }}"
-          },
-          "matchingColumns": [
-            "Email"
-          ],
-          "schema": [
-            {
-              "id": "Email",
-              "displayName": "Email",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Nome",
-              "displayName": "Nome",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "ID Lead Pipedrive",
-              "displayName": "ID Lead Pipedrive",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "ID Deal Pipedrive",
-              "displayName": "ID Deal Pipedrive",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "8e490fd7-177e-4eb0-b6b8-66f539ac277c",
-      "name": "insere_planilha_leads",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.3,
-      "position": [
-        3800,
-        360
-      ],
-      "alwaysOutputData": true,
-      "retryOnFail": true,
-      "maxTries": 5,
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "GkwdOuW9sYg3j9Px",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
-        }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
         "operation": "search",
         "term": "=[L070824]",
         "additionalFields": {
@@ -633,88 +192,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        2840,
-        -20
-      ],
-      "credentials": {
-        "pipedriveApi": {
-          "id": "39J8KZF1iPy2gjSt",
-          "name": "[PIPEDRIVE] - KarineWaldrich"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "dealId": "={{ $node[\"deal_existe?1\"].json[\"id\"] }}",
-        "updateFields": {
-          "currency": "BRL",
-          "user_id": "={{ $node[\"procura_closer_da_vez\"].json[\"id CRM\"] }}",
-          "person_id": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}"
-        }
-      },
-      "id": "628a4450-43cc-4c8d-9c28-a61dc027bdba",
-      "name": "atualiza_deal1",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        3340,
-        -180
-      ],
-      "credentials": {
-        "pipedriveApi": {
-          "id": "39J8KZF1iPy2gjSt",
-          "name": "[PIPEDRIVE] - KarineWaldrich"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "title": "=[L070824] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
-        "associateWith": "person",
-        "person_id": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
-        "additionalFields": {
-          "currency": "BRL",
-          "customProperties": {
-            "property": [
-              {
-                "name": "19f75e0d64ec323764a616acb08e6de525fee5a4",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"data do cadastro\"] }}"
-              },
-              {
-                "name": "240b86c3727374674186111aff57e48c1f546b83",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_campaign\"] }}"
-              },
-              {
-                "name": "ccfbc50fbd8dd3470eebfdb1bd4eab171e46ad78",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_content\"] }}"
-              },
-              {
-                "name": "3edb25c8227aa018c8bb8c1dbff99ff37a86064f",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_medium\"] }}"
-              },
-              {
-                "name": "fc10082a9760b75370a50a5c4397b1f34edbe295",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_source\"] }}"
-              },
-              {
-                "name": "84525393044084d7b382d86519a5325a9cc39b3e",
-                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"utm_term\"] }}"
-              }
-            ]
-          },
-          "stage_id": 35,
-          "status": "open",
-          "user_id": "={{ $node[\"procura_closer_da_vez\"].json[\"id CRM\"] }}"
-        }
-      },
-      "id": "e416d37f-73fc-41e7-a083-947e4922535a",
-      "name": "cria_deal1",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        3340,
-        120
+        2260,
+        60
       ],
       "credentials": {
         "pipedriveApi": {
@@ -733,27 +212,186 @@
           },
           "conditions": [
             {
-              "id": "793d5083-f531-4652-87db-57a3a9f73005",
-              "leftValue": "={{ $node[\"pesquisa_deal\"].json[\"id\"].toString() }}",
-              "rightValue": "",
+              "id": "16b7cbfd-ba1e-487a-9fcb-10808820e341",
+              "leftValue": "={{ $json[\"stage\"][\"name\"] }}",
+              "rightValue": "Fiz Call - Avisar abertura do carrinho",
               "operator": {
                 "type": "string",
-                "operation": "notEmpty",
-                "singleValue": true
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "8418dc00-cfbf-4347-be5b-93c002086f29",
+              "leftValue": "={{ $json[\"stage\"][\"name\"] }}",
+              "rightValue": "Fiz Call - Avisar Aula 3",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "c3d3b511-0170-411d-8971-8de077eb843a",
+              "leftValue": "={{ $json[\"stage\"][\"name\"] }}",
+              "rightValue": "Fiz Call - Avisar Aula 1",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
               }
             }
           ],
-          "combinator": "and"
+          "combinator": "or"
         },
         "options": {}
       },
-      "id": "a2e246f8-fad8-479a-9429-b0343d3c7496",
-      "name": "deal_existe?1",
+      "id": "0d22772d-7f76-40c4-a412-bc3aa0a661ee",
+      "name": "ja_fez_call?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        3120,
-        -20
+        2560,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dealId": "={{ $node[\"pesquisa_deal\"].json[\"id\"] }}",
+        "updateFields": {
+          "currency": "BRL",
+          "person_id": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+          "status": "won"
+        }
+      },
+      "id": "628a4450-43cc-4c8d-9c28-a61dc027bdba",
+      "name": "fecha_negocio_sem_comissao",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2840,
+        200
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dealId": "={{ $node[\"pesquisa_deal\"].json[\"id\"] }}",
+        "updateFields": {
+          "currency": "BRL",
+          "label": 90,
+          "person_id": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+          "status": "won"
+        }
+      },
+      "id": "0a458ddf-6cb4-4b13-97f1-4e7ca49d732a",
+      "name": "fecha_negocio_comissao_rayane",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        3100,
+        -540
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dealId": "={{ $node[\"pesquisa_deal\"].json[\"id\"] }}",
+        "updateFields": {
+          "currency": "BRL",
+          "label": 47,
+          "person_id": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+          "status": "won"
+        }
+      },
+      "id": "d8c61dcc-35f3-4bfe-b872-937562e216df",
+      "name": "fecha_negocio_comissao_jessica",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        3100,
+        -260
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json[\"owner\"][\"id\"] }}",
+                    "rightValue": 21963603,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rayane"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "a98b5745-a7bc-4995-8bf7-13b47a22f487",
+                    "leftValue": "={{ $json[\"owner\"][\"id\"] }}",
+                    "rightValue": 21330817,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Jéssica"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0fc07374-55c3-428f-86ed-6d8a435ee0ae",
+      "name": "distribui_closer1",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        2840,
+        -400
       ]
     }
   ],
@@ -762,8 +400,8 @@
       {
         "json": {
           "fields": {
-            "consumerTag": "amq.ctag-oDk78VquN2UQU4Z08iAhIA",
-            "deliveryTag": 1,
+            "consumerTag": "amq.ctag-pF-K1ucVdkQyGwVzG40NcQ",
+            "deliveryTag": 2,
             "redelivered": false,
             "exchange": "",
             "routingKey": "[APA] - Compra aprovada"
@@ -772,40 +410,10 @@
             "headers": {}
           },
           "content": {
-            "nome": "Marcelo Silva",
-            "E-mail do Cliente": "marcelosilva@hotmail.com",
-            "cpf/cnpj": "000.000.000-00",
-            "nome_produto": "NomeDoMeuProduto",
-            "transaction_id": "sub_MUEQ3525NFZzDTWT6Is",
-            "product_id": "1698890988",
-            "value": 1259.04,
-            "offer_code": "9b9c581a-a3d2-47w279-a090-7c98fb312c96",
-            "subscription_code": "sub_MUEQ3525NFZzDTWT6Is",
-            "gateway_comission": 26.37,
-            "plan": "Assinatura",
-            "currency": "BRL",
-            "payment_method": "Cartão de Crédito",
-            "trans_status": "Compra Aprovada",
-            "conversion_date": "24/08/2024, 14:51:17",
-            "warranty_date": "2024-08-27",
-            "installments": 12,
-            "cep": "",
-            "utm_source": "",
-            "utm_campaign": "",
-            "utm_medium": "",
-            "utm_content": "",
-            "utm_term": "",
-            "link_pagamento_pix": "in_nvoPBrtyU231Y2hquXNd",
-            "link_pagamento_boleto": "https://pay.io/pay/9ca15045223-f883-445422e-9ee3454-fe5476a0038f9a/invoice",
-            "Telefone do Cliente - Formato BC": "+5511999934799",
-            "funil": "1",
-            "expiration_date": "2025-07-28",
-            "tag_do_lancamento": "",
-            "Telefone do Cliente - Formato Z-API": "5511999934799",
-            "prazo_de_acesso_em_dias": 365,
-            "offer": "NomeDoMeuProduto | Oferta Oficial",
-            "installments_value": 104.92,
-            "link_boleto": "https://pay.io/pay/9ca15045223-f883-445422e-9ee3454-fe5476a0038f9a/invoice"
+            "name": "Leonardo Lacerda Freymuth",
+            "email": "leonardo.freymuth@gmail.com",
+            "phone": "51994696045",
+            "produto": "Ação Para Aprovação"
           }
         }
       }
@@ -828,6 +436,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-25T15:06:36.305Z",
-  "versionId": "135e437f-6f99-4c74-88a0-2de5a46e5759"
+  "updatedAt": "2024-08-26T00:31:00.719Z",
+  "versionId": "62ac831f-e857-49a4-92ad-8701a12771e4"
 }
