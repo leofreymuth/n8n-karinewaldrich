@@ -98,7 +98,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1040,
+        1020,
         300
       ]
     },
@@ -324,6 +324,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-25T23:36:31.095Z",
-  "versionId": "96773a12-d6f0-422b-882c-5ac25d972595"
+  "updatedAt": "2024-08-26T14:51:38.286Z",
+  "versionId": "f553fccc-1baf-4b72-8bda-76c80128b938"
 }
