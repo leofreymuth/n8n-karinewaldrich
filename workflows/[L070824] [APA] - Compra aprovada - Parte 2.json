@@ -1,39 +1,6 @@
 {
   "active": true,
   "connections": {
-    "procura_pessoa": {
-      "main": [
-        [
-          {
-            "node": "pessoa_existe?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "pessoa_existe?": {
-      "main": [
-        [
-          {
-            "node": "pesquisa_deal",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "chega_da_fila": {
-      "main": [
-        [
-          {
-            "node": "procura_pessoa",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "pesquisa_deal": {
       "main": [
         [
@@ -80,6 +47,79 @@
           }
         ]
       ]
+    },
+    "busca_tags_pessoa": {
+      "main": [
+        [
+          {
+            "node": "nao_tem_tags?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "nao_tem_tags?": {
+      "main": [
+        [
+          {
+            "node": "adicionar_tag_APA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "adicionar_tag_APA1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adicionar_tag_APA": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_deal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adicionar_tag_APA1": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_deal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procura_pessoa": {
+      "main": [
+        [
+          {
+            "node": "busca_tags_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "chega_da_fila": {
+      "main": [
+        [
+          {
+            "node": "procura_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-08-24T17:44:11.306Z",
@@ -111,8 +151,8 @@
       "type": "n8n-nodes-base.rabbitmqTrigger",
       "typeVersion": 1,
       "position": [
-        1440,
-        200
+        1020,
+        80
       ],
       "credentials": {
         "rabbitmq": {
@@ -120,64 +160,6 @@
           "name": "[RABBIT] - KarineWaldrich"
         }
       }
-    },
-    {
-      "parameters": {
-        "resource": "person",
-        "operation": "search",
-        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
-        "additionalFields": {
-          "fields": "email"
-        }
-      },
-      "id": "1c707e2f-1ea8-42d4-bda0-ea5235d44a5b",
-      "name": "procura_pessoa",
-      "type": "n8n-nodes-base.pipedrive",
-      "typeVersion": 1,
-      "position": [
-        1680,
-        200
-      ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "pipedriveApi": {
-          "id": "39J8KZF1iPy2gjSt",
-          "name": "[PIPEDRIVE] - KarineWaldrich"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict"
-          },
-          "conditions": [
-            {
-              "id": "8af697ad-d947-412c-b0f7-19fa896d6d6b",
-              "leftValue": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
-              "rightValue": "",
-              "operator": {
-                "type": "number",
-                "operation": "exists",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "6755a767-7369-478f-8735-9678f7404146",
-      "name": "pessoa_existe?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        1940,
-        200
-      ]
     },
     {
       "parameters": {
@@ -393,6 +375,137 @@
         2840,
         -400
       ]
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "get",
+        "personId": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}"
+      },
+      "id": "c4e9da1d-4fc7-4c56-a0b0-8929f04900ea",
+      "name": "busca_tags_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        80
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "a912e2aa-c09c-4124-87eb-c7ac2728f4ae",
+              "leftValue": "={{ $node[\"busca_tags_pessoa\"].json[\"label_ids\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "2be3fdf4-7d09-4a70-aa9f-4d20eaedf49a",
+      "name": "nao_tem_tags?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1700,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.pipedrive.com/v1/persons/{{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "pipedriveApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"label_ids\": [91]\n}",
+        "options": {}
+      },
+      "id": "11613e69-54a1-4fae-8c18-414781d1660e",
+      "name": "adicionar_tag_APA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1960,
+        -100
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.pipedrive.com/v1/persons/{{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "pipedriveApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"label_ids\": [{{ $json[\"label_ids\"] }}, 91]\n}",
+        "options": {}
+      },
+      "id": "68fd62a2-02ae-435c-b27d-d9abd5c823da",
+      "name": "adicionar_tag_APA1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1960,
+        240
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "id": "f93bff7a-7aa0-426b-bab5-0c0abcde4103",
+      "name": "procura_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        80
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
     }
   ],
   "pinData": {
@@ -436,6 +549,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-26T00:31:00.719Z",
-  "versionId": "62ac831f-e857-49a4-92ad-8701a12771e4"
+  "updatedAt": "2024-08-26T14:45:11.100Z",
+  "versionId": "7f8f8f64-dbad-4501-a4bd-5dd098518c77"
 }
