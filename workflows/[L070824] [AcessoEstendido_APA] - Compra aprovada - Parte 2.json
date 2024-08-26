@@ -1,22 +1,51 @@
 {
   "active": true,
   "connections": {
-    "procura_pessoa": {
+    "chega_da_fila": {
       "main": [
         [
           {
-            "node": "atualiza_pessoa",
+            "node": "procura_pessoa",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "chega_da_fila": {
+    "procura_pessoa": {
       "main": [
         [
           {
-            "node": "procura_pessoa",
+            "node": "busca_tags_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "busca_tags_pessoa": {
+      "main": [
+        [
+          {
+            "node": "nao_tem_tags?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "nao_tem_tags?": {
+      "main": [
+        [
+          {
+            "node": "adicionar_tags",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "adicionar_tags1",
             "type": "main",
             "index": 0
           }
@@ -53,8 +82,8 @@
       "type": "n8n-nodes-base.rabbitmqTrigger",
       "typeVersion": 1,
       "position": [
-        1440,
-        200
+        780,
+        340
       ],
       "credentials": {
         "rabbitmq": {
@@ -72,13 +101,13 @@
           "fields": "email"
         }
       },
-      "id": "d6229e37-77d4-4036-a922-5385dc670064",
+      "id": "a0aa90e3-e200-46b3-bd6f-de97aa97e6ea",
       "name": "procura_pessoa",
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1660,
-        200
+        980,
+        340
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -91,19 +120,16 @@
     {
       "parameters": {
         "resource": "person",
-        "operation": "update",
-        "personId": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
-        "updateFields": {
-          "label": 93
-        }
+        "operation": "get",
+        "personId": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}"
       },
-      "id": "1e1d88c3-bf6d-465f-94e1-85f66bd6d45b",
-      "name": "atualiza_pessoa",
+      "id": "f9a4e1d7-1fae-4164-89f0-2ca3938b32bb",
+      "name": "busca_tags_pessoa",
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1880,
-        200
+        1180,
+        340
       ],
       "credentials": {
         "pipedriveApi": {
@@ -111,6 +137,91 @@
           "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.pipedrive.com/v1/persons/{{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "pipedriveApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"label_ids\": [93]\n}",
+        "options": {}
+      },
+      "id": "0ae15136-f2d6-45b9-ab33-d3a79de2d7b8",
+      "name": "adicionar_tags",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1640,
+        140
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.pipedrive.com/v1/persons/{{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "pipedriveApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"label_ids\": [{{ $json[\"label_ids\"] }}, 93]\n}",
+        "options": {}
+      },
+      "id": "e99549b9-6b61-461f-a240-b90a73e3071c",
+      "name": "adicionar_tags1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1640,
+        500
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "a912e2aa-c09c-4124-87eb-c7ac2728f4ae",
+              "leftValue": "={{ $node[\"busca_tags_pessoa\"].json[\"label_ids\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a0fce985-07ef-4027-97e1-f0f1a1c07804",
+      "name": "nao_tem_tags?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        340
+      ]
     }
   ],
   "pinData": {
@@ -154,6 +265,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-26T00:43:21.254Z",
-  "versionId": "15548be4-e434-4104-822b-10deb76d159d"
+  "updatedAt": "2024-08-26T15:27:18.171Z",
+  "versionId": "dc696526-2bb3-4378-ad59-19e6b03c05f5"
 }
