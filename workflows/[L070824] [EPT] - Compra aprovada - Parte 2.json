@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "atualiza_pessoa",
+            "node": "busca_tags_pessoa",
             "type": "main",
             "index": 0
           }
@@ -17,6 +17,35 @@
         [
           {
             "node": "procura_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "busca_tags_pessoa": {
+      "main": [
+        [
+          {
+            "node": "nao_tem_tags?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "nao_tem_tags?": {
+      "main": [
+        [
+          {
+            "node": "adicionar_tags",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "adicionar_tags1",
             "type": "main",
             "index": 0
           }
@@ -91,14 +120,11 @@
     {
       "parameters": {
         "resource": "person",
-        "operation": "update",
-        "personId": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
-        "updateFields": {
-          "label": 92
-        }
+        "operation": "get",
+        "personId": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}"
       },
-      "id": "ca8e5caf-88c8-4ed3-9c80-27ba70c86f62",
-      "name": "atualiza_pessoa",
+      "id": "0ac64a8b-6f61-4365-a8b2-90c92ef0e30c",
+      "name": "busca_tags_pessoa",
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
@@ -111,6 +137,91 @@
           "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.pipedrive.com/v1/persons/{{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "pipedriveApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"label_ids\": [92]\n}",
+        "options": {}
+      },
+      "id": "6db3ba8b-fffe-443d-9993-4d27a7f059a6",
+      "name": "adicionar_tags",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2360,
+        0
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.pipedrive.com/v1/persons/{{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "pipedriveApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"label_ids\": [{{ $json[\"label_ids\"] }}, 92]\n}",
+        "options": {}
+      },
+      "id": "ac0398d0-c7b7-488d-a1af-a6876ff9a5ae",
+      "name": "adicionar_tags1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2360,
+        360
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "a912e2aa-c09c-4124-87eb-c7ac2728f4ae",
+              "leftValue": "={{ $node[\"busca_tags_pessoa\"].json[\"label_ids\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "1612361f-468b-471f-a23d-69351c2335ad",
+      "name": "nao_tem_tags?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2120,
+        200
+      ]
     }
   ],
   "pinData": {
@@ -118,20 +229,20 @@
       {
         "json": {
           "fields": {
-            "consumerTag": "amq.ctag-pF-K1ucVdkQyGwVzG40NcQ",
-            "deliveryTag": 2,
+            "consumerTag": "amq.ctag-JZgJocJqYu-mhsJnQQ7NSg",
+            "deliveryTag": 1,
             "redelivered": false,
             "exchange": "",
-            "routingKey": "[APA] - Compra aprovada"
+            "routingKey": "[EPT] - Compra aprovada"
           },
           "properties": {
             "headers": {}
           },
           "content": {
-            "name": "Leonardo Lacerda Freymuth",
+            "name": "Leonardo Freymuth",
             "email": "leonardo.freymuth@gmail.com",
             "phone": "51994696045",
-            "produto": "Ação Para Aprovação"
+            "produto": "Exatas Para Todos - Combo Acesso Completo"
           }
         }
       }
@@ -154,6 +265,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-26T00:54:02.439Z",
-  "versionId": "ce857f89-4bc6-4177-8cf3-32c3c2a57ca4"
+  "updatedAt": "2024-08-26T14:38:28.396Z",
+  "versionId": "afb6d72b-345d-4905-9362-963b48a35303"
 }
