@@ -1,0 +1,159 @@
+{
+  "active": true,
+  "connections": {
+    "procura_pessoa": {
+      "main": [
+        [
+          {
+            "node": "atualiza_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "chega_da_fila": {
+      "main": [
+        [
+          {
+            "node": "procura_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-26T00:31:23.316Z",
+  "id": "EUcl0R3utlfyVNSg",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[L070824] [EPT] - Compra aprovada - Parte 2",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "[EPT] - Compra aprovada",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "acknowledge": "executionFinishesSuccessfully",
+          "jsonParseBody": true,
+          "parallelMessages": 1
+        }
+      },
+      "id": "8e126f7a-2a00-4ef6-9ded-d5ae0db4c74d",
+      "name": "chega_da_fila",
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        200
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "id": "756cc49c-205f-4b8b-820c-e2a652e712f6",
+      "name": "procura_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        200
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "update",
+        "personId": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+        "updateFields": {
+          "label": 92
+        }
+      },
+      "id": "ca8e5caf-88c8-4ed3-9c80-27ba70c86f62",
+      "name": "atualiza_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        200
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-pF-K1ucVdkQyGwVzG40NcQ",
+            "deliveryTag": 2,
+            "redelivered": false,
+            "exchange": "",
+            "routingKey": "[APA] - Compra aprovada"
+          },
+          "properties": {
+            "headers": {}
+          },
+          "content": {
+            "name": "Leonardo Lacerda Freymuth",
+            "email": "leonardo.freymuth@gmail.com",
+            "phone": "51994696045",
+            "produto": "Ação Para Aprovação"
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "saveExecutionProgress": false,
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-08-24T17:43:36.741Z",
+      "updatedAt": "2024-08-24T17:43:36.741Z",
+      "id": "i7SuC2TpFzNLFI9r",
+      "name": "Pipedrive"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-08-26T00:54:02.439Z",
+  "versionId": "ce857f89-4bc6-4177-8cf3-32c3c2a57ca4"
+}
