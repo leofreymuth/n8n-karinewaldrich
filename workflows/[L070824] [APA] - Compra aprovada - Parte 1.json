@@ -1,17 +1,6 @@
 {
   "active": true,
   "connections": {
-    "trata_dados": {
-      "main": [
-        [
-          {
-            "node": "dados_da_compra",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "dados_da_compra": {
       "main": [
         [
@@ -27,7 +16,7 @@
       "main": [
         [
           {
-            "node": "trata_dados",
+            "node": "dados_da_compra",
             "type": "main",
             "index": 0
           }
@@ -62,7 +51,7 @@
       "type": "n8n-nodes-base.rabbitmq",
       "typeVersion": 1,
       "position": [
-        1480,
+        1240,
         300
       ],
       "credentials": {
@@ -74,167 +63,42 @@
     },
     {
       "parameters": {
-        "jsCode": "// Acessando diretamente os dados com $json\nconst item = $node[\"chamada_guru\"].json;\n\n// Extraindo os dados necessários\nconst oferta = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"offer\"][\"name\"] || '';\nconst assinatura = item || {};\nconst metas_assinatura = assinatura.metas ?? []; // Atualize se houver um campo específico para isso\n// Extraindo informações adicionais\nconst id_assinatura = $node[\"chamada_guru\"].json[\"payload\"][\"id\"]  || '';\nconst nome_assinatura = $node[\"chamada_guru\"].json[\"payload\"][\"product\"][\"name\"] || ''; // Nome da Assinatura\nconst last_status = $node[\"chamada_guru\"].json[\"payload\"][\"last_status\"] || ''; // Último Status\nconst metodo_pagamento = traduzirMetodoPagamento($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"method\"] || '');\nconst tipo_produto = traduzirTipoProduto($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"type\"] || '');\nconst cep = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"address_zip_code\"] || '';\n\nconst cpf = formatarCPF($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"doc\"] || '');\nlet status_compra = traduzirStatus($node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"status\"] || '');\nconst link_boleto = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"payment_url\"] || '';\nconst codigo_boleto = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"code\"] || ''; // Atualize se houver um campo específico para isso\nconst codigo_pix = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"code\"] || ''; // Atualize se houver um campo específico para isso\nconst data_limite_pix = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"period_end\"] || ''; // Atualize se houver um campo específico para isso\nconst data_limite_boleto = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"period_end\"] || ''; // Atualize se houver um campo específico para isso\nconst nome_produto = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"name\"] || '';\nconst data_garantia_extendida = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"dates\"][\"warranty_until\"].slice(0,10) || '';\nconst nome_completo = capitalizarNome($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"name\"] || '');\nconst email_formatado = formatarEmail($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"email\"] || '');\nconst valor = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"value\"] || '';\nconst data_atualizacao = assinatura.dates?.last_status_at ? new Date(assinatura.dates.last_status_at) : new Date();\nconst comissao_gateway = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"marketplace_value\"] || '';\nconst parametros_utm = extrairParametrosUtm(metas_assinatura);\nconst id_produto = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"id\"] || '';\nconst hash_oferta = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"offer\"][\"id\"] || '';\nconst parcelas = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"installments\"][\"qty\"] || '';\nconst data_expiracao = $node[\"chamada_guru\"].json[\"payload\"][\"dates\"][\"cycle_end_date\"];\nconst phone = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"phone_local_code\"] + $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"phone_number\"] || '';\n// Verificando se o objeto dates existe antes de acessar suas propriedades\nconst data_inicio = $node[\"chamada_guru\"].json[\"payload\"][\"dates\"][\"cycle_start_date\"] || ''; // Data de Início do Ciclo\nconst data_fim = $node[\"chamada_guru\"].json[\"payload\"][\"dates\"][\"cycle_end_date\"] || ''; // Data de Fim do Ciclo\nconst telefone = formatarTelefone(phone || '');\nconst moeda = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"currency\"]  || '';\nconst valor_parcelas = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"installments\"][\"value\"] || '';\nconst prazo_dias = $node[\"chamada_guru\"].json[\"payload\"][\"charged_every_days\"]  || '';\n// Define o output com todas as informações\nreturn {\n  // Informações do Cliente\n  nome_cliente: nome_completo,\n  email_cliente: email_formatado,\n  telefone_cliente: telefone,\n  cpf_cnpj: cpf,\n  cep,\n\n  // Informações da Venda\n  id_assinatura,\n  nome_assinatura,\n  last_status,\n  plano: tipo_produto,\n  id_produto,\n  codigo_assinatura: id_assinatura,\n  comissao_gateway,\n  moeda: moeda,\n  metodo_pagamento,\n  status_compra,\n  data_compra: formatarDataHora(data_atualizacao),\n  codigo_oferta: hash_oferta,\n  oferta,\n  valor_compra: valor,\n  parcelas,\n  valor_parcelas,\n  data_expiracao,\n  \n  // Informações do Endereço\n  link_boleto,\n  codigo_boleto,\n  codigo_pix,\n  data_limite_pix,\n  data_limite_boleto,\n  nome_produto,\n\n  // Detalhes Adicionais\n  data_garantia: data_garantia_extendida,\n  data_inicio,\n  data_fim,\n  prazo_dias,\n  \n  // Parâmetros UTM\n  utm_campaign: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_campaign\"] || '',\n  utm_content: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_content\"] || '',\n  utm_medium: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_medium\"] || '',\n  utm_source: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_source\"] || '',\n  utm_term: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_term\"] || '',\n};\n\n// Traduz o método de pagamento para pt-BR\nfunction traduzirMetodoPagamento(metodo) {\n  const mapaMetodosPagamento = {\n    \"credit_card\": \"Cartão de Crédito\",\n    \"pix\": \"PIX\",\n    \"boleto\": \"Boleto Bancário\",\n    \"paypal\": \"PayPal\"\n  };\n  return mapaMetodosPagamento[metodo] ?? metodo;\n}\n\n// Traduz o status para pt-BR\nfunction traduzirStatus(status, metodo_pagamento) {\n  const mapaStatus = {\n    \"refused\": \"Compra Cancelada\",\n    \"paid\": \"Compra Aprovada\",\n    \"refunded\": \"Compra Reembolsada\",\n    \"chargedback\": \"Chargeback\",\n    \"waiting_payment\": \"Aguardando Pagamento\"\n  };\n  let statusTraduzido = mapaStatus[status] ?? '';\n  if (statusTraduzido === \"Aguardando Pagamento\") {\n    if (metodo_pagamento === \"Boleto Bancário\") {\n      statusTraduzido = \"Boleto Gerado\";\n    } else if (metodo_pagamento === \"PIX\") {\n      statusTraduzido = \"PIX Gerado\";\n    }\n  }\n  return statusTraduzido;\n}\n\n// Traduz o tipo de produto para pt-BR\nfunction traduzirTipoProduto(tipo) {\n  const mapaTipoProduto = {\n    \"plan\": \"Assinatura\",\n    \"transaction\": \"Transação\",\n    \"subscription\": \"Assinatura\"\n  };\n  return mapaTipoProduto[tipo] ?? tipo;\n}\n\n// Função para formatar o CPF\nfunction formatarCPF(cpf) {\n  return cpf.replace(/(\\d{3})(\\d{3})(\\d{3})(\\d{2})/, \"$1.$2.$3-$4\");\n}\n\n// Função para formatar o telefone\nfunction formatarTelefone(telefone) {\n  const telefoneLimpo = telefone.replace(/[\\+\\s-]/g, '');\n  const ddi = telefoneLimpo.slice(0, 2);\n  if (ddi === '55') {\n    const ddd = telefoneLimpo.slice(2, 4);\n    return ddd > 28 ? '55' + telefoneLimpo.slice(2, 4) + telefoneLimpo.slice(-8) : '55' + telefoneLimpo.slice(2, 4) + telefoneLimpo.slice(-9);\n  }\n  return telefoneLimpo;\n}\n\n// Função para capitalizar o nome\nfunction capitalizarNome(nome_completo) {\n  const palavrasMinusc = ['da', 'de', 'do', 'di', 'du'];\n  const palavras = nome_completo.toLowerCase().split(' ');\n  return palavras.map(palavra => {\n    if (palavrasMinusc.includes(palavra)) {\n      return palavra;\n    }\n    return palavra.charAt(0).toUpperCase() + palavra.slice(1);\n  }).join(' ');\n}\n\n// Função para formatar a data e hora\nfunction formatarDataHora(data) {\n  const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };\n  return new Intl.DateTimeFormat('pt-BR', options).format(new Date(data));\n}\n\n\n// Função para formatar o e-mail\nfunction formatarEmail(email) {\n  return email.toLowerCase();\n}\n\n// Função para extrair parâmetros UTM de metas\nfunction extrairParametrosUtm(metas) {\n  const parametros = {\n    utm_campaign: '',\n    utm_content: '',\n    utm_medium: '',\n    utm_source: '',\n    utm_term: ''\n  };\n\n  metas.forEach(meta => {\n    if (meta.name) {\n      const partes = meta.name.split('&');\n      partes.forEach(parte => {\n        const [chave, valor] = parte.split('=');\n        if (parametros.hasOwnProperty(chave)) {\n          parametros[chave] = valor || '';\n        }\n      });\n    }\n  });\n\n  return parametros;\n}\n\n// Função para calcular a data com base em um intervalo\nfunction calcularData(data, dias) {\n  const novaData = new Date(data);\n  novaData.setDate(novaData.getDate() + dias);\n  return novaData.toISOString().split('T')[0];\n}"
-      },
-      "id": "897dcb6c-3f18-43e0-b701-1ab74f19df3e",
-      "name": "trata_dados",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
-      "position": [
-        1040,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
+        "assignments": {
+          "assignments": [
             {
-              "name": "nome",
-              "value": "={{ $node[\"trata_dados\"].json[\"nome_cliente\"] }}"
+              "id": "1018099c-70c4-43ad-9276-9b2de01bc2f1",
+              "name": "name",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"contact\"][\"name\"] }}",
+              "type": "string"
             },
             {
-              "name": "E-mail do Cliente",
-              "value": "={{ $node[\"trata_dados\"].json[\"email_cliente\"] }}"
+              "id": "e9a85442-d886-4319-9dd9-602ffeffb34b",
+              "name": "email",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"contact\"][\"email\"] }}",
+              "type": "string"
             },
             {
-              "name": "cpf/cnpj",
-              "value": "={{ $node[\"trata_dados\"].json[\"cpf_cnpj\"] }}"
+              "id": "5c71bc9b-15c8-40f9-a27e-a3072dbac44f",
+              "name": "phone",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"contact\"][\"phone_number\"] }}",
+              "type": "string"
             },
             {
-              "name": "nome_produto",
-              "value": "={{ $node[\"trata_dados\"].json[\"nome_produto\"] }}"
-            },
-            {
-              "name": "transaction_id",
-              "value": "={{ $node[\"trata_dados\"].json[\"id_assinatura\"] }}"
-            },
-            {
-              "name": "product_id",
-              "value": "={{ $node[\"trata_dados\"].json[\"id_produto\"] }}"
-            },
-            {
-              "name": "value",
-              "value": "={{ $node[\"trata_dados\"].json[\"valor_compra\"] }}"
-            },
-            {
-              "name": "offer_code",
-              "value": "={{ $node[\"trata_dados\"].json[\"codigo_oferta\"] }}"
-            },
-            {
-              "name": "subscription_code",
-              "value": "={{ $node[\"trata_dados\"].json[\"codigo_assinatura\"] }}"
-            },
-            {
-              "name": "gateway_comission",
-              "value": "={{ $node[\"trata_dados\"].json[\"comissao_gateway\"] }}"
-            },
-            {
-              "name": "plan",
-              "value": "={{ $node[\"trata_dados\"].json[\"plano\"] }}"
-            },
-            {
-              "name": "currency",
-              "value": "={{ $node[\"trata_dados\"].json[\"moeda\"] }}"
-            },
-            {
-              "name": "payment_method",
-              "value": "={{ $node[\"trata_dados\"].json[\"metodo_pagamento\"] }}"
-            },
-            {
-              "name": "trans_status",
-              "value": "={{ $node[\"trata_dados\"].json[\"status_compra\"] }}"
-            },
-            {
-              "name": "conversion_date",
-              "value": "={{ $node[\"trata_dados\"].json[\"data_compra\"] }}"
-            },
-            {
-              "name": "warranty_date",
-              "value": "={{ $node[\"trata_dados\"].json[\"data_garantia\"] }}"
-            },
-            {
-              "name": "installments",
-              "value": "={{ $node[\"trata_dados\"].json[\"parcelas\"] }}"
-            },
-            {
-              "name": "cep",
-              "value": "={{ $node[\"trata_dados\"].json[\"cep\"] }}"
-            },
-            {
-              "name": "utm_source",
-              "value": "={{ $node[\"trata_dados\"].json[\"utm_source\"] }}"
-            },
-            {
-              "name": "utm_campaign",
-              "value": "={{ $node[\"trata_dados\"].json[\"utm_campaign\"] }}"
-            },
-            {
-              "name": "utm_medium",
-              "value": "={{ $node[\"trata_dados\"].json[\"utm_medium\"] }}"
-            },
-            {
-              "name": "utm_content",
-              "value": "={{ $node[\"trata_dados\"].json[\"utm_content\"] }}"
-            },
-            {
-              "name": "utm_term",
-              "value": "={{ $node[\"trata_dados\"].json[\"utm_term\"] }}"
-            },
-            {
-              "name": "link_pagamento_pix",
-              "value": "={{ $node[\"trata_dados\"].json[\"codigo_pix\"] }}"
-            },
-            {
-              "name": "link_pagamento_boleto",
-              "value": "={{ $node[\"trata_dados\"].json[\"link_boleto\"] }}"
-            },
-            {
-              "name": "Telefone do Cliente - Formato BC",
-              "value": "={{ $node[\"trata_dados\"].json[\"telefone_cliente\"] ? '+' + $node[\"trata_dados\"].json[\"telefone_cliente\"] : ''}}"
-            },
-            {
-              "name": "funil",
-              "value": "1"
-            },
-            {
-              "name": "expiration_date",
-              "value": "={{ $node[\"trata_dados\"].json[\"data_expiracao\"] }}"
-            },
-            {
-              "name": "tag_do_lancamento"
-            },
-            {
-              "name": "Telefone do Cliente - Formato Z-API",
-              "value": "={{ $node[\"trata_dados\"].json[\"telefone_cliente\"]}}"
-            },
-            {
-              "name": "prazo_de_acesso_em_dias",
-              "value": "={{ $node[\"trata_dados\"].json[\"prazo_dias\"]}}"
-            },
-            {
-              "name": "offer",
-              "value": "={{ $node[\"trata_dados\"].json[\"oferta\"] }}"
-            },
-            {
-              "name": "installments_value",
-              "value": "={{ $node[\"trata_dados\"].json[\"valor_parcelas\"] }}"
-            },
-            {
-              "name": "link_boleto",
-              "value": "={{ $node[\"trata_dados\"].json[\"link_boleto\"] }}"
+              "id": "e772e919-be80-43e7-baa1-14ceaed3f3db",
+              "name": "produto",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"items\"][\"0\"][\"name\"] }}",
+              "type": "string"
             }
           ]
         },
         "options": {}
       },
-      "id": "0d20d89a-5fd7-48cd-b0a5-6c4277d1e46a",
+      "id": "12f834df-07d4-45fb-a91e-efd67cabd45a",
       "name": "dados_da_compra",
       "type": "n8n-nodes-base.set",
-      "typeVersion": 2,
+      "typeVersion": 3.4,
       "position": [
-        1260,
+        1040,
         300
       ]
     },
@@ -259,322 +123,186 @@
     "chamada_guru": [
       {
         "json": {
-          "attempts": 1,
-          "connection": "pubsub",
-          "payload": {
-            "affiliations": null,
-            "api_token": "SX35468PcqLGYKzPnVO452GuFftcZgNy45M11weHIm4ViL1eL4",
-            "cancel_at_cycle_end": 0,
-            "cancel_reason": "",
-            "cancelled_by": {
-              "date": "",
-              "email": "",
-              "name": ""
+          "headers": {
+            "host": "n8nwebhook.karinewaldrich.com.br",
+            "user-agent": "digitalmanager.guru (dev@digitalmanager.guru)",
+            "content-length": "3584",
+            "content-type": "application/json",
+            "x-forwarded-for": "35.196.29.143",
+            "x-forwarded-host": "n8nwebhook.karinewaldrich.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "cadf6fe75461",
+            "x-real-ip": "35.196.29.143",
+            "x-request-id": "9cda96ac-1c8c-4895-a763-d24d3c953a27",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "affiliations": [],
+            "api_token": "mZE0DQ7Z07Wgb679D5cvUctdbJnfbKv8aHEjP4SE",
+            "checkout_url": "https://clkdmg.site/pay/9cc4a133-e1a3-477b-9029-59af6019f6db",
+            "contact": {
+              "id": "9ccfd441-83bc-463f-8df3-e0cff378e5e7",
+              "name": "Leonardo Freymuth",
+              "company_name": "",
+              "email": "leonardo.freymuth@gmail.com",
+              "doc": "01279061006",
+              "phone_number": "51994696045",
+              "phone_local_code": "55",
+              "address": "",
+              "address_number": "",
+              "address_comp": "",
+              "address_district": "",
+              "address_city": "",
+              "address_state": "",
+              "address_state_full_name": "",
+              "address_country": "BR",
+              "address_zip_code": "",
+              "lead": []
             },
-            "charged_every_days": 365,
-            "charged_times": 1,
             "contracts": [],
-            "credit_card": {
-              "bin": "5542441355462499",
-              "brand": "mastercard",
-              "created_at": "2024-07-28T11:34:41Z",
-              "expiration_month": "09",
-              "expiration_year": "2029",
-              "holder_name": "Marcelo Silva",
-              "id": "f8e56452155c-991b-4513-b03c-233373670237",
-              "last_four": "45515",
-              "marketplace": {
-                "pagarme": {
-                  "customer": {
-                    "id": 781935353263537700
-                  },
-                  "payment": {
-                    "id": "card_clz5213hgd42316645r74d640l9tx3ind0y2s"
-                  }
-                }
-              },
-              "renewed": 0,
-              "updated_at": "2024-07-28T11:34:41Z"
-            },
-            "current_invoice": {
-              "charge_at": "2024-07-28",
-              "code": "in_nvoPBrtyU231Y2hquXNd",
-              "created_at": 1722166482,
-              "cycle": 1,
-              "discount_value": 0,
-              "id": "9ca15023-f883-422e-9ee564-fe76a0038f9a",
-              "increment_value": 0,
-              "payment_url": "https://pay.io/pay/9ca15045223-f883-445422e-9ee3454-fe5476a0038f9a/invoice",
-              "period_end": "2025-07-28",
-              "period_start": "2024-07-28",
-              "status": "paid",
-              "subscription_id": "9ca15325023-f52a-449359-b63f-44b457473414",
-              "tax_value": 0,
-              "type": "cycle",
-              "updated_at": 1722166492,
-              "value": 1259.04
-            },
             "dates": {
               "canceled_at": null,
-              "cycle_end_date": "2025-07-28",
-              "cycle_start_date": "2024-07-28",
-              "last_status_at": "2024-07-28T11:34:52Z",
-              "next_cycle_at": "2025-07-29",
-              "started_at": "2024-07-28T11:34:42Z"
+              "confirmed_at": "2024-08-25T22:53:28Z",
+              "created_at": "2024-08-25T22:52:30Z",
+              "expires_at": null,
+              "ordered_at": "2024-08-25T22:52:10Z",
+              "unavailable_until": "2024-09-24T22:53:28Z",
+              "updated_at": "2024-08-25T22:54:06Z",
+              "warranty_until": "2024-09-24T22:53:28Z"
             },
-            "id": "sub_MUEQ3525NFZzDTWT6Is",
-            "internal_id": "9ca1535023-f52a-4499-b63f-44b457473414",
-            "last_status": "active",
-            "last_transaction": {
-              "affiliations": [],
-              "checkout_url": "https://pay.io/subscribe/nomeproduto-oferta-oficial",
-              "contact": {
-                "address": "",
-                "address_city": "",
-                "address_comp": "",
-                "address_country": "BR",
-                "address_district": "",
-                "address_number": "",
-                "address_state": "",
-                "address_state_full_name": "",
-                "address_zip_code": "",
-                "company_name": "",
-                "doc": "00000000000",
-                "email": "marcelosilva@hotmail.com",
-                "id": "9ca14fe3-58wdc1-413dwa-882a-6f9332fc8581",
-                "lead": [],
-                "name": "Marcelo Silva",
-                "phone_local_code": "55",
-                "phone_number": "11999934799"
-              },
-              "dates": {
-                "canceled_at": null,
-                "confirmed_at": "2024-07-28T11:34:39Z",
-                "created_at": "2024-07-28T11:33:59Z",
-                "expires_at": null,
-                "ordered_at": "2024-07-28T11:33:19Z",
-                "unavailable_until": "2024-08-27T11:34:39Z",
-                "updated_at": "2024-07-28T11:35:10Z",
-                "warranty_until": "2024-08-27T11:34:39Z"
-              },
-              "ecommerces": [],
-              "id": "9ca14fa6-04fa-45cc-9dda-7d024c2f2f52",
-              "infrastructure": {
-                "city": "cuiaba",
-                "city_lat_long": "-15.59545464,-56.09253582",
-                "country": "BR",
-                "host": "pay.xxxx.io",
-                "ip": "179.257.110.192",
-                "region": "mt",
-                "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
-              },
-              "invoice": {
-                "charge_at": "2024-07-28",
-                "created_at": "2024-07-28T11:34:42Z",
-                "cycle": 1,
-                "discount_value": 0,
-                "id": "in_nvoPBrtyUY2hquXNd",
-                "increment_value": 0,
-                "period_end": "2025-07-28",
-                "period_start": "2024-07-28",
-                "status": "paid",
-                "tax_value": 0,
-                "tries": 0,
-                "try": 0,
-                "type": "cycle",
-                "value": 1259.04
-              },
-              "payment": {
-                "acquirer": {
-                  "code": "0000",
-                  "message": "Transação aprovada com sucesso",
-                  "name": "pagarme",
-                  "nsu": "",
-                  "tid": 3038935646
-                },
-                "affiliate_value": 0,
-                "can_try_again": 1,
-                "coupon": null,
-                "credit_card": {
-                  "brand": "mastercard",
-                  "expiration_month": "09",
-                  "expiration_year": "2029",
-                  "first_digits": "544199",
-                  "id": "card_clz5hgd45r74d0wdl9txind0y2s",
-                  "last_digits": "45241"
-                },
-                "currency": "BRL",
-                "discount_value": 0,
-                "gross": 997,
-                "installments": {
-                  "interest": 262.04,
-                  "qty": 12,
-                  "value": 104.92
-                },
-                "marketplace_id": "3038935646",
-                "marketplace_name": "pagarme",
-                "marketplace_value": 26.37,
-                "method": "credit_card",
-                "net": 1232.67,
-                "processing_times": {
-                  "delay_in_seconds": 3,
-                  "finished_at": "2024-07-28T11:34:39.254Z",
-                  "started_at": "2024-07-28T11:34:35.371Z"
-                },
-                "refund_reason": "",
-                "refuse_reason": "",
-                "tax": {
-                  "rate": 0,
-                  "value": 0
-                },
-                "total": 1259.04
-              },
-              "product": {
-                "id": "1698890988",
-                "image_url": "https://storage.googleapis.com/disk.clkdmg.site/clients/123/images/offers/49c3-a6d2-26d54a553da8.png",
-                "internal_id": "9a8363ea-21343214-4144-bfed-aaa7c36acec5",
-                "marketplace_id": "1698893240988",
-                "marketplace_name": "pagarme",
-                "name": "NomeDoMeuProduto",
+            "ecommerces": [],
+            "id": "9cda95fa-9290-49eb-adc0-f76c7a7c74a4",
+            "infrastructure": {
+              "ip": "2804:7f4:c2b4:d19b:1091:a051:bf52:ab48",
+              "city": "porto alegre",
+              "host": "clkdmg.site",
+              "region": "rs",
+              "country": "BR",
+              "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+              "city_lat_long": "-30.036818,-51.208989"
+            },
+            "invoice": [],
+            "items": [
+              {
+                "id": "1723595666",
+                "image_url": "https://storage.googleapis.com/disk.clkdmg.site/clients/9cc06a29-1c65-4438-8b99-74648646f77d/images/products/9cc2970a-ed22-4940-86ea-360b0f376843.png",
+                "internal_id": "9cc296e2-c4cd-4a79-a43f-ce07f4fe5b36",
+                "marketplace_id": "1723595666",
+                "marketplace_name": "pagarme2",
+                "name": "Ação Para Aprovação",
                 "offer": {
-                  "id": "9b9c581a-a3d2-47w279-a090-7c98fb312c96",
-                  "name": "NomeDoMeuProduto | Oferta Oficial"
+                  "id": "9cc4a133-e1a3-477b-9029-59af6019f6db",
+                  "name": "Teste"
                 },
                 "producer": {
-                  "contact_email": "",
-                  "marketplace_id": "1688928147",
-                  "name": "Nome do Produtor"
+                  "contact_email": null,
+                  "marketplace_id": "1723502287",
+                  "name": "Cdw Treinamentos"
                 },
                 "qty": 1,
-                "total_value": 997,
-                "type": "plan",
-                "unit_value": 997
+                "total_value": 1,
+                "type": "product",
+                "unit_value": 1
+              }
+            ],
+            "last_transaction": [],
+            "payment": {
+              "affiliate_value": 0,
+              "acquirer": {
+                "code": "0000",
+                "message": "Transação aprovada com sucesso",
+                "name": "pagarme",
+                "nsu": "3163117248",
+                "tid": "3163117248"
               },
-              "shipment": {
-                "carrier": "",
-                "delivery_time": "",
-                "service": "",
-                "status": "",
-                "tracking": "",
-                "value": 0
+              "can_try_again": 1,
+              "coupon": null,
+              "currency": "BRL",
+              "discount_value": 0,
+              "gross": 1,
+              "installments": {
+                "value": 1,
+                "qty": 1,
+                "interest": 0
               },
-              "shipping": {
-                "name": "Standard",
-                "value": 0
+              "marketplace_id": "ch_jyaeJKbTBTpmRK1x",
+              "marketplace_name": "pagarme2",
+              "marketplace_value": 0.01,
+              "method": "credit_card",
+              "net": 0.99,
+              "processing_times": {
+                "started_at": "2024-08-25T22:53:27.079Z",
+                "finished_at": "2024-08-25T22:53:28.887Z",
+                "delay_in_seconds": 1
               },
-              "source": {
-                "checkout_source": null,
-                "pptc": {
-                  "checkout_id": "9ae9645244f6-6dfd-4d37-8ca7-8d4d17ed5254",
-                  "checkout_name": "CheckOut 1 | Oferta Oficial",
-                  "tracking_id": "",
-                  "tracking_name": "",
-                  "tracking_publisher": "",
-                  "tracking_type": "",
-                  "user_name": "",
-                  "utm_campaign": "",
-                  "utm_content": "",
-                  "utm_medium": "",
-                  "utm_term": ""
-                },
-                "source": "9ae964f66dfd4d323455478ca78d4d17ed5254-9ae964f66dfd4d378ca78d4d17ed5254",
-                "utm_campaign": null,
-                "utm_content": null,
-                "utm_medium": "cpc",
-                "utm_source": "Google",
-                "utm_term": null
+              "refund_reason": "",
+              "refuse_reason": "Transação aprovada com sucesso (0000)",
+              "tax": {
+                "value": 0,
+                "rate": 0
               },
-              "status": "approved",
-              "type": "producer"
-            },
-            "name": "NomeDoMeuProduto",
-            "next_cycle_installments": 12,
-            "next_cycle_value": 1259.04,
-            "next_product": {
-              "id": "9a83632ea-3214-4144-bfed-aaa7c36acec5",
-              "marketplace_id": "169832890988",
-              "marketplace_name": "pagarme",
-              "name": "NomeDoMeuProduto",
-              "offer": {
-                "cash_discount": 0,
-                "id": "9b9c581a-a3443d2-4779-a090-7c98fb312c96",
-                "name": "NomeDoMeuProduto | Oferta Oficial",
-                "plan": {
-                  "cycles": 0,
-                  "discount": {
-                    "cycles": 0,
-                    "value": 0
-                  },
-                  "increment": {
-                    "cycles": 0,
-                    "value": 0
-                  },
-                  "interval": 1,
-                  "interval_type": "year",
-                  "provider": "guru",
-                  "split_cycles": 0,
-                  "trial_days": 0
-                },
-                "units_per_sale": 1,
-                "value": 997
+              "total": 1,
+              "credit_card": {
+                "brand": "mastercard",
+                "expiration_month": "10",
+                "expiration_year": "2031",
+                "first_digits": "538164",
+                "id": "card_z3JOK6esL0iaXY0X",
+                "last_digits": "7443"
               }
             },
-            "payment_method": "credit_card",
             "product": {
-              "id": "9a836423ea-322314-4144-bfed-aaa7c36acec5",
-              "marketplace_id": "1698842490988",
-              "marketplace_name": "pagarme",
-              "name": "NomeDoMeuProduto",
+              "id": "1723595666",
+              "image_url": "https://storage.googleapis.com/disk.clkdmg.site/clients/9cc06a29-1c65-4438-8b99-74648646f77d/images/products/9cc2970a-ed22-4940-86ea-360b0f376843.png",
+              "internal_id": "9cc296e2-c4cd-4a79-a43f-ce07f4fe5b36",
+              "marketplace_id": "1723595666",
+              "marketplace_name": "pagarme2",
+              "name": "Ação Para Aprovação",
               "offer": {
-                "cash_discount": 0,
-                "id": "9b9c581a-a3d2-4779-a02390-7c98fb312c96",
-                "name": "NomeDoMeuProduto | Oferta Oficial",
-                "plan": {
-                  "cycles": 0,
-                  "discount": {
-                    "cycles": 0,
-                    "value": 0
-                  },
-                  "increment": {
-                    "cycles": 0,
-                    "value": 0
-                  },
-                  "interval": 1,
-                  "interval_type": "year",
-                  "provider": "guru",
-                  "split_cycles": 0,
-                  "trial_days": 0
-                },
-                "units_per_sale": 1,
-                "value": 997
-              }
+                "id": "9cc4a133-e1a3-477b-9029-59af6019f6db",
+                "name": "Teste"
+              },
+              "producer": {
+                "marketplace_id": "1723502287",
+                "name": "Cdw Treinamentos",
+                "contact_email": ""
+              },
+              "qty": 1,
+              "total_value": 1,
+              "type": "product",
+              "unit_value": 1
             },
-            "provider": "guru",
-            "subscriber": {
-              "address": "",
-              "address_city": "",
-              "address_comp": "",
-              "address_country": "BR",
-              "address_district": "",
-              "address_number": "",
-              "address_state": "",
-              "address_zip_code": "",
-              "doc": "00000000000",
-              "email": "marcelosilva@hotmail.com",
-              "id": "9ca14565fe3-58c1-41356a-88256a-6f9332fc8581",
-              "name": "Marcelo Silva",
-              "phone_local_code": "55",
-              "phone_number": "71992594557"
+            "shipment": {
+              "carrier": "",
+              "service": "",
+              "tracking": "",
+              "value": 0,
+              "status": "",
+              "delivery_time": ""
             },
-            "subscription_code": "sub_MUE53434Q5NF34ZzDTWT6Is",
-            "trial_days": 0,
-            "trial_finished_at": null,
-            "trial_started_at": null
+            "shipping": {
+              "name": "Standard",
+              "value": 0
+            },
+            "source": {
+              "source": null,
+              "checkout_source": null,
+              "utm_source": null,
+              "utm_campaign": null,
+              "utm_medium": null,
+              "utm_content": null,
+              "utm_term": null,
+              "pptc": []
+            },
+            "status": "approved",
+            "subscription": [],
+            "type": "producer"
           },
-          "queue": "webhooks",
-          "request_id": "9ca15034-684401-4b22344-8486-58d92bf3fbd3",
-          "return": "{\"attempt\":\"0190f91f-a60b-67f2-2016-1e3193fe83a0\",\"id\":\"0190f91f-a60b-67f2-2016-1e3193fe83a0\",\"request_id\":\"0190f91f-a60b-67f2-2016-1e3193fe83a0\",\"status\":\"success\"}\n",
-          "url": "https://hooks.zapier.com/hooks/catch/15606959/3zy78zn/"
+          "webhookUrl": "https://n8nwebhook.karinewaldrich.com.br/webhook/f012d199-5a23-45d0-9ceb-3de54cd5dbcc",
+          "executionMode": "production"
         }
       }
     ]
@@ -596,6 +324,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-24T17:50:43.886Z",
-  "versionId": "a31f2384-2719-4b92-967f-130adf532c75"
+  "updatedAt": "2024-08-25T23:36:31.095Z",
+  "versionId": "96773a12-d6f0-422b-882c-5ac25d972595"
 }
