@@ -1,0 +1,159 @@
+{
+  "active": true,
+  "connections": {
+    "procura_pessoa": {
+      "main": [
+        [
+          {
+            "node": "atualiza_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "chega_da_fila": {
+      "main": [
+        [
+          {
+            "node": "procura_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-26T00:25:01.283Z",
+  "id": "5YCSPeTZR8CzyslJ",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[L070824] [AcessoEstendido_APA] - Compra aprovada - Parte 2",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "[AcessoEstendido_APA] - Compra aprovada",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "acknowledge": "executionFinishesSuccessfully",
+          "jsonParseBody": true,
+          "parallelMessages": 1
+        }
+      },
+      "id": "0c15c333-986e-4a3e-a2b9-4653db6e198d",
+      "name": "chega_da_fila",
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        200
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "id": "d6229e37-77d4-4036-a922-5385dc670064",
+      "name": "procura_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        200
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "update",
+        "personId": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+        "updateFields": {
+          "label": 93
+        }
+      },
+      "id": "1e1d88c3-bf6d-465f-94e1-85f66bd6d45b",
+      "name": "atualiza_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1880,
+        200
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-AjytXb9U-5FSDZdgGrmVZQ",
+            "deliveryTag": 2,
+            "redelivered": false,
+            "exchange": "",
+            "routingKey": "[AcessoEstendido_APA] - Compra aprovada"
+          },
+          "properties": {
+            "headers": {}
+          },
+          "content": {
+            "name": "Leonardo Freymuth",
+            "email": "leonardo.freymuth@gmail.com",
+            "phone": "51994696045",
+            "produto": "Acesso Estendido - 2 anos de APA com 70% de desconto"
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "saveExecutionProgress": false,
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-08-24T17:43:36.741Z",
+      "updatedAt": "2024-08-24T17:43:36.741Z",
+      "id": "i7SuC2TpFzNLFI9r",
+      "name": "Pipedrive"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-08-26T00:43:21.254Z",
+  "versionId": "15548be4-e434-4104-822b-10deb76d159d"
+}
