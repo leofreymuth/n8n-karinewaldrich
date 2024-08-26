@@ -1,17 +1,6 @@
 {
   "active": true,
   "connections": {
-    "trata_dados": {
-      "main": [
-        [
-          {
-            "node": "dados_da_compra",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "dados_da_compra": {
       "main": [
         [
@@ -27,7 +16,7 @@
       "main": [
         [
           {
-            "node": "trata_dados",
+            "node": "dados_da_compra",
             "type": "main",
             "index": 0
           }
@@ -62,7 +51,7 @@
       "type": "n8n-nodes-base.rabbitmq",
       "typeVersion": 1,
       "position": [
-        1340,
+        1120,
         440
       ],
       "credentials": {
@@ -74,167 +63,42 @@
     },
     {
       "parameters": {
-        "jsCode": "// Acessando diretamente os dados com $json\nconst item = $node[\"chamada_guru\"].json;\n\n// Extraindo os dados necessários\nconst oferta = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"offer\"][\"name\"] || '';\nconst assinatura = item || {};\nconst metas_assinatura = assinatura.metas ?? []; // Atualize se houver um campo específico para isso\n// Extraindo informações adicionais\nconst id_assinatura = $node[\"chamada_guru\"].json[\"payload\"][\"id\"]  || '';\nconst nome_assinatura = $node[\"chamada_guru\"].json[\"payload\"][\"product\"][\"name\"] || ''; // Nome da Assinatura\nconst last_status = $node[\"chamada_guru\"].json[\"payload\"][\"last_status\"] || ''; // Último Status\nconst metodo_pagamento = traduzirMetodoPagamento($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"method\"] || '');\nconst tipo_produto = traduzirTipoProduto($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"type\"] || '');\nconst cep = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"address_zip_code\"] || '';\n\nconst cpf = formatarCPF($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"doc\"] || '');\nlet status_compra = traduzirStatus($node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"status\"] || '');\nconst link_boleto = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"payment_url\"] || '';\nconst codigo_boleto = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"code\"] || ''; // Atualize se houver um campo específico para isso\nconst codigo_pix = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"code\"] || ''; // Atualize se houver um campo específico para isso\nconst data_limite_pix = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"period_end\"] || ''; // Atualize se houver um campo específico para isso\nconst data_limite_boleto = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"period_end\"] || ''; // Atualize se houver um campo específico para isso\nconst nome_produto = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"name\"] || '';\nconst data_garantia_extendida = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"dates\"][\"warranty_until\"].slice(0,10) || '';\nconst nome_completo = capitalizarNome($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"name\"] || '');\nconst email_formatado = formatarEmail($node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"email\"] || '');\nconst valor = $node[\"chamada_guru\"].json[\"payload\"][\"current_invoice\"][\"value\"] || '';\nconst data_atualizacao = assinatura.dates?.last_status_at ? new Date(assinatura.dates.last_status_at) : new Date();\nconst comissao_gateway = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"marketplace_value\"] || '';\nconst parametros_utm = extrairParametrosUtm(metas_assinatura);\nconst id_produto = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"id\"] || '';\nconst hash_oferta = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"product\"][\"offer\"][\"id\"] || '';\nconst parcelas = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"installments\"][\"qty\"] || '';\nconst data_expiracao = $node[\"chamada_guru\"].json[\"payload\"][\"dates\"][\"cycle_end_date\"];\nconst phone = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"phone_local_code\"] + $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"contact\"][\"phone_number\"] || '';\n// Verificando se o objeto dates existe antes de acessar suas propriedades\nconst data_inicio = $node[\"chamada_guru\"].json[\"payload\"][\"dates\"][\"cycle_start_date\"] || ''; // Data de Início do Ciclo\nconst data_fim = $node[\"chamada_guru\"].json[\"payload\"][\"dates\"][\"cycle_end_date\"] || ''; // Data de Fim do Ciclo\nconst telefone = formatarTelefone(phone || '');\nconst moeda = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"currency\"]  || '';\nconst valor_parcelas = $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"payment\"][\"installments\"][\"value\"] || '';\nconst prazo_dias = $node[\"chamada_guru\"].json[\"payload\"][\"charged_every_days\"]  || '';\n// Define o output com todas as informações\nreturn {\n  // Informações do Cliente\n  nome_cliente: nome_completo,\n  email_cliente: email_formatado,\n  telefone_cliente: telefone,\n  cpf_cnpj: cpf,\n  cep,\n\n  // Informações da Venda\n  id_assinatura,\n  nome_assinatura,\n  last_status,\n  plano: tipo_produto,\n  id_produto,\n  codigo_assinatura: id_assinatura,\n  comissao_gateway,\n  moeda: moeda,\n  metodo_pagamento,\n  status_compra,\n  data_compra: formatarDataHora(data_atualizacao),\n  codigo_oferta: hash_oferta,\n  oferta,\n  valor_compra: valor,\n  parcelas,\n  valor_parcelas,\n  data_expiracao,\n  \n  // Informações do Endereço\n  link_boleto,\n  codigo_boleto,\n  codigo_pix,\n  data_limite_pix,\n  data_limite_boleto,\n  nome_produto,\n\n  // Detalhes Adicionais\n  data_garantia: data_garantia_extendida,\n  data_inicio,\n  data_fim,\n  prazo_dias,\n  \n  // Parâmetros UTM\n  utm_campaign: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_campaign\"] || '',\n  utm_content: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_content\"] || '',\n  utm_medium: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_medium\"] || '',\n  utm_source: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_source\"] || '',\n  utm_term: $node[\"chamada_guru\"].json[\"payload\"][\"last_transaction\"][\"source\"][\"pptc\"][\"utm_term\"] || '',\n};\n\n// Traduz o método de pagamento para pt-BR\nfunction traduzirMetodoPagamento(metodo) {\n  const mapaMetodosPagamento = {\n    \"credit_card\": \"Cartão de Crédito\",\n    \"pix\": \"PIX\",\n    \"boleto\": \"Boleto Bancário\",\n    \"paypal\": \"PayPal\"\n  };\n  return mapaMetodosPagamento[metodo] ?? metodo;\n}\n\n// Traduz o status para pt-BR\nfunction traduzirStatus(status, metodo_pagamento) {\n  const mapaStatus = {\n    \"refused\": \"Compra Cancelada\",\n    \"paid\": \"Compra Aprovada\",\n    \"refunded\": \"Compra Reembolsada\",\n    \"chargedback\": \"Chargeback\",\n    \"waiting_payment\": \"Aguardando Pagamento\"\n  };\n  let statusTraduzido = mapaStatus[status] ?? '';\n  if (statusTraduzido === \"Aguardando Pagamento\") {\n    if (metodo_pagamento === \"Boleto Bancário\") {\n      statusTraduzido = \"Boleto Gerado\";\n    } else if (metodo_pagamento === \"PIX\") {\n      statusTraduzido = \"PIX Gerado\";\n    }\n  }\n  return statusTraduzido;\n}\n\n// Traduz o tipo de produto para pt-BR\nfunction traduzirTipoProduto(tipo) {\n  const mapaTipoProduto = {\n    \"plan\": \"Assinatura\",\n    \"transaction\": \"Transação\",\n    \"subscription\": \"Assinatura\"\n  };\n  return mapaTipoProduto[tipo] ?? tipo;\n}\n\n// Função para formatar o CPF\nfunction formatarCPF(cpf) {\n  return cpf.replace(/(\\d{3})(\\d{3})(\\d{3})(\\d{2})/, \"$1.$2.$3-$4\");\n}\n\n// Função para formatar o telefone\nfunction formatarTelefone(telefone) {\n  const telefoneLimpo = telefone.replace(/[\\+\\s-]/g, '');\n  const ddi = telefoneLimpo.slice(0, 2);\n  if (ddi === '55') {\n    const ddd = telefoneLimpo.slice(2, 4);\n    return ddd > 28 ? '55' + telefoneLimpo.slice(2, 4) + telefoneLimpo.slice(-8) : '55' + telefoneLimpo.slice(2, 4) + telefoneLimpo.slice(-9);\n  }\n  return telefoneLimpo;\n}\n\n// Função para capitalizar o nome\nfunction capitalizarNome(nome_completo) {\n  const palavrasMinusc = ['da', 'de', 'do', 'di', 'du'];\n  const palavras = nome_completo.toLowerCase().split(' ');\n  return palavras.map(palavra => {\n    if (palavrasMinusc.includes(palavra)) {\n      return palavra;\n    }\n    return palavra.charAt(0).toUpperCase() + palavra.slice(1);\n  }).join(' ');\n}\n\n// Função para formatar a data e hora\nfunction formatarDataHora(data) {\n  const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };\n  return new Intl.DateTimeFormat('pt-BR', options).format(new Date(data));\n}\n\n\n// Função para formatar o e-mail\nfunction formatarEmail(email) {\n  return email.toLowerCase();\n}\n\n// Função para extrair parâmetros UTM de metas\nfunction extrairParametrosUtm(metas) {\n  const parametros = {\n    utm_campaign: '',\n    utm_content: '',\n    utm_medium: '',\n    utm_source: '',\n    utm_term: ''\n  };\n\n  metas.forEach(meta => {\n    if (meta.name) {\n      const partes = meta.name.split('&');\n      partes.forEach(parte => {\n        const [chave, valor] = parte.split('=');\n        if (parametros.hasOwnProperty(chave)) {\n          parametros[chave] = valor || '';\n        }\n      });\n    }\n  });\n\n  return parametros;\n}\n\n// Função para calcular a data com base em um intervalo\nfunction calcularData(data, dias) {\n  const novaData = new Date(data);\n  novaData.setDate(novaData.getDate() + dias);\n  return novaData.toISOString().split('T')[0];\n}"
-      },
-      "id": "1332630b-5b22-42a4-bcbb-caa1d155a21c",
-      "name": "trata_dados",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 1,
-      "position": [
-        900,
-        440
-      ]
-    },
-    {
-      "parameters": {
-        "keepOnlySet": true,
-        "values": {
-          "string": [
+        "assignments": {
+          "assignments": [
             {
-              "name": "nome",
-              "value": "={{ $node[\"trata_dados\"].json[\"nome_cliente\"] }}"
+              "id": "1018099c-70c4-43ad-9276-9b2de01bc2f1",
+              "name": "name",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"contact\"][\"name\"] }}",
+              "type": "string"
             },
             {
-              "name": "E-mail do Cliente",
-              "value": "={{ $node[\"trata_dados\"].json[\"email_cliente\"] }}"
+              "id": "e9a85442-d886-4319-9dd9-602ffeffb34b",
+              "name": "email",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"contact\"][\"email\"] }}",
+              "type": "string"
             },
             {
-              "name": "cpf/cnpj",
-              "value": "={{ $node[\"trata_dados\"].json[\"cpf_cnpj\"] }}"
+              "id": "5c71bc9b-15c8-40f9-a27e-a3072dbac44f",
+              "name": "phone",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"contact\"][\"phone_number\"] }}",
+              "type": "string"
             },
             {
-              "name": "nome_produto",
-              "value": "={{ $node[\"trata_dados\"].json[\"nome_produto\"] }}"
-            },
-            {
-              "name": "transaction_id",
-              "value": "={{ $node[\"trata_dados\"].json[\"id_assinatura\"] }}"
-            },
-            {
-              "name": "product_id",
-              "value": "={{ $node[\"trata_dados\"].json[\"id_produto\"] }}"
-            },
-            {
-              "name": "value",
-              "value": "={{ $node[\"trata_dados\"].json[\"valor_compra\"] }}"
-            },
-            {
-              "name": "offer_code",
-              "value": "={{ $node[\"trata_dados\"].json[\"codigo_oferta\"] }}"
-            },
-            {
-              "name": "subscription_code",
-              "value": "={{ $node[\"trata_dados\"].json[\"codigo_assinatura\"] }}"
-            },
-            {
-              "name": "gateway_comission",
-              "value": "={{ $node[\"trata_dados\"].json[\"comissao_gateway\"] }}"
-            },
-            {
-              "name": "plan",
-              "value": "={{ $node[\"trata_dados\"].json[\"plano\"] }}"
-            },
-            {
-              "name": "currency",
-              "value": "={{ $node[\"trata_dados\"].json[\"moeda\"] }}"
-            },
-            {
-              "name": "payment_method",
-              "value": "={{ $node[\"trata_dados\"].json[\"metodo_pagamento\"] }}"
-            },
-            {
-              "name": "trans_status",
-              "value": "={{ $node[\"trata_dados\"].json[\"status_compra\"] }}"
-            },
-            {
-              "name": "conversion_date",
-              "value": "={{ $node[\"trata_dados\"].json[\"data_compra\"] }}"
-            },
-            {
-              "name": "warranty_date",
-              "value": "={{ $node[\"trata_dados\"].json[\"data_garantia\"] }}"
-            },
-            {
-              "name": "installments",
-              "value": "={{ $node[\"trata_dados\"].json[\"parcelas\"] }}"
-            },
-            {
-              "name": "cep",
-              "value": "={{ $node[\"trata_dados\"].json[\"cep\"] }}"
-            },
-            {
-              "name": "utm_source",
-              "value": "={{ $node[\"trata_dados\"].json[\"utm_source\"] }}"
-            },
-            {
-              "name": "utm_campaign",
-              "value": "={{ $node[\"trata_dados\"].json[\"utm_campaign\"] }}"
-            },
-            {
-              "name": "utm_medium",
-              "value": "={{ $node[\"trata_dados\"].json[\"utm_medium\"] }}"
-            },
-            {
-              "name": "utm_content",
-              "value": "={{ $node[\"trata_dados\"].json[\"utm_content\"] }}"
-            },
-            {
-              "name": "utm_term",
-              "value": "={{ $node[\"trata_dados\"].json[\"utm_term\"] }}"
-            },
-            {
-              "name": "link_pagamento_pix",
-              "value": "={{ $node[\"trata_dados\"].json[\"codigo_pix\"] }}"
-            },
-            {
-              "name": "link_pagamento_boleto",
-              "value": "={{ $node[\"trata_dados\"].json[\"link_boleto\"] }}"
-            },
-            {
-              "name": "Telefone do Cliente - Formato BC",
-              "value": "={{ $node[\"trata_dados\"].json[\"telefone_cliente\"] ? '+' + $node[\"trata_dados\"].json[\"telefone_cliente\"] : ''}}"
-            },
-            {
-              "name": "funil",
-              "value": "1"
-            },
-            {
-              "name": "expiration_date",
-              "value": "={{ $node[\"trata_dados\"].json[\"data_expiracao\"] }}"
-            },
-            {
-              "name": "tag_do_lancamento"
-            },
-            {
-              "name": "Telefone do Cliente - Formato Z-API",
-              "value": "={{ $node[\"trata_dados\"].json[\"telefone_cliente\"]}}"
-            },
-            {
-              "name": "prazo_de_acesso_em_dias",
-              "value": "={{ $node[\"trata_dados\"].json[\"prazo_dias\"]}}"
-            },
-            {
-              "name": "offer",
-              "value": "={{ $node[\"trata_dados\"].json[\"oferta\"] }}"
-            },
-            {
-              "name": "installments_value",
-              "value": "={{ $node[\"trata_dados\"].json[\"valor_parcelas\"] }}"
-            },
-            {
-              "name": "link_boleto",
-              "value": "={{ $node[\"trata_dados\"].json[\"link_boleto\"] }}"
+              "id": "e772e919-be80-43e7-baa1-14ceaed3f3db",
+              "name": "produto",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"items\"][\"0\"][\"name\"] }}",
+              "type": "string"
             }
           ]
         },
         "options": {}
       },
-      "id": "d34ea726-da16-40be-a419-4739abaec888",
+      "id": "4b179599-7b47-44d2-b4f1-23d604a458f3",
       "name": "dados_da_compra",
       "type": "n8n-nodes-base.set",
-      "typeVersion": 2,
+      "typeVersion": 3.4,
       "position": [
-        1120,
+        920,
         440
       ]
     },
@@ -249,13 +113,200 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        680,
+        720,
         440
       ],
       "webhookId": "ae33843e-2eb9-4f52-8cdd-b77c32534d7d"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "chamada_guru": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8nwebhook.karinewaldrich.com.br",
+            "user-agent": "digitalmanager.guru (dev@digitalmanager.guru)",
+            "content-length": "3669",
+            "content-type": "application/json",
+            "x-forwarded-for": "35.196.165.212",
+            "x-forwarded-host": "n8nwebhook.karinewaldrich.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "cadf6fe75461",
+            "x-real-ip": "35.196.165.212",
+            "x-request-id": "9cda9c97-e096-43a8-add8-934b919e3de8",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "affiliations": [],
+            "api_token": "mZE0DQ7Z07Wgb679D5cvUctdbJnfbKv8aHEjP4SE",
+            "checkout_url": "https://clkdmg.site/pay/31677a5c-4eb2-4462-aed5-abe37705f4c7",
+            "contact": {
+              "id": "9ccfd441-83bc-463f-8df3-e0cff378e5e7",
+              "name": "Leonardo Freymuth",
+              "company_name": "",
+              "email": "leonardo.freymuth@gmail.com",
+              "doc": "01279061006",
+              "phone_number": "51994696045",
+              "phone_local_code": "55",
+              "address": "Felizardo Furtado",
+              "address_number": "415",
+              "address_comp": "",
+              "address_district": "Petrópolis",
+              "address_city": "Porto Alegre",
+              "address_state": "RS",
+              "address_state_full_name": "RS",
+              "address_country": "BR",
+              "address_zip_code": "90670090",
+              "lead": []
+            },
+            "contracts": [],
+            "dates": {
+              "canceled_at": null,
+              "confirmed_at": "2024-08-25T23:09:56Z",
+              "created_at": "2024-08-25T23:08:31Z",
+              "expires_at": null,
+              "ordered_at": "2024-08-25T23:07:48Z",
+              "unavailable_until": "2024-09-24T23:09:56Z",
+              "updated_at": "2024-08-25T23:10:39Z",
+              "warranty_until": "2024-09-24T23:09:56Z"
+            },
+            "ecommerces": [],
+            "id": "9cda9b92-a318-4784-a148-cad3b364e264",
+            "infrastructure": {
+              "ip": "2804:7f4:c2b4:d19b:1091:a051:bf52:ab48",
+              "city": "porto alegre",
+              "host": "clkdmg.site",
+              "region": "rs",
+              "country": "BR",
+              "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+              "city_lat_long": "-30.036818,-51.208989"
+            },
+            "invoice": [],
+            "items": [
+              {
+                "id": "1723596911",
+                "image_url": "https://storage.googleapis.com/disk.clkdmg.site/clients/9cc06a29-1c65-4438-8b99-74648646f77d/images/products/9cc2a08c-94ab-4a34-97bd-56d885b4b8bb.png",
+                "internal_id": "9cc29e29-bcae-4349-8606-c515a8371ad0",
+                "marketplace_id": "1723596911",
+                "marketplace_name": "pagarme2",
+                "name": "Acesso Estendido - 2 anos de APA com 70% de desconto",
+                "offer": {
+                  "id": "9cda94be-f523-4b15-9d64-b38831e91ec5",
+                  "name": "Teste"
+                },
+                "producer": {
+                  "contact_email": null,
+                  "marketplace_id": "1723502287",
+                  "name": "Cdw Treinamentos"
+                },
+                "qty": 1,
+                "total_value": 1,
+                "type": "product",
+                "unit_value": 1
+              }
+            ],
+            "last_transaction": [],
+            "payment": {
+              "affiliate_value": 0,
+              "acquirer": {
+                "code": "0000",
+                "message": "Transação aprovada com sucesso",
+                "name": "pagarme",
+                "nsu": "3163186062",
+                "tid": "3163186062"
+              },
+              "can_try_again": 1,
+              "coupon": null,
+              "currency": "BRL",
+              "discount_value": 0,
+              "gross": 1,
+              "installments": {
+                "value": 1,
+                "qty": 1,
+                "interest": 0
+              },
+              "marketplace_id": "ch_J6VYx4Bu9uMRlarO",
+              "marketplace_name": "pagarme2",
+              "marketplace_value": 0.01,
+              "method": "credit_card",
+              "net": 0.99,
+              "processing_times": {
+                "started_at": "2024-08-25T23:09:54.282Z",
+                "finished_at": "2024-08-25T23:09:56.452Z",
+                "delay_in_seconds": 2
+              },
+              "refund_reason": "",
+              "refuse_reason": "Transação aprovada com sucesso (0000)",
+              "tax": {
+                "value": 0,
+                "rate": 0
+              },
+              "total": 1,
+              "credit_card": {
+                "brand": "mastercard",
+                "expiration_month": "10",
+                "expiration_year": "2031",
+                "first_digits": "538164",
+                "id": "card_z3JOK6esL0iaXY0X",
+                "last_digits": "7443"
+              }
+            },
+            "product": {
+              "id": "1723596911",
+              "image_url": "https://storage.googleapis.com/disk.clkdmg.site/clients/9cc06a29-1c65-4438-8b99-74648646f77d/images/products/9cc2a08c-94ab-4a34-97bd-56d885b4b8bb.png",
+              "internal_id": "9cc29e29-bcae-4349-8606-c515a8371ad0",
+              "marketplace_id": "1723596911",
+              "marketplace_name": "pagarme2",
+              "name": "Acesso Estendido - 2 anos de APA com 70% de desconto",
+              "offer": {
+                "id": "9cda94be-f523-4b15-9d64-b38831e91ec5",
+                "name": "Teste"
+              },
+              "producer": {
+                "marketplace_id": "1723502287",
+                "name": "Cdw Treinamentos",
+                "contact_email": ""
+              },
+              "qty": 1,
+              "total_value": 1,
+              "type": "product",
+              "unit_value": 1
+            },
+            "shipment": {
+              "carrier": "",
+              "service": "",
+              "tracking": "",
+              "value": 0,
+              "status": "",
+              "delivery_time": ""
+            },
+            "shipping": {
+              "name": "Standard",
+              "value": 0
+            },
+            "source": {
+              "source": null,
+              "checkout_source": null,
+              "utm_source": null,
+              "utm_campaign": null,
+              "utm_medium": null,
+              "utm_content": null,
+              "utm_term": null,
+              "pptc": []
+            },
+            "status": "approved",
+            "subscription": [],
+            "type": "producer"
+          },
+          "webhookUrl": "https://n8nwebhook.karinewaldrich.com.br/webhook/ae33843e-2eb9-4f52-8cdd-b77c32534d7d",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "settings": {
     "saveManualExecutions": true,
     "callerPolicy": "workflowsFromSameOwner",
@@ -273,6 +324,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-24T17:50:37.288Z",
-  "versionId": "aac1f259-8f0a-4043-a56b-d3cc39dbe70c"
+  "updatedAt": "2024-08-25T23:37:19.734Z",
+  "versionId": "86d182a7-8a3c-4e0e-977c-6f642454547c"
 }
