@@ -103,7 +103,7 @@
       "main": [
         [
           {
-            "node": "busca_tags_pessoa",
+            "node": "pessoa_existe?",
             "type": "main",
             "index": 0
           }
@@ -114,7 +114,65 @@
       "main": [
         [
           {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
             "node": "procura_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pessoa_existe?": {
+      "main": [
+        [
+          {
+            "node": "busca_tags_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "nao_encontrou_pessoa",
             "type": "main",
             "index": 0
           }
@@ -151,8 +209,8 @@
       "type": "n8n-nodes-base.rabbitmqTrigger",
       "typeVersion": 1,
       "position": [
-        1020,
-        80
+        140,
+        220
       ],
       "credentials": {
         "rabbitmq": {
@@ -387,8 +445,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1480,
-        80
+        1400,
+        60
       ],
       "credentials": {
         "pipedriveApi": {
@@ -426,8 +484,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1700,
-        80
+        1660,
+        60
       ]
     },
     {
@@ -496,8 +554,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1260,
-        80
+        760,
+        220
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -506,6 +564,86 @@
           "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "516cea9b-11bb-49e9-91be-378896a79c02",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        360,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "16f070bc-0571-4bdd-b9d0-bb5a6e06cff3",
+      "name": "Replace Me",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        920,
+        440
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "431b346e-5300-4548-afae-cb2c8b278560",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        620,
+        440
+      ],
+      "webhookId": "b68ea374-38f8-41d0-b665-6e42947ccd64"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "3ed818a7-58bd-4d1e-9b0e-2364585d1334",
+              "leftValue": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c57a3c79-52bc-4682-b2a1-b9ec87bfb871",
+      "name": "pessoa_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1060,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "29f52f19-ee10-4e98-b9cd-2047aba5eb6f",
+      "name": "nao_encontrou_pessoa",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        360
+      ]
     }
   ],
   "pinData": {
@@ -549,6 +687,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-26T14:45:11.100Z",
-  "versionId": "7f8f8f64-dbad-4501-a4bd-5dd098518c77"
+  "updatedAt": "2024-08-26T22:29:39.926Z",
+  "versionId": "b2c14213-a639-4cec-b156-b9bb9730caca"
 }
