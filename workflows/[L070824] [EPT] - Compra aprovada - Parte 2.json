@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "busca_tags_pessoa",
+            "node": "pessoa_existe?",
             "type": "main",
             "index": 0
           }
@@ -16,7 +16,7 @@
       "main": [
         [
           {
-            "node": "procura_pessoa",
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -46,6 +46,64 @@
         [
           {
             "node": "adicionar_tags1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "procura_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pessoa_existe?": {
+      "main": [
+        [
+          {
+            "node": "busca_tags_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "nao_encontrou_pessoa",
             "type": "main",
             "index": 0
           }
@@ -82,7 +140,7 @@
       "type": "n8n-nodes-base.rabbitmqTrigger",
       "typeVersion": 1,
       "position": [
-        1460,
+        1240,
         200
       ],
       "credentials": {
@@ -106,8 +164,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1680,
-        200
+        1860,
+        140
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -128,8 +186,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1900,
-        200
+        2440,
+        -20
       ],
       "credentials": {
         "pipedriveApi": {
@@ -154,8 +212,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2360,
-        0
+        2960,
+        -220
       ],
       "credentials": {
         "pipedriveApi": {
@@ -180,8 +238,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2360,
-        360
+        2960,
+        140
       ],
       "credentials": {
         "pipedriveApi": {
@@ -219,8 +277,88 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        2120,
+        2660,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a3b1bc03-7edc-459a-9a87-aaa47bca9c58",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1460,
         200
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "4110f10d-84f5-4836-bb8c-029549f1ba25",
+      "name": "Replace Me",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        400
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "88a0c646-2fd7-499e-ba8b-0282fbda2095",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1660,
+        400
+      ],
+      "webhookId": "c5096f8c-6f0f-4401-b486-bf69bf7d0192"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "3ed818a7-58bd-4d1e-9b0e-2364585d1334",
+              "leftValue": "={{ $node[\"procura_pessoa\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6fdb68e0-1121-4511-975b-46eb01dcb751",
+      "name": "pessoa_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2100,
+        140
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f0b172b0-bd24-4bf2-9198-c01d84a2598d",
+      "name": "nao_encontrou_pessoa",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2440,
+        340
       ]
     }
   ],
@@ -265,6 +403,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-26T14:38:28.396Z",
-  "versionId": "afb6d72b-345d-4905-9362-963b48a35303"
+  "updatedAt": "2024-08-26T22:27:36.263Z",
+  "versionId": "a1aa0e32-fad6-4313-9bee-270a6e2738f6"
 }
