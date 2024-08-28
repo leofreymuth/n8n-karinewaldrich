@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "chega_da_fila": {
       "main": [
@@ -273,7 +273,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.498Z",
   "id": "Wk8iMg20EdFntOQp",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[COACHING] - CRM RAYANE: Qualificação - Parte 2",
   "nodes": [
     {
@@ -303,8 +305,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -516,8 +518,8 @@
       "maxTries": 5,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       },
       "onError": "continueRegularOutput"
@@ -562,8 +564,8 @@
       "waitBetweenTries": 5000,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       }
     },
@@ -710,8 +712,8 @@
       "maxTries": 5,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       },
       "onError": "continueRegularOutput"
@@ -769,8 +771,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -794,8 +796,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -888,8 +890,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -914,8 +916,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -969,8 +971,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -992,8 +994,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1064,8 +1066,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1103,8 +1105,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1142,8 +1144,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1181,8 +1183,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1200,13 +1202,46 @@
       ]
     }
   ],
-  "pinData": null,
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-pe47y8nsFwX2RY1MrHHUiQ",
+            "deliveryTag": 2,
+            "redelivered": true,
+            "exchange": "",
+            "routingKey": "[COACHING] - Aguardando agendamento da SE - Rayane"
+          },
+          "properties": {
+            "headers": {
+              "x-delivery-count": 136
+            }
+          },
+          "content": {
+            "fname": "Noelma",
+            "lname": "",
+            "fullname": "Noelma",
+            "email": "noelmalima@hotmail.com",
+            "whatsapp": "55558296194706",
+            "qualificacao": "qualificado",
+            "carreira": "",
+            "tempo": ""
+          }
+        }
+      }
+    ]
+  },
   "settings": {
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.498Z",
-  "versionId": "035bd775-668e-4cec-bf8e-d17fb0ebeec3"
+  "triggerCount": 1,
+  "updatedAt": "2024-08-27T20:51:15.631Z",
+  "versionId": "578e5893-86cd-45dc-8515-a3726766c35d"
 }
