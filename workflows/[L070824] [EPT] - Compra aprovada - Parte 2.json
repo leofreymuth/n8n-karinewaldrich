@@ -391,7 +391,8 @@
     "saveManualExecutions": true,
     "callerPolicy": "workflowsFromSameOwner",
     "executionTimeout": 600,
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
   "tags": [
@@ -403,6 +404,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-26T22:27:36.263Z",
-  "versionId": "a1aa0e32-fad6-4313-9bee-270a6e2738f6"
+  "updatedAt": "2024-08-27T20:52:28.870Z",
+  "versionId": "e2b3c726-4c07-4675-a29f-d576ca8fbb51"
 }
