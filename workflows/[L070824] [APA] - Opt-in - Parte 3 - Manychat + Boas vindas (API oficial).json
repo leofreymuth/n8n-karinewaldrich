@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "cria_contato_manychat": {
       "main": [
@@ -681,6 +681,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-08-24T17:22:45.818Z",
+  "updatedAt": "2024-08-27T21:00:37.683Z",
   "versionId": "eeee8977-493b-4b1a-9715-741d73eb47d7"
 }
