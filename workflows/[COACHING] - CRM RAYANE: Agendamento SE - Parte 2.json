@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "add_tag_agendou": {
       "main": [
@@ -241,7 +241,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.667Z",
   "id": "M8goBHKniuZmI15r",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[COACHING] - CRM RAYANE: Agendamento SE - Parte 2",
   "nodes": [
     {
@@ -255,13 +257,13 @@
       "type": "n8n-nodes-base.activeCampaign",
       "typeVersion": 1,
       "position": [
-        3020,
-        1280
+        2980,
+        1220
       ],
       "credentials": {
         "activeCampaignApi": {
-          "id": "gVnAGwgGjilyjqdX",
-          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+          "id": "DdE6CDpRlb1vgwt7",
+          "name": "[ACTIVE CAMPAIGN] - KarineWaldrich"
         }
       }
     },
@@ -485,13 +487,13 @@
       "type": "n8n-nodes-base.activeCampaign",
       "typeVersion": 1,
       "position": [
-        2840,
-        1560
+        2780,
+        1520
       ],
       "credentials": {
         "activeCampaignApi": {
-          "id": "gVnAGwgGjilyjqdX",
-          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+          "id": "DdE6CDpRlb1vgwt7",
+          "name": "[ACTIVE CAMPAIGN] - KarineWaldrich"
         }
       }
     },
@@ -506,13 +508,13 @@
       "type": "n8n-nodes-base.activeCampaign",
       "typeVersion": 1,
       "position": [
-        3020,
-        1560
+        2980,
+        1520
       ],
       "credentials": {
         "activeCampaignApi": {
-          "id": "gVnAGwgGjilyjqdX",
-          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+          "id": "DdE6CDpRlb1vgwt7",
+          "name": "[ACTIVE CAMPAIGN] - KarineWaldrich"
         }
       }
     },
@@ -633,13 +635,13 @@
       "type": "n8n-nodes-base.activeCampaign",
       "typeVersion": 1,
       "position": [
-        2840,
-        1280
+        2780,
+        1220
       ],
       "credentials": {
         "activeCampaignApi": {
-          "id": "gVnAGwgGjilyjqdX",
-          "name": "[ACTIVE CAMPAIGN] - Karine Waldrich"
+          "id": "DdE6CDpRlb1vgwt7",
+          "name": "[ACTIVE CAMPAIGN] - KarineWaldrich"
         }
       }
     },
@@ -670,8 +672,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -818,8 +820,8 @@
       "maxTries": 5,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       },
       "onError": "continueRegularOutput"
@@ -863,8 +865,8 @@
       "maxTries": 5,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "Ub5DG8xHrdBshGfL",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       },
       "onError": "continueRegularOutput"
@@ -889,8 +891,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -950,8 +952,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1000,13 +1002,13 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        4520,
-        1120
+        4540,
+        1160
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1028,8 +1030,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1103,8 +1105,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1146,19 +1148,130 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     }
   ],
-  "pinData": null,
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-wF6Uea_ODvyXcg2UEzXiiA",
+            "deliveryTag": 13,
+            "redelivered": true,
+            "exchange": "",
+            "routingKey": "[COACH] - Calendly - Agendamento"
+          },
+          "properties": {
+            "headers": {
+              "x-delivery-count": 447775
+            }
+          },
+          "content": {
+            "Nome do Cliente": "LIDIANE DE CAIRES",
+            "E-mail do Cliente": "lidianedecaires@gmail.com",
+            "Telefone do Cliente - Formato BC": "+5511919459581",
+            "Telefone do Cliente - Formato Z-API": "5511919459581",
+            "Tipo de Evento": "Jéssica - Especialista Time da Waldrich",
+            "ID do Evento": "4b015e2e-e943-420a-a02c-e7f3b05f47df",
+            "Responsável pelo Evento": "Jéssica - Especialista Time da Waldrich",
+            "E-mail do Responsável": "apoiowaldrich3@gmail.com",
+            "Data de Início": "26/06/2024 13:00",
+            "Data em que foi feito o Agendamento": "25/06/2024 16:18",
+            "Data de Término": "26/06/2024 13:30",
+            "Dia da Semana de Início do Evento": "Quarta-feira",
+            "Link da Reunião": "https://calendly.com/events/4b015e2e-e943-420a-a02c-e7f3b05f47df/google_meet",
+            "utm_source": null,
+            "utm_campaign": null,
+            "utm_term": null,
+            "utm_medium": null,
+            "utm_content": null,
+            "ID do Cliente": "d640f49c-d487-45d1-9bb6-cc1b2a4c533d",
+            "id_do_campo_id_do_agendamento_bot_conversa": "1776702",
+            "fluxo_de_confirmacao_de_agendamento": "3162427",
+            "API-KEY": "46dacadf-10d0-47db-a81d-69263aca1959",
+            "id_do_campo_link_da_reuniao_bot_conversa": "1721239",
+            "id_do_campo_dia_da_semana_do_agendamento_bot_conversa": "1776712",
+            "id_do_campo_data_do_agendamento_bot_conversa": "1772557",
+            "id_do_campo_horario_agendado_bot_conversa": "1779832",
+            "id_do_campo_id_banco_de_dados_bot_conversa": "1776703",
+            "id_do_campo_idleadac_bot_conversa": "1776713",
+            "id_do_campo_iddealac_bot_conversa": "1776714",
+            "id_campo_id_banco_de_dados_ac": "",
+            "valor_produto_principal_em_centavos": "",
+            "id_stage_agendou_reuniao_ac": "",
+            "funil": "sessao_estrategica",
+            "variacao_do_funil": "v1",
+            "id_pipeline_se_ac": "",
+            "id_sdr": "",
+            "url_api_activecampaign": "",
+            "id_campo_link_de_cancelamento_ac": "",
+            "id_campo_link_de_reagendamento_ac": "",
+            "id_campo_id_do_cliente_ac": "",
+            "id_campo_dia_semana_agendamento_ac": "",
+            "id_campo_data_de_inicio_ac": "",
+            "id_campo_data_e_hora_de_inicio_ac": "",
+            "id_campo_data_e_hora_de_termino_ac": "",
+            "id_campo_data_de_termino_ac": "",
+            "id_campo_email_do_responsavel_ac": "",
+            "id_campo_data_do_agendamento_ac": "",
+            "id_campo_link_da_reuniao_ac": "",
+            "id_campo_tipo_de_evento_ac": "",
+            "id_campo_id_do_evento_ac": "",
+            "id_campo_utm_source_ac": "",
+            "id_campo_utm_campaign_ac": "",
+            "id_campo_utm_term_ac": "",
+            "id_campo_utm_medium_ac": "",
+            "id_campo_utm_content_ac": "",
+            "id_campo_utm_fun_ac": "",
+            "id_campo_utm_var_ac": "",
+            "id_do_campo_id_do_cliente_bot_conversa": "1776706",
+            "id_task_reuniao_ac": "",
+            "id_campo_tipo_de_evento_bot_conversa": "1776718",
+            "id_campo_closer_responsavel_bot_conversa": "1776720",
+            "id_status_preencheu_aplicacao_crm": "",
+            "id_campo_email_crm": "43a14a28-119a-4e43-a0a1-58bc64e739a2",
+            "id_campo_telefone_crm": "4f5b17cc-999f-4779-8a66-155632cf59b4",
+            "id_campo_utm_source_crm": "94fb2c13-bbd0-48a1-89f5-85ef2f537c11",
+            "id_campo_utm_campaign_crm": "e545d10b-616e-450d-aef6-d8e65b0944a3",
+            "id_campo_utm_term_crm": "21c541c6-2224-4d82-91da-825808a1edea",
+            "id_campo_utm_medium_crm": "d65c4dd8-d243-4416-8349-2d7f341b3bcf",
+            "id_campo_utm_content_crm": "1198c9d0-f4ee-4b1d-a24c-b6df7303ebf2",
+            "id_campo_utm_fun_crm": "2e435a89-b633-4100-a0b5-6810746db2c4",
+            "id_campo_utm_var_crm": "58dc2672-4c26-4b0b-ad81-8dcc82de45e0",
+            "id_campo_data_inicio_milesegundos_crm": "2375d3f7-5a46-4f88-ba30-572e129b0a3f",
+            "id_campo_id_evento_calendly_crm": "50a20169-76c5-43fc-9f3c-9a5bd5affd73",
+            "id_campo_id_cliente_calendly_crm": "58364ec1-0104-4bf7-a9e5-9e529a345d29",
+            "id_campo_nome_completo_crm": "1c438058-b654-4a19-9ea3-438bc2f5a078",
+            "id_campo_modelo_da_call_sessao_estrategica_crm": "36a55391-29e3-4168-9caf-67ac756b79f8",
+            "id_campo_modelo_da_call_aplicacao_direta_crm": "5883faf4-ebef-4b10-976a-0f88f4c25331",
+            "id_campo_funil_sessao_estrategica_crm": "5661918f-e847-4e0e-b9fc-ca7f62ed0a67",
+            "id_campo_funil_aplicacao_direta_crm": "1be63c76-92ea-4be1-a028-5301b1c9fa4e",
+            "id_campo_modelo_da_call_crm": "1ecc802b-e2b3-4769-bc7a-9e1517c2278f",
+            "id_campo_status_do_lead_crm": "20bc36eb-9d21-4aaa-b6f1-3c85bafa63ec",
+            "id_campo_id_botconversa_crm": "f19516e0-1a4a-4b3d-b68e-68c2ae4acc59",
+            "id_campo_id_banco_de_dados_crm": "d23569b0-b471-45e0-a1e9-840a6711d052",
+            "id_campo_status_sessao_ou_aplicacao_crm": "947abb00-968d-4e1b-a6b9-c0887cbfd4b9",
+            "id_campo_status_agendamento_realizado_crm": "f1f22e0a-1e16-4b49-bbba-5331c7187906",
+            "id_campo_link_reuniao_crm": "e6f4eccc-7ee5-4caa-b444-648db658faca"
+          }
+        }
+      }
+    ]
+  },
   "settings": {
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.667Z",
-  "versionId": "1b183967-b476-48fa-b867-a39c2b294e12"
+  "triggerCount": 1,
+  "updatedAt": "2024-08-27T21:22:22.083Z",
+  "versionId": "09c7a2b9-cf24-464b-923d-f5a99710c3a2"
 }
