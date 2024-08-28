@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "chega_da_fila": {
       "main": [
@@ -273,7 +273,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.641Z",
   "id": "PM7RYKOndvzE47jv",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[COACHING] - CRM JÉSSICA: Qualificação - Parte 2",
   "nodes": [
     {
@@ -303,8 +305,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -516,8 +518,8 @@
       "maxTries": 5,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "dPTs0RyiFC2nRzLf",
-          "name": "[DRIVE] - leofreymuth@gmail.com"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       },
       "onError": "continueRegularOutput"
@@ -560,8 +562,8 @@
       "waitBetweenTries": 5000,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "dPTs0RyiFC2nRzLf",
-          "name": "[DRIVE] - leofreymuth@gmail.com"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       }
     },
@@ -708,8 +710,8 @@
       "maxTries": 5,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "dPTs0RyiFC2nRzLf",
-          "name": "[DRIVE] - leofreymuth@gmail.com"
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
         }
       },
       "onError": "continueRegularOutput"
@@ -767,8 +769,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -792,8 +794,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -886,8 +888,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -912,8 +914,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -967,8 +969,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -990,8 +992,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1062,8 +1064,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1101,8 +1103,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1140,8 +1142,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1179,8 +1181,8 @@
       ],
       "credentials": {
         "pipedriveApi": {
-          "id": "qqXBDTetpAq7HsFM",
-          "name": "[PIPEDRIVE] - Karine Waldrich"
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
         }
       }
     },
@@ -1198,13 +1200,59 @@
       ]
     }
   ],
-  "pinData": null,
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-NlAP0x4lJU7oRRkbjS_seg",
+            "deliveryTag": 3,
+            "redelivered": true,
+            "exchange": "",
+            "routingKey": "[COACHING] - Aguardando agendamento da SE - Jéssica"
+          },
+          "properties": {
+            "headers": {
+              "x-delivery-count": 2
+            }
+          },
+          "content": {
+            "fname": "Lorrane",
+            "lname": "Berto",
+            "fullname": "Lorrane Berto",
+            "email": "",
+            "whatsapp": "553398303550",
+            "qualificacao": "qualificado",
+            "carreira": "",
+            "tempo": ""
+          }
+        }
+      }
+    ]
+  },
   "settings": {
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
-  "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.641Z",
-  "versionId": "4eb90160-2403-4845-9d96-91575a79a5c3"
+  "tags": [
+    {
+      "createdAt": "2024-08-24T17:43:36.741Z",
+      "updatedAt": "2024-08-24T17:43:36.741Z",
+      "id": "i7SuC2TpFzNLFI9r",
+      "name": "Pipedrive"
+    },
+    {
+      "createdAt": "2024-08-27T20:32:16.095Z",
+      "updatedAt": "2024-08-27T20:32:16.095Z",
+      "id": "hpw9T6Qr7vrfpY90",
+      "name": "Typebot"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-08-27T20:51:29.474Z",
+  "versionId": "de23ce8d-6e68-4560-be4c-702deb9d6650"
 }
