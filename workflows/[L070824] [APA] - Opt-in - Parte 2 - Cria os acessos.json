@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "ajusta_dados": {
       "main": [
@@ -336,6 +336,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-08-24T17:22:31.381Z",
+  "updatedAt": "2024-08-27T21:00:40.823Z",
   "versionId": "92adcea5-34a0-42c7-b676-a2795402d4a7"
 }
