@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "formata_dados": {
       "main": [
@@ -26,7 +26,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.348Z",
   "id": "1PrcSSK4nQac2Fxv",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[COACHING] - CRM JÉSSICA: Qualificação - Parte 1 (automática via Typebot)",
   "nodes": [
     {
@@ -67,8 +69,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -89,13 +91,62 @@
       "webhookId": "e7a07275-c0c3-4200-97f0-8b6a0e716774"
     }
   ],
-  "pinData": null,
+  "pinData": {
+    "preencheu_typebot": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8nwebhookkarinewaldrich.leonardofreymuth.com.br",
+            "user-agent": "node",
+            "transfer-encoding": "chunked",
+            "accept": "*/*",
+            "accept-encoding": "br, gzip, deflate",
+            "accept-language": "*",
+            "baggage": "sentry-environment=vercel-production,sentry-release=bd6921b90ca36085f88ac86351ce0ef783918fbb-builder,sentry-public_key=6ab7a675c4934493b1d5b77c0d4dd06d,sentry-trace_id=ab7543dd20f84b20b413c3de25e23331,sentry-transaction=POST%20%2Fapi%2Ftypebots%2F%5BtypebotId%5D%2Fblocks%2F%5BblockId%5D%2FtestWebhook,sentry-sampled=false",
+            "content-type": "application/json",
+            "sec-fetch-mode": "cors",
+            "sentry-trace": "ab7543dd20f84b20b413c3de25e23331-bcffe6cae8fd758d-0",
+            "x-forwarded-for": "18.133.120.91",
+            "x-forwarded-host": "n8nwebhookkarinewaldrich.leonardofreymuth.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "79f32772410f",
+            "x-real-ip": "18.133.120.91",
+            "x-vercel-id": "gru1::5lhdm-1721176526607-702e8cb291d7"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "nome": "Leo",
+            "email": "leofreymuth@gmail.com",
+            "telefone": "51994696045",
+            "carreira": "teste",
+            "tempo": "1",
+            "qualificacao": "qualificado"
+          },
+          "webhookUrl": "https://n8nwebhookkarinewaldrich.leonardofreymuth.com.br/webhook/e7a07275-c0c3-4200-97f0-8b6a0e716774",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "settings": {
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
-  "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.348Z",
-  "versionId": "cf912005-9459-433d-bcd8-56d70086e18e"
+  "tags": [
+    {
+      "createdAt": "2024-08-27T20:32:16.095Z",
+      "updatedAt": "2024-08-27T20:32:16.095Z",
+      "id": "hpw9T6Qr7vrfpY90",
+      "name": "Typebot"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-08-27T21:11:32.633Z",
+  "versionId": "b70da036-8d69-40cf-9fc0-b75f4cb72f13"
 }
