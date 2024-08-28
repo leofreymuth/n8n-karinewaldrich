@@ -1,17 +1,6 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
-    "google_forms": {
-      "main": [
-        [
-          {
-            "node": "dados",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "dados": {
       "main": [
         [
@@ -22,11 +11,24 @@
           }
         ]
       ]
+    },
+    "google_forms": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-08-23T00:27:28.421Z",
   "id": "2G9HoJUpEin52vOj",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[COACHING] - Compra aprovada - Parte 1",
   "nodes": [
     {
@@ -54,26 +56,10 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "69142a88-ba50-422b-97ec-53c5356ad0ca",
-        "options": {}
-      },
-      "id": "79910a50-18fe-47ba-a754-2b94b25d0cb1",
-      "name": "google_forms",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        -260,
-        120
-      ],
-      "webhookId": "69142a88-ba50-422b-97ec-53c5356ad0ca"
     },
     {
       "parameters": {
@@ -115,13 +101,35 @@
         -60,
         120
       ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "69142a88-ba50-422b-97ec-53c5356ad0ca",
+        "options": {}
+      },
+      "id": "79910a50-18fe-47ba-a754-2b94b25d0cb1",
+      "name": "google_forms",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -260,
+        120
+      ],
+      "webhookId": "69142a88-ba50-422b-97ec-53c5356ad0ca"
     }
   ],
-  "pinData": null,
-  "settings": {},
+  "pinData": {},
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
+  },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.421Z",
-  "versionId": "32b78c26-0d67-463a-bc54-4b71345700e9"
+  "triggerCount": 1,
+  "updatedAt": "2024-08-27T20:51:47.920Z",
+  "versionId": "f8d84415-820f-4dfd-9a98-2436e642dea2"
 }
