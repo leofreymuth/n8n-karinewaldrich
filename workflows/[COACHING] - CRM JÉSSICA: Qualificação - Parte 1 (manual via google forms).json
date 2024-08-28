@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "formata_dados": {
       "main": [
@@ -48,7 +48,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.254Z",
   "id": "T2fNIOrjvpNI7uhd",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "[COACHING] - CRM JÉSSICA: Qualificação - Parte 1 (manual via google forms)",
   "nodes": [
     {
@@ -89,8 +91,8 @@
       ],
       "credentials": {
         "rabbitmq": {
-          "id": "6klSivWaJBCNmE5C",
-          "name": "[RABBITMQ] - Karine Waldrich"
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
         }
       }
     },
@@ -158,13 +160,46 @@
       "webhookId": "2f7d192a-db92-4273-9436-f447bc33543f"
     }
   ],
-  "pinData": null,
+  "pinData": {
+    "google_forms": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8nwebhookkarinewaldrich.leonardofreymuth.com.br",
+            "user-agent": "Mozilla/5.0 (compatible; Google-Apps-Script; beanserver; +https://script.google.com; id: UAEmdDd9Thz3LYtCxRm8eIMutBV2itXrnwkk)",
+            "content-length": "62",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.116.22.82",
+            "x-forwarded-host": "n8nwebhookkarinewaldrich.leonardofreymuth.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "79f32772410f",
+            "x-real-ip": "34.116.22.82"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Nome": "Lorrane Berto",
+            "E-mail": "",
+            "Telefone": "33 9830-3550"
+          },
+          "webhookUrl": "https://n8nwebhookkarinewaldrich.leonardofreymuth.com.br/webhook/2f7d192a-db92-4273-9436-f447bc33543f",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "settings": {
-    "saveManualExecutions": true
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.254Z",
-  "versionId": "bd33bfe5-4d9d-4a23-9208-3107dac4bc61"
+  "triggerCount": 1,
+  "updatedAt": "2024-08-27T20:53:57.624Z",
+  "versionId": "5ce692e0-a8c0-4bae-b7ac-95f7175c4dc5"
 }
