@@ -562,8 +562,8 @@
       "waitBetweenTries": 5000,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "GkwdOuW9sYg3j9Px",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
+          "id": "FfUGbVhS6rnOSQqB",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
         }
       }
     },
@@ -1253,6 +1253,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-27T20:51:29.474Z",
-  "versionId": "de23ce8d-6e68-4560-be4c-702deb9d6650"
+  "updatedAt": "2024-09-02T15:14:07.731Z",
+  "versionId": "a53295a0-0319-4412-822b-10641f968288"
 }
