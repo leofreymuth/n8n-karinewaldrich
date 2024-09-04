@@ -1112,7 +1112,7 @@
     },
     {
       "parameters": {
-        "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"Nome do Cliente\"] }}",
+        "title": "=[HT] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"Nome do Cliente\"] }}",
         "associateWith": "person",
         "person_id": "={{   $node[\"cria_pessoa\"].runIndex >= 0        ? $node[\"cria_pessoa\"].json[\"id\"] : $node[\"procura_pessoa\"].runIndex >= 0      ? $node[\"procura_pessoa\"].json[\"id\"]     : null }}",
         "additionalFields": {
@@ -1272,6 +1272,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-08-27T21:22:22.083Z",
-  "versionId": "09c7a2b9-cf24-464b-923d-f5a99710c3a2"
+  "updatedAt": "2024-09-03T19:58:56.083Z",
+  "versionId": "3a540d7b-feed-423c-8e0a-607112c157ed"
 }
