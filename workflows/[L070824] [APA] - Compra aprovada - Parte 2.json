@@ -280,6 +280,26 @@
                 "operation": "equals",
                 "name": "filter.operator.equals"
               }
+            },
+            {
+              "id": "19263820-39ef-451e-aaa5-1983996e23c5",
+              "leftValue": "={{ $json[\"stage\"][\"name\"] }}",
+              "rightValue": "Fiz Call - Recuperação de venda",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "6399fb67-ed5e-44ba-81d0-54be946aad74",
+              "leftValue": "={{ $json[\"stage\"][\"name\"] }}",
+              "rightValue": "Fiz Call - 1o Follow Up feito - Fazer outro",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
             }
           ],
           "combinator": "or"
@@ -688,6 +708,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-09-03T20:02:47.577Z",
-  "versionId": "6fe83d12-d06d-4cc4-a7f9-fcb3911204bc"
+  "updatedAt": "2024-09-04T15:16:30.183Z",
+  "versionId": "11331100-8c26-4b9c-a335-0e82e5bf67df"
 }
