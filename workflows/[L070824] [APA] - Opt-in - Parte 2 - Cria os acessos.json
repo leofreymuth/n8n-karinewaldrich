@@ -273,8 +273,8 @@
       "waitBetweenTries": 5000,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "GkwdOuW9sYg3j9Px",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
+          "id": "FfUGbVhS6rnOSQqB",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
         }
       }
     },
@@ -336,6 +336,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-08-27T21:00:40.823Z",
-  "versionId": "92adcea5-34a0-42c7-b676-a2795402d4a7"
+  "updatedAt": "2024-09-03T21:06:45.000Z",
+  "versionId": "c75b3636-f54c-4d43-b198-077f5e5f2859"
 }
