@@ -1112,7 +1112,7 @@
     },
     {
       "parameters": {
-        "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "title": "=[HT] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
         "associateWith": "person",
         "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
         "additionalFields": {
@@ -1151,7 +1151,7 @@
     },
     {
       "parameters": {
-        "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "title": "=[HT] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
         "associateWith": "person",
         "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
         "additionalFields": {
@@ -1242,6 +1242,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-08-27T20:51:15.631Z",
-  "versionId": "578e5893-86cd-45dc-8515-a3726766c35d"
+  "updatedAt": "2024-09-03T20:00:29.710Z",
+  "versionId": "f56660bc-c986-4073-9fad-3117579cbeaf"
 }
