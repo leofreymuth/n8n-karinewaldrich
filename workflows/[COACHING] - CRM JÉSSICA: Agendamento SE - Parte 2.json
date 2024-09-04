@@ -1111,7 +1111,7 @@
     },
     {
       "parameters": {
-        "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"Nome do Cliente\"] }}",
+        "title": "=[HT] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"Nome do Cliente\"] }}",
         "associateWith": "person",
         "person_id": "={{   $node[\"cria_pessoa\"].runIndex >= 0        ? $node[\"cria_pessoa\"].json[\"id\"] : $node[\"procura_pessoa\"].runIndex >= 0      ? $node[\"procura_pessoa\"].json[\"id\"]     : null }}",
         "additionalFields": {
@@ -1277,19 +1277,19 @@
       "name": "Active Campaign"
     },
     {
-      "createdAt": "2024-08-24T17:43:36.741Z",
-      "updatedAt": "2024-08-24T17:43:36.741Z",
-      "id": "i7SuC2TpFzNLFI9r",
-      "name": "Pipedrive"
-    },
-    {
       "createdAt": "2024-08-27T20:45:37.054Z",
       "updatedAt": "2024-08-27T20:45:37.054Z",
       "id": "0wAGBNvU59Q5dxmE",
       "name": "Calendly"
+    },
+    {
+      "createdAt": "2024-08-24T17:43:36.741Z",
+      "updatedAt": "2024-08-24T17:43:36.741Z",
+      "id": "i7SuC2TpFzNLFI9r",
+      "name": "Pipedrive"
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-08-27T21:20:31.899Z",
-  "versionId": "4650c46b-2239-4d55-be2b-4aab0529a34a"
+  "updatedAt": "2024-09-03T19:59:15.609Z",
+  "versionId": "2355298c-a38b-4c84-8c13-818b59d53fd4"
 }
