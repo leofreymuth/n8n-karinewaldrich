@@ -970,8 +970,8 @@
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "GkwdOuW9sYg3j9Px",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
+          "id": "FfUGbVhS6rnOSQqB",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
         }
       }
     },
@@ -1067,8 +1067,8 @@
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "GkwdOuW9sYg3j9Px",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
+          "id": "FfUGbVhS6rnOSQqB",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
         }
       }
     },
@@ -1106,13 +1106,45 @@
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "GkwdOuW9sYg3j9Px",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
+          "id": "FfUGbVhS6rnOSQqB",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
         }
       }
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-empCRExtEornoucwHppjDg",
+            "deliveryTag": 1,
+            "redelivered": false,
+            "exchange": "",
+            "routingKey": "[L070824] - Pipedrive"
+          },
+          "properties": {
+            "headers": {}
+          },
+          "content": {
+            "fname": "Leo",
+            "lname": "Freymuth",
+            "fullname": "Leo Freymuth",
+            "email": "leonardo.freymuth@gmail.com",
+            "whatsapp": "5551994696045",
+            "utm_source": "1",
+            "utm_medium": "2",
+            "utm_campaign": "3",
+            "utm_term": "4",
+            "utm_content": "5",
+            "utm_id": "6",
+            "data do cadastro": "2024-08-24 13:55:09",
+            "closer da vez": "1"
+          }
+        }
+      }
+    ]
+  },
   "settings": {
     "saveExecutionProgress": false,
     "saveManualExecutions": true,
@@ -1124,6 +1156,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-08-27T20:54:41.910Z",
-  "versionId": "bbbd430b-668b-4521-b778-1ad3dd1d8fde"
+  "updatedAt": "2024-09-03T21:08:19.361Z",
+  "versionId": "b82e60a6-25a4-44be-8bf9-e130fd698cb3"
 }
