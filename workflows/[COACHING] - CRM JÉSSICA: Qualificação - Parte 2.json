@@ -1110,7 +1110,7 @@
     },
     {
       "parameters": {
-        "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "title": "=[HT] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
         "associateWith": "person",
         "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
         "additionalFields": {
@@ -1149,7 +1149,7 @@
     },
     {
       "parameters": {
-        "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "title": "=[HT] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
         "associateWith": "person",
         "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
         "additionalFields": {
@@ -1240,19 +1240,19 @@
   "staticData": null,
   "tags": [
     {
-      "createdAt": "2024-08-24T17:43:36.741Z",
-      "updatedAt": "2024-08-24T17:43:36.741Z",
-      "id": "i7SuC2TpFzNLFI9r",
-      "name": "Pipedrive"
-    },
-    {
       "createdAt": "2024-08-27T20:32:16.095Z",
       "updatedAt": "2024-08-27T20:32:16.095Z",
       "id": "hpw9T6Qr7vrfpY90",
       "name": "Typebot"
+    },
+    {
+      "createdAt": "2024-08-24T17:43:36.741Z",
+      "updatedAt": "2024-08-24T17:43:36.741Z",
+      "id": "i7SuC2TpFzNLFI9r",
+      "name": "Pipedrive"
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-09-02T15:14:07.731Z",
-  "versionId": "a53295a0-0319-4412-822b-10641f968288"
+  "updatedAt": "2024-09-03T19:58:15.142Z",
+  "versionId": "e5dbafb0-8b2c-48b5-acea-4d6c23ab94b3"
 }
