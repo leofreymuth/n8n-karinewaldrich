@@ -1,0 +1,329 @@
+{
+  "active": true,
+  "connections": {
+    "dados_da_compra": {
+      "main": [
+        [
+          {
+            "node": "entra_na_fila",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "chamada_guru": {
+      "main": [
+        [
+          {
+            "node": "dados_da_compra",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.337Z",
+  "id": "T4Upu63h5RtDjEXE",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[APA] - Compra aprovada - Parte 1",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "[APA] - Compra aprovada",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "ec743ba3-4560-40ae-8618-df713940aa2c",
+      "name": "entra_na_fila",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        300
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1018099c-70c4-43ad-9276-9b2de01bc2f1",
+              "name": "name",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"contact\"][\"name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "e9a85442-d886-4319-9dd9-602ffeffb34b",
+              "name": "email",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"contact\"][\"email\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "5c71bc9b-15c8-40f9-a27e-a3072dbac44f",
+              "name": "phone",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"contact\"][\"phone_number\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "e772e919-be80-43e7-baa1-14ceaed3f3db",
+              "name": "produto",
+              "value": "={{ $node[\"chamada_guru\"].json[\"body\"][\"items\"][\"0\"][\"name\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "12f834df-07d4-45fb-a91e-efd67cabd45a",
+      "name": "dados_da_compra",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1020,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f012d199-5a23-45d0-9ceb-3de54cd5dbcc",
+        "options": {}
+      },
+      "id": "dc7a7776-f176-4ee7-8dcc-5ffae62a8c93",
+      "name": "chamada_guru",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        820,
+        300
+      ],
+      "webhookId": "8fc8540b-4cef-4d48-b3fb-5dce81015a7b"
+    }
+  ],
+  "pinData": {
+    "chamada_guru": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8nwebhook.karinewaldrich.com.br",
+            "user-agent": "digitalmanager.guru (dev@digitalmanager.guru)",
+            "content-length": "3584",
+            "content-type": "application/json",
+            "x-forwarded-for": "35.196.29.143",
+            "x-forwarded-host": "n8nwebhook.karinewaldrich.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "cadf6fe75461",
+            "x-real-ip": "35.196.29.143",
+            "x-request-id": "9cda96ac-1c8c-4895-a763-d24d3c953a27",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "affiliations": [],
+            "api_token": "mZE0DQ7Z07Wgb679D5cvUctdbJnfbKv8aHEjP4SE",
+            "checkout_url": "https://clkdmg.site/pay/9cc4a133-e1a3-477b-9029-59af6019f6db",
+            "contact": {
+              "id": "9ccfd441-83bc-463f-8df3-e0cff378e5e7",
+              "name": "Leonardo Freymuth",
+              "company_name": "",
+              "email": "leonardo.freymuth@gmail.com",
+              "doc": "01279061006",
+              "phone_number": "51994696045",
+              "phone_local_code": "55",
+              "address": "",
+              "address_number": "",
+              "address_comp": "",
+              "address_district": "",
+              "address_city": "",
+              "address_state": "",
+              "address_state_full_name": "",
+              "address_country": "BR",
+              "address_zip_code": "",
+              "lead": []
+            },
+            "contracts": [],
+            "dates": {
+              "canceled_at": null,
+              "confirmed_at": "2024-08-25T22:53:28Z",
+              "created_at": "2024-08-25T22:52:30Z",
+              "expires_at": null,
+              "ordered_at": "2024-08-25T22:52:10Z",
+              "unavailable_until": "2024-09-24T22:53:28Z",
+              "updated_at": "2024-08-25T22:54:06Z",
+              "warranty_until": "2024-09-24T22:53:28Z"
+            },
+            "ecommerces": [],
+            "id": "9cda95fa-9290-49eb-adc0-f76c7a7c74a4",
+            "infrastructure": {
+              "ip": "2804:7f4:c2b4:d19b:1091:a051:bf52:ab48",
+              "city": "porto alegre",
+              "host": "clkdmg.site",
+              "region": "rs",
+              "country": "BR",
+              "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+              "city_lat_long": "-30.036818,-51.208989"
+            },
+            "invoice": [],
+            "items": [
+              {
+                "id": "1723595666",
+                "image_url": "https://storage.googleapis.com/disk.clkdmg.site/clients/9cc06a29-1c65-4438-8b99-74648646f77d/images/products/9cc2970a-ed22-4940-86ea-360b0f376843.png",
+                "internal_id": "9cc296e2-c4cd-4a79-a43f-ce07f4fe5b36",
+                "marketplace_id": "1723595666",
+                "marketplace_name": "pagarme2",
+                "name": "Ação Para Aprovação",
+                "offer": {
+                  "id": "9cc4a133-e1a3-477b-9029-59af6019f6db",
+                  "name": "Teste"
+                },
+                "producer": {
+                  "contact_email": null,
+                  "marketplace_id": "1723502287",
+                  "name": "Cdw Treinamentos"
+                },
+                "qty": 1,
+                "total_value": 1,
+                "type": "product",
+                "unit_value": 1
+              }
+            ],
+            "last_transaction": [],
+            "payment": {
+              "affiliate_value": 0,
+              "acquirer": {
+                "code": "0000",
+                "message": "Transação aprovada com sucesso",
+                "name": "pagarme",
+                "nsu": "3163117248",
+                "tid": "3163117248"
+              },
+              "can_try_again": 1,
+              "coupon": null,
+              "currency": "BRL",
+              "discount_value": 0,
+              "gross": 1,
+              "installments": {
+                "value": 1,
+                "qty": 1,
+                "interest": 0
+              },
+              "marketplace_id": "ch_jyaeJKbTBTpmRK1x",
+              "marketplace_name": "pagarme2",
+              "marketplace_value": 0.01,
+              "method": "credit_card",
+              "net": 0.99,
+              "processing_times": {
+                "started_at": "2024-08-25T22:53:27.079Z",
+                "finished_at": "2024-08-25T22:53:28.887Z",
+                "delay_in_seconds": 1
+              },
+              "refund_reason": "",
+              "refuse_reason": "Transação aprovada com sucesso (0000)",
+              "tax": {
+                "value": 0,
+                "rate": 0
+              },
+              "total": 1,
+              "credit_card": {
+                "brand": "mastercard",
+                "expiration_month": "10",
+                "expiration_year": "2031",
+                "first_digits": "538164",
+                "id": "card_z3JOK6esL0iaXY0X",
+                "last_digits": "7443"
+              }
+            },
+            "product": {
+              "id": "1723595666",
+              "image_url": "https://storage.googleapis.com/disk.clkdmg.site/clients/9cc06a29-1c65-4438-8b99-74648646f77d/images/products/9cc2970a-ed22-4940-86ea-360b0f376843.png",
+              "internal_id": "9cc296e2-c4cd-4a79-a43f-ce07f4fe5b36",
+              "marketplace_id": "1723595666",
+              "marketplace_name": "pagarme2",
+              "name": "Ação Para Aprovação",
+              "offer": {
+                "id": "9cc4a133-e1a3-477b-9029-59af6019f6db",
+                "name": "Teste"
+              },
+              "producer": {
+                "marketplace_id": "1723502287",
+                "name": "Cdw Treinamentos",
+                "contact_email": ""
+              },
+              "qty": 1,
+              "total_value": 1,
+              "type": "product",
+              "unit_value": 1
+            },
+            "shipment": {
+              "carrier": "",
+              "service": "",
+              "tracking": "",
+              "value": 0,
+              "status": "",
+              "delivery_time": ""
+            },
+            "shipping": {
+              "name": "Standard",
+              "value": 0
+            },
+            "source": {
+              "source": null,
+              "checkout_source": null,
+              "utm_source": null,
+              "utm_campaign": null,
+              "utm_medium": null,
+              "utm_content": null,
+              "utm_term": null,
+              "pptc": []
+            },
+            "status": "approved",
+            "subscription": [],
+            "type": "producer"
+          },
+          "webhookUrl": "https://n8nwebhook.karinewaldrich.com.br/webhook/f012d199-5a23-45d0-9ceb-3de54cd5dbcc",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-08-24T17:31:48.598Z",
+      "updatedAt": "2024-08-24T17:31:48.598Z",
+      "id": "zOVZsdbcnQeq7WWW",
+      "name": "Digital Manager Guru"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-09-03T19:43:49.463Z",
+  "versionId": "ff93e389-7bad-4af8-91ae-c15fdd870cfd"
+}
