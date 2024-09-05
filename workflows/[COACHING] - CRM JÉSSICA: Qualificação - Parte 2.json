@@ -1240,16 +1240,16 @@
   "staticData": null,
   "tags": [
     {
-      "createdAt": "2024-08-27T20:32:16.095Z",
-      "updatedAt": "2024-08-27T20:32:16.095Z",
-      "id": "hpw9T6Qr7vrfpY90",
-      "name": "Typebot"
-    },
-    {
       "createdAt": "2024-08-24T17:43:36.741Z",
       "updatedAt": "2024-08-24T17:43:36.741Z",
       "id": "i7SuC2TpFzNLFI9r",
       "name": "Pipedrive"
+    },
+    {
+      "createdAt": "2024-08-27T20:32:16.095Z",
+      "updatedAt": "2024-08-27T20:32:16.095Z",
+      "id": "hpw9T6Qr7vrfpY90",
+      "name": "Typebot"
     }
   ],
   "triggerCount": 1,
