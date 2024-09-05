@@ -1,0 +1,219 @@
+{
+  "active": true,
+  "connections": {
+    "formata_dados": {
+      "main": [
+        [
+          {
+            "node": "inclui_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados": {
+      "main": [
+        [
+          {
+            "node": "formata_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "inclui_dados": {
+      "main": [
+        [
+          {
+            "node": "entra_na_fila",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "google_forms": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-08-23T00:27:28.298Z",
+  "id": "hRSxXrlVa4K4Lfm6",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[CRM] - Pipeline Fundo de Funil - Raiane - Parte 1 (manual via google forms)",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const fullNameAnswer = $node[\"dados\"].json[\"body\"][\"Nome\"] || \"\";\nconst emailAnswer = $node[\"dados\"].json[\"body\"][\"E-mail\"] || \"\";\nconst telefoneClienteOriginal = $node[\"dados\"].json[\"body\"][\"Telefone\"] || '';\n\nfunction capitalizeName(fullName) {\n    if (!fullName) {\n        return { fname: '', lname: '', fullname: '' };\n    }\n\n    const lowerCaseWords = ['da', 'de', 'do', 'di', 'du'];\n    let words = fullName.trim().toLowerCase().split(' ').map((word, index) => {\n        if (lowerCaseWords.includes(word) && index !== 0) {\n            return word;\n        }\n        return word.charAt(0).toUpperCase() + word.slice(1);\n    });\n\n    let fname = words.shift() || '';\n    let lname = words.join(' ');\n\n    return { fname, lname, fullname: fname + (lname ? ' ' + lname : '') };\n}\n\nfunction formatEmail(email) {\n    return email.toLowerCase().trim();\n}\n\n// Garantir que telefoneClienteOriginal seja uma string antes de usar replace\nconst telefoneLimpo = String(telefoneClienteOriginal).replace(/\\D/g, \"\");\nconst DDI = '55';\nconst DDD = telefoneLimpo.slice(0, 2);\n\n// Determinar o número de telefone final\nconst telefoneFinal = `${DDI}${DDD}${telefoneLimpo.slice(2)}`;\n\nconst formattedNames = capitalizeName(fullNameAnswer);\nconst formattedEmail = formatEmail(emailAnswer);\nconst result = {\n    fname: formattedNames.fname, // Primeiro nome\n    lname: formattedNames.lname, // Sobrenome\n    fullname: formattedNames.fullname, // Nome completo\n    email: formattedEmail, // Email formatado\n    whatsapp: telefoneFinal, // WhatsApp formatado\n    qualificacao: \"qualificado\" // Variável adicional\n};\n\n// Aqui estamos ajustando a estrutura do retorno para se adequar ao que o n8n espera\nreturn [{ json: result }];\n"
+      },
+      "id": "ba8caabf-f66a-490f-9083-44d2f54417e5",
+      "name": "formata_dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "queue": "[CRM] - Pipeline Fundo de Funil - Raiane",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "durable": true
+        }
+      },
+      "id": "f942a42b-5a3e-48db-8fbc-5bf36d887c6d",
+      "name": "entra_na_fila",
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1.1,
+      "position": [
+        1500,
+        260
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "556b52b9-e3cf-40cb-b943-71823426493f",
+              "name": "body.Nome",
+              "value": "={{ $json.body.Nome }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "eb4df7e0-e8e7-4f9b-bd52-cbfad569ea5e",
+      "name": "dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        900,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5d54eaf-eef2-4edd-b2f7-f896ee2ee2ac",
+              "name": "carreira",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "571ac584-6a48-4585-ac44-3746e619e314",
+              "name": "tempo",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "09161bc0-f05f-4d10-b714-e9c19868b4f7",
+      "name": "inclui_dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1300,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "0b428361-c088-4d53-a8b7-85e333d3e86b",
+        "options": {}
+      },
+      "id": "3f76765d-1064-440a-9b2c-561874877b7b",
+      "name": "google_forms",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        680,
+        260
+      ],
+      "webhookId": "0b428361-c088-4d53-a8b7-85e333d3e86b"
+    }
+  ],
+  "pinData": {
+    "google_forms": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8nwebhookkarinewaldrich.leonardofreymuth.com.br",
+            "user-agent": "Mozilla/5.0 (compatible; Google-Apps-Script; beanserver; +https://script.google.com; id: UAEmdDd8uxWtYQ6tOAW_3xHXKZgidRpMqxKI)",
+            "content-length": "70",
+            "accept-encoding": "gzip, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.116.22.83",
+            "x-forwarded-host": "n8nwebhookkarinewaldrich.leonardofreymuth.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "79f32772410f",
+            "x-real-ip": "34.116.22.83"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "Nome": "teste 4",
+            "E-mail": "teste4@gmail.com",
+            "Telefone": "51994696045"
+          },
+          "webhookUrl": "https://n8nwebhookkarinewaldrich.leonardofreymuth.com.br/webhook/0b428361-c088-4d53-a8b7-85e333d3e86b",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-08-27T20:53:37.124Z",
+      "updatedAt": "2024-08-27T20:53:37.124Z",
+      "id": "jvoaBLNnTWygoJHc",
+      "name": "Google forms"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-09-04T16:12:30.477Z",
+  "versionId": "50f3bb7a-00bf-45d8-a20e-072a25dc4f32"
+}
