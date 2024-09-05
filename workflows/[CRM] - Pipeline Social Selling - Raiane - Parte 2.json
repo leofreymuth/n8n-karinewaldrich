@@ -1,0 +1,577 @@
+{
+  "active": true,
+  "connections": {
+    "chega_da_fila": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tem_email?": {
+      "main": [
+        [
+          {
+            "node": "procura_pessoa_pelo_email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "procura_pessoa_pelo_telefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procura_pessoa_pelo_email": {
+      "main": [
+        [
+          {
+            "node": "pessoa_existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procura_pessoa_pelo_telefone": {
+      "main": [
+        [
+          {
+            "node": "pessoa_existe?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pessoa_existe?1": {
+      "main": [
+        [
+          {
+            "node": "insere_id",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_pessoa1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pessoa_existe?": {
+      "main": [
+        [
+          {
+            "node": "insere_id",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_pessoa": {
+      "main": [
+        [
+          {
+            "node": "insere_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_pessoa1": {
+      "main": [
+        [
+          {
+            "node": "insere_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_id": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_deal_SS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "tem_email?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deal_existe?1": {
+      "main": [
+        [
+          {
+            "node": "ja_existe_deal",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_deal_SS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_deal_SS": {
+      "main": [
+        [
+          {
+            "node": "deal_existe?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-09-05T00:39:43.134Z",
+  "id": "ulWKNmcgZYZ03yd8",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[CRM] - Pipeline Social Selling - Raiane - Parte 2",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "[CRM] - Pipeline Social Selling - Raiane",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "acknowledge": "executionFinishesSuccessfully",
+          "jsonParseBody": true,
+          "parallelMessages": 1
+        }
+      },
+      "id": "6c846a93-f884-4782-9b6d-9466add9d24f",
+      "name": "chega_da_fila",
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        260,
+        320
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "b66e3516-3d21-4653-99af-dffff1bbb7b8",
+              "leftValue": "={{ $json.content.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7fa16238-92e8-43c4-a065-f13be62461ce",
+      "name": "tem_email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        740,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "id": "0dbcab05-7fef-4aaa-9219-ff68c12a79aa",
+      "name": "procura_pessoa_pelo_email",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        20
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"whatsapp\"] }}",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "id": "0566eb21-7c48-4007-9689-a8380770bf86",
+      "name": "procura_pessoa_pelo_telefone",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        540
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "8af697ad-d947-412c-b0f7-19fa896d6d6b",
+              "leftValue": "={{ $node[\"procura_pessoa_pelo_telefone\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "93ad3afe-1cc2-4b50-96df-43bf84c39aa7",
+      "name": "pessoa_existe?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "8af697ad-d947-412c-b0f7-19fa896d6d6b",
+              "leftValue": "={{ $node[\"procura_pessoa_pelo_email\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "09bec1b8-bcee-4e1b-a4bf-3dd9e45100c0",
+      "name": "pessoa_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "name": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "additionalFields": {
+          "email": [
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}"
+          ],
+          "phone": [
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"whatsapp\"] }}"
+          ]
+        }
+      },
+      "id": "54e98f96-9c32-4461-8a69-88852239a384",
+      "name": "cria_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        -160
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "name": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "additionalFields": {
+          "email": [],
+          "phone": [
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"whatsapp\"] }}"
+          ]
+        }
+      },
+      "id": "610ad849-a083-46be-b0b9-fcd2f76f09c3",
+      "name": "cria_pessoa1",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        660
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let clientId = '';\n\n// Verificar se o node \"procura_pessoa_pelo_email\" foi executado e tem dados\ntry {\n    if ($node[\"procura_pessoa_pelo_email\"].json[\"id\"]) {\n        clientId = $node[\"procura_pessoa_pelo_email\"].json[\"id\"];\n    }\n} catch (e) {}\n\n// Verificar se o node \"procura_pessoa_pelo_telefone\" foi executado e tem dados\ntry {\n    if (!clientId && $node[\"procura_pessoa_pelo_telefone\"].json[\"id\"]) {\n        clientId = $node[\"procura_pessoa_pelo_telefone\"].json[\"id\"];\n    }\n} catch (e) {}\n\n// Verificar se o node \"cria_pessoa1\" foi executado e tem dados\ntry {\n    if (!clientId && $node[\"cria_pessoa1\"].json[\"id\"]) {\n        clientId = $node[\"cria_pessoa1\"].json[\"id\"];\n    }\n} catch (e) {}\n\n// Verificar se o node \"cria_pessoa\" foi executado e tem dados\ntry {\n    if (!clientId && $node[\"cria_pessoa\"].json[\"id\"]) {\n        clientId = $node[\"cria_pessoa\"].json[\"id\"];\n    }\n} catch (e) {}\n\nreturn [{ json: { clientId } }];\n"
+      },
+      "id": "0441e2ae-76cb-4828-9a74-88a146757154",
+      "name": "insere_id",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1900,
+        320
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "2cfa4f7b-d6a5-422d-9ffc-198897ad94ba",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        320
+      ],
+      "webhookId": "0a97b02f-3d9a-44bc-80f4-94f56345ef5a"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "793d5083-f531-4652-87db-57a3a9f73005",
+              "leftValue": "={{ $node[\"pesquisa_deal_SS\"].json[\"id\"].toString() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3055bfbc-6f82-44b6-97cc-9f78a24b0fe7",
+      "name": "deal_existe?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2360,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "term": "=[SS]",
+        "additionalFields": {
+          "personId": "={{ $node[\"insere_id\"].json[\"clientId\"] }}"
+        }
+      },
+      "id": "2f525288-bb4f-4975-acef-ce8b9a7615cf",
+      "name": "pesquisa_deal_SS",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        320
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "d64925b3-a603-4b85-9dd0-f8d0dcec6aed",
+      "name": "ja_existe_deal",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2620,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "title": "=[SS] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "associateWith": "person",
+        "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
+        "additionalFields": {
+          "currency": "BRL",
+          "stage_id": 126,
+          "status": "open",
+          "user_id": 21963603
+        }
+      },
+      "id": "54abe9ea-b853-4e24-a87b-024e1df6389f",
+      "name": "cria_deal_SS",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2620,
+        520
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-pe47y8nsFwX2RY1MrHHUiQ",
+            "deliveryTag": 2,
+            "redelivered": true,
+            "exchange": "",
+            "routingKey": "[COACHING] - Aguardando agendamento da SE - Rayane"
+          },
+          "properties": {
+            "headers": {
+              "x-delivery-count": 136
+            }
+          },
+          "content": {
+            "fname": "Noelma",
+            "lname": "",
+            "fullname": "Noelma",
+            "email": "noelmalima@hotmail.com",
+            "whatsapp": "55558296194706",
+            "qualificacao": "qualificado",
+            "carreira": "",
+            "tempo": ""
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-08-24T17:43:36.741Z",
+      "updatedAt": "2024-08-24T17:43:36.741Z",
+      "id": "i7SuC2TpFzNLFI9r",
+      "name": "Pipedrive"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-09-05T00:48:38.860Z",
+  "versionId": "8492ddd7-25db-4fa8-bb13-64df17f5b120"
+}
