@@ -114,36 +114,7 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over Items": {
-      "main": [
-        [
-          {
-            "node": "procura_pessoa",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
             "node": "Wait",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Replace Me": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -154,7 +125,7 @@
       "main": [
         [
           {
-            "node": "Replace Me",
+            "node": "procura_pessoa",
             "type": "main",
             "index": 0
           }
@@ -209,7 +180,7 @@
       "type": "n8n-nodes-base.rabbitmqTrigger",
       "typeVersion": 1,
       "position": [
-        140,
+        280,
         220
       ],
       "credentials": {
@@ -586,38 +557,14 @@
       }
     },
     {
-      "parameters": {
-        "options": {}
-      },
-      "id": "516cea9b-11bb-49e9-91be-378896a79c02",
-      "name": "Loop Over Items",
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        360,
-        220
-      ]
-    },
-    {
-      "parameters": {},
-      "id": "16f070bc-0571-4bdd-b9d0-bb5a6e06cff3",
-      "name": "Replace Me",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        920,
-        440
-      ]
-    },
-    {
       "parameters": {},
       "id": "431b346e-5300-4548-afae-cb2c8b278560",
       "name": "Wait",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        620,
-        440
+        520,
+        220
       ],
       "webhookId": "b68ea374-38f8-41d0-b665-6e42947ccd64"
     },
@@ -708,6 +655,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-09-04T15:16:30.183Z",
-  "versionId": "11331100-8c26-4b9c-a335-0e82e5bf67df"
+  "updatedAt": "2024-09-04T16:00:39.600Z",
+  "versionId": "608f7795-f0a3-44a2-a31c-b5feebd29148"
 }
