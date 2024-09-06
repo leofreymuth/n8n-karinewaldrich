@@ -101,14 +101,25 @@
         "assignments": {
           "assignments": [
             {
-              "id": "556b52b9-e3cf-40cb-b943-71823426493f",
-              "name": "body.Nome",
-              "value": "={{ $json.body.Nome }}",
+              "id": "ed517c41-06e1-40b5-9a4d-c078f6f66dd1",
+              "name": "Nome",
+              "value": "={{ $json[\"body\"][\"Nome\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "615e3a48-42d7-4cf8-ab5e-0fec0960dbd8",
+              "name": "Email",
+              "value": "={{ $json[\"body\"][\"E-mail\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "eb3adfae-d1e6-4581-8e9e-16b10cbf602a",
+              "name": "Telefone",
+              "value": "={{ $json[\"body\"][\"Telefone\"] }}",
               "type": "string"
             }
           ]
         },
-        "includeOtherFields": true,
         "options": {}
       },
       "id": "c2f02214-d050-45fc-960d-834354d9ef82",
@@ -214,6 +225,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-09-05T00:41:31.381Z",
-  "versionId": "e08a208f-1372-46eb-83d3-d47c7f8bc654"
+  "updatedAt": "2024-09-05T19:02:35.156Z",
+  "versionId": "d07ca2fb-94fe-480a-bdd6-2725f25eb840"
 }
