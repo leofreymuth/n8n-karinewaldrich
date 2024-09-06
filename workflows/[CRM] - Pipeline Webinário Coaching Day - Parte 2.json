@@ -1,0 +1,417 @@
+{
+  "active": true,
+  "connections": {
+    "chega_da_fila": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deal_existe?": {
+      "main": [
+        [
+          {
+            "node": "ja_existe_deal",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_deal_COACHDAY",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pesquisa_deal_COACHDAY": {
+      "main": [
+        [
+          {
+            "node": "deal_existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procura_pessoa_pelo_email": {
+      "main": [
+        [
+          {
+            "node": "pessoa_existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pessoa_existe?": {
+      "main": [
+        [
+          {
+            "node": "insere_id",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_pessoa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_pessoa": {
+      "main": [
+        [
+          {
+            "node": "insere_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "procura_pessoa_pelo_email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_id": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_deal_COACHDAY",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-09-05T22:28:10.419Z",
+  "id": "pnzk04kfYUFO6A5O",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "[CRM] - Pipeline Webinário Coaching Day - Parte 2",
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "[CRM] - Pipeline Webinário Coaching Day",
+        "options": {
+          "arguments": {
+            "argument": [
+              {
+                "key": "x-queue-type",
+                "value": "quorum"
+              }
+            ]
+          },
+          "acknowledge": "executionFinishesSuccessfully",
+          "jsonParseBody": true,
+          "parallelMessages": 1
+        }
+      },
+      "id": "80ab083c-06fd-4b1e-84c5-4560101adc38",
+      "name": "chega_da_fila",
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        340
+      ],
+      "credentials": {
+        "rabbitmq": {
+          "id": "EpGcMDPOCNYbhT3V",
+          "name": "[RABBIT] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "4c94cb1f-bee1-4326-a585-09973239181f",
+      "name": "ja_existe_deal",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2060,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "793d5083-f531-4652-87db-57a3a9f73005",
+              "leftValue": "={{ $node[\"pesquisa_deal_COACHDAY\"].json[\"id\"].toString() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "0162c33e-3fd6-43f6-9d2a-c4db48b52996",
+      "name": "deal_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1800,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "term": "=[COACHDAY]",
+        "additionalFields": {
+          "personId": "={{ $node[\"insere_id\"].json[\"clientId\"] }}"
+        }
+      },
+      "id": "18eb760f-b5a4-4937-9fcd-22f1a922664c",
+      "name": "pesquisa_deal_COACHDAY",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        300
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "id": "ee87cce9-7475-486a-953c-8634ad1cbd7c",
+      "name": "procura_pessoa_pelo_email",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        500,
+        340
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "8af697ad-d947-412c-b0f7-19fa896d6d6b",
+              "leftValue": "={{ $node[\"procura_pessoa_pelo_email\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "768af512-d020-42bf-a55d-be397803ccc4",
+      "name": "pessoa_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        800,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "name": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "additionalFields": {
+          "email": [
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}"
+          ],
+          "phone": [
+            "={{ $node[\"chega_da_fila\"].json[\"content\"][\"whatsapp\"] }}"
+          ]
+        }
+      },
+      "id": "f5aacd38-1415-498a-b13a-09d6719bdbac",
+      "name": "cria_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        540
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let clientId = '';\n\n// Verificar se o node \"procura_pessoa_pelo_email\" foi executado e tem dados\ntry {\n    if ($node[\"procura_pessoa_pelo_email\"].json[\"id\"]) {\n        clientId = $node[\"procura_pessoa_pelo_email\"].json[\"id\"];\n    }\n} catch (e) {}\n\n// Verificar se o node \"cria_pessoa\" foi executado e tem dados\ntry {\n    if (!clientId && $node[\"cria_pessoa\"].json[\"id\"]) {\n        clientId = $node[\"cria_pessoa\"].json[\"id\"];\n    }\n} catch (e) {}\n\nreturn [{ json: { clientId } }];\n"
+      },
+      "id": "bc68e664-cfca-4613-8e5a-46957b42005e",
+      "name": "insere_id",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        300
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {},
+      "id": "5afa6b06-c3c5-4626-aba8-dcd84f599844",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        260,
+        340
+      ],
+      "webhookId": "1faf05fe-0db5-437d-b061-d4e94edd7b03"
+    },
+    {
+      "parameters": {
+        "title": "=[COACHDAY] - {{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}",
+        "associateWith": "person",
+        "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
+        "additionalFields": {
+          "currency": "BRL",
+          "customProperties": {
+            "property": [
+              {
+                "name": "72177281bc92f4917e68c142219825d35f35f1d4",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"carreira\"] }}"
+              },
+              {
+                "name": "069d3029e6033eca5dde1bb12a76fdca9c9b34f0",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"tempo\"] }}"
+              },
+              {
+                "name": "e708de34a4c055fea67a6fd8ef37960b2952ac48",
+                "value": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"aluno\"] }}"
+              }
+            ]
+          },
+          "stage_id": 62,
+          "status": "open",
+          "user_id": 21963603
+        }
+      },
+      "id": "93345cd3-d137-44bf-beff-a6a593b505d4",
+      "name": "cria_deal_COACHDAY",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2060,
+        500
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "chega_da_fila": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-wLXZ-UjACZVkEabyS57rZw",
+            "deliveryTag": 2,
+            "redelivered": false,
+            "exchange": "",
+            "routingKey": "[CRM] - Pipeline Webinário Coaching Day"
+          },
+          "properties": {
+            "headers": {}
+          },
+          "content": {
+            "fname": "Leo",
+            "lname": "",
+            "fullname": "Leo ",
+            "email": "leofreymuth@gmail.com",
+            "whatsapp": "555194696045",
+            "carreira": "fiscal",
+            "tempo": "1",
+            "aluno": ""
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 600,
+    "executionOrder": "v1",
+    "errorWorkflow": "Ppi2Q8rUEdph2WkT"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-08-24T17:43:36.741Z",
+      "updatedAt": "2024-08-24T17:43:36.741Z",
+      "id": "i7SuC2TpFzNLFI9r",
+      "name": "Pipedrive"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-09-05T22:51:10.637Z",
+  "versionId": "c4a2e3fd-2ed2-4ebf-83a2-ef89f0c959f3"
+}
