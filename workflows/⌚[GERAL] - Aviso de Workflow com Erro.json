@@ -26,7 +26,9 @@
   },
   "createdAt": "2024-08-23T00:27:28.282Z",
   "id": "Ppi2Q8rUEdph2WkT",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "⌚[GERAL] - Aviso de Workflow com Erro",
   "nodes": [
     {
@@ -38,7 +40,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=ebd92156-2906-4599-9941-470f592a0b5a"
+              "value": "="
             }
           ]
         },
@@ -47,7 +49,7 @@
           "parameters": [
             {
               "name": "number",
-              "value": "=555121654475"
+              "value": "="
             },
             {
               "name": "textMessage.text",
@@ -133,7 +135,7 @@
       ]
     }
   ],
-  "pinData": null,
+  "pinData": {},
   "settings": {
     "saveExecutionProgress": true,
     "saveManualExecutions": true
@@ -141,6 +143,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-08-23T00:27:28.282Z",
-  "versionId": "8e71c71b-f666-4662-a6fd-a4a743533a88"
+  "updatedAt": "2024-09-09T19:09:53.536Z",
+  "versionId": "8dd96b56-3278-4dcf-ba80-b60cd25ade1e"
 }
