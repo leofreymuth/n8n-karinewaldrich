@@ -518,8 +518,8 @@
       "maxTries": 5,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "GkwdOuW9sYg3j9Px",
-          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
+          "id": "FfUGbVhS6rnOSQqB",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
         }
       },
       "onError": "continueRegularOutput"
@@ -883,8 +883,8 @@
       "type": "n8n-nodes-base.pipedrive",
       "typeVersion": 1,
       "position": [
-        1600,
-        140
+        1640,
+        320
       ],
       "credentials": {
         "pipedriveApi": {
@@ -1048,7 +1048,7 @@
               }
             ]
           },
-          "user_id": 21330817,
+          "user_id": "={{ Math.random() < 0.5 ? 21330817 : 21963603 }}",
           "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
           "stage_id": 8,
           "title": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"].trim() }}"
@@ -1129,7 +1129,7 @@
           },
           "stage_id": 8,
           "status": "open",
-          "user_id": 21330817
+          "user_id": "={{ Math.random() < 0.5 ? 21330817 : 21963603 }}"
         }
       },
       "id": "af302015-7823-4b8f-af2c-aff8b3bac9c3",
@@ -1168,7 +1168,7 @@
           },
           "stage_id": 7,
           "status": "open",
-          "user_id": 21330817
+          "user_id": "={{ Math.random() < 0.5 ? 21330817 : 21963603 }}"
         }
       },
       "id": "1df4f68c-e2c2-41e7-b432-f9ebed65faeb",
@@ -1217,11 +1217,11 @@
             }
           },
           "content": {
-            "fname": "Lorrane",
-            "lname": "Berto",
-            "fullname": "Lorrane Berto",
-            "email": "",
-            "whatsapp": "553398303550",
+            "fname": "Lucas",
+            "lname": "Port",
+            "fullname": "Lucas Port",
+            "email": "contato@joaoport.com",
+            "whatsapp": "555183257996",
             "qualificacao": "qualificado",
             "carreira": "",
             "tempo": ""
@@ -1240,19 +1240,19 @@
   "staticData": null,
   "tags": [
     {
-      "createdAt": "2024-08-24T17:43:36.741Z",
-      "updatedAt": "2024-08-24T17:43:36.741Z",
-      "id": "i7SuC2TpFzNLFI9r",
-      "name": "Pipedrive"
-    },
-    {
       "createdAt": "2024-08-27T20:32:16.095Z",
       "updatedAt": "2024-08-27T20:32:16.095Z",
       "id": "hpw9T6Qr7vrfpY90",
       "name": "Typebot"
+    },
+    {
+      "createdAt": "2024-08-24T17:43:36.741Z",
+      "updatedAt": "2024-08-24T17:43:36.741Z",
+      "id": "i7SuC2TpFzNLFI9r",
+      "name": "Pipedrive"
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2024-09-03T19:58:15.142Z",
-  "versionId": "e5dbafb0-8b2c-48b5-acea-4d6c23ab94b3"
+  "updatedAt": "2024-09-19T15:32:31.725Z",
+  "versionId": "425b4e8f-6320-4eda-8e8b-67278dee5171"
 }
