@@ -1,173 +1,325 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
-    "Start": {
+    "When clicking ‘Test workflow’": {
       "main": [
         [
           {
-            "node": "Globals",
+            "node": "Google Sheets",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "GitHub": {
+    "lead qualificado?1": {
       "main": [
         [
           {
-            "node": "Merge",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "github_status": {
-      "main": [
-        [
-          {
-            "node": "same",
+            "node": "atualiza_deal_qualificado",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "different",
+            "node": "atualiza_deal_desqualificado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lead qualificado?": {
+      "main": [
+        [
+          {
+            "node": "cria_deal_qualificado",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "new",
+            "node": "cria_deal_desqualificado",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "same": {
+    "pesquisa_no_sheets": {
       "main": [
         [
           {
-            "node": "OneAtATime",
+            "node": "lead_existe?",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "different": {
+    "tem_email?": {
       "main": [
         [
           {
-            "node": "GitHub Edit",
+            "node": "procura_pessoa_pelo_email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "procura_pessoa_pelo_telefone",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "new": {
+    "procura_pessoa_pelo_email": {
       "main": [
         [
           {
-            "node": "GitHub Create",
+            "node": "pessoa_existe?",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "GitHub Edit": {
+    "procura_pessoa_pelo_telefone": {
       "main": [
         [
           {
-            "node": "OneAtATime",
+            "node": "pessoa_existe?1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "GitHub Create": {
+    "pessoa_existe?1": {
       "main": [
         [
           {
-            "node": "OneAtATime",
+            "node": "insere_id",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_pessoa1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "OneAtATime": {
+    "pessoa_existe?": {
       "main": [
         [
           {
-            "node": "GitHub",
+            "node": "insere_id",
             "type": "main",
             "index": 0
-          },
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
           }
-        ]
-      ]
-    },
-    "Globals": {
-      "main": [
+        ],
         [
           {
-            "node": "n8n",
+            "node": "cria_pessoa",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Every 12 hours": {
+    "cria_pessoa": {
       "main": [
         [
           {
-            "node": "Globals",
+            "node": "insere_id",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "n8n": {
+    "cria_pessoa1": {
       "main": [
         [
           {
-            "node": "OneAtATime",
+            "node": "insere_id",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "isDiffOrNew": {
+    "lead_existe?": {
       "main": [
         [
           {
-            "node": "github_status",
+            "node": "atualiza_lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "cria_lead",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Merge": {
+    "atualiza_lead": {
       "main": [
         [
           {
-            "node": "isDiffOrNew",
+            "node": "deal_existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_lead": {
+      "main": [
+        [
+          {
+            "node": "deal_existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deal_existe?": {
+      "main": [
+        [
+          {
+            "node": "lead qualificado?1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "lead qualificado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_deal_qualificado": {
+      "main": [
+        [
+          {
+            "node": "insere_no_sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_deal_desqualificado": {
+      "main": [
+        [
+          {
+            "node": "insere_no_sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_deal_qualificado": {
+      "main": [
+        [
+          {
+            "node": "insere_no_sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cria_deal_desqualificado": {
+      "main": [
+        [
+          {
+            "node": "insere_no_sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_id": {
+      "main": [
+        [
+          {
+            "node": "pesquisa_no_sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "tem_email?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_no_sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insere_no_sheets1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -175,8 +327,8 @@
       ]
     }
   },
-  "createdAt": "2024-08-23T00:40:14.779Z",
-  "id": "x0J7MGgCW4J0GIst",
+  "createdAt": "2024-09-19T15:54:20.551Z",
+  "id": "JYoTzCoJXe1bshTh",
   "meta": {
     "templateCredsSetupCompleted": true
   },
@@ -184,307 +336,962 @@
   "nodes": [
     {
       "parameters": {},
-      "id": "ef1ecdc9-de9b-48e5-861c-883a17391ea2",
-      "name": "Start",
-      "type": "n8n-nodes-base.start",
-      "position": [
-        -1065,
-        535
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "file",
-        "operation": "get",
-        "owner": "={{$node[\"Globals\"].json[\"repo\"][\"owner\"]}}",
-        "repository": "={{$node[\"Globals\"].json[\"repo\"][\"name\"]}}",
-        "filePath": "={{$node[\"Globals\"].json[\"repo\"][\"path\"]}}{{$json[\"name\"]}}.json",
-        "asBinaryProperty": false,
-        "additionalParameters": {}
-      },
-      "id": "c0d31bde-fe56-4269-a6e2-8f8ce6ffa228",
-      "name": "GitHub",
-      "type": "n8n-nodes-base.github",
-      "position": [
-        -220,
-        500
-      ],
+      "id": "644387fd-ae58-4d13-808a-731f2e510bac",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "alwaysOutputData": true,
-      "credentials": {
-        "githubOAuth2Api": {
-          "id": "zQ3WTvR12PQkhKsn",
-          "name": "[GITHUB] - KarineWaldrich"
-        }
-      },
-      "continueOnFail": true
+      "position": [
+        440,
+        360
+      ]
     },
     {
       "parameters": {
-        "dataType": "string",
-        "value1": "={{$json[\"github_status\"]}}",
-        "rules": {
-          "rules": [
-            {
-              "value2": "same"
-            },
-            {
-              "value2": "different",
-              "output": 1
-            },
-            {
-              "value2": "new",
-              "output": 2
-            }
-          ]
-        }
-      },
-      "id": "1d7b6a18-16c4-4c73-a1ad-4f5865e7489c",
-      "name": "github_status",
-      "type": "n8n-nodes-base.switch",
-      "position": [
-        420,
-        640
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {},
-      "id": "6056d159-a186-46b9-ab27-3406283408e6",
-      "name": "same",
-      "type": "n8n-nodes-base.noOp",
-      "position": [
-        660,
-        440
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {},
-      "id": "e5e3a08e-37f9-4d06-9f3e-a87695c357f1",
-      "name": "different",
-      "type": "n8n-nodes-base.noOp",
-      "position": [
-        660,
-        640
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {},
-      "id": "fbfe815d-14ea-4119-8b67-5ee346c3c24d",
-      "name": "new",
-      "type": "n8n-nodes-base.noOp",
-      "position": [
-        660,
-        820
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "file",
-        "operation": "edit",
-        "owner": "={{$node[\"Globals\"].json[\"repo\"][\"owner\"]}}",
-        "repository": "={{$node[\"Globals\"].json[\"repo\"][\"name\"]}}",
-        "filePath": "={{$node[\"Globals\"].json[\"repo\"][\"path\"]}}{{$node[\"OneAtATime\"].json[\"name\"]}}.json",
-        "fileContent": "={{$node[\"isDiffOrNew\"].json[\"n8n_data_stringy\"]}}",
-        "commitMessage": "=[N8N Backup] {{$node[\"OneAtATime\"].json[\"name\"]}}.json ({{$json[\"github_status\"]}})"
-      },
-      "id": "fd4468c6-a129-4f24-b1ef-4cd025cb3cee",
-      "name": "GitHub Edit",
-      "type": "n8n-nodes-base.github",
-      "position": [
-        840,
-        640
-      ],
-      "typeVersion": 1,
-      "credentials": {
-        "githubOAuth2Api": {
-          "id": "zQ3WTvR12PQkhKsn",
-          "name": "[GITHUB] - KarineWaldrich"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "file",
-        "owner": "={{$node[\"Globals\"].json[\"repo\"][\"owner\"]}}",
-        "repository": "={{$node[\"Globals\"].json[\"repo\"][\"name\"]}}",
-        "filePath": "={{$node[\"Globals\"].json[\"repo\"][\"path\"]}}{{$node[\"OneAtATime\"].json[\"name\"]}}.json",
-        "fileContent": "={{$node[\"isDiffOrNew\"].json[\"n8n_data_stringy\"]}}",
-        "commitMessage": "=[N8N Backup] {{$node[\"OneAtATime\"].json[\"name\"]}}.json ({{$json[\"github_status\"]}})"
-      },
-      "id": "5e437c63-4427-42f7-a5de-f6c5a7c48d7e",
-      "name": "GitHub Create",
-      "type": "n8n-nodes-base.github",
-      "position": [
-        840,
-        820
-      ],
-      "typeVersion": 1,
-      "credentials": {
-        "githubOAuth2Api": {
-          "id": "zQ3WTvR12PQkhKsn",
-          "name": "[GITHUB] - KarineWaldrich"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "batchSize": 1,
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1j4JDlga8k8uCx5fatndgi-1oKsGXLqowuafbAsAwqdE/edit?gid=1066897161#gid=1066897161",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1066897161,
+          "mode": "list",
+          "cachedResultName": "Página2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1j4JDlga8k8uCx5fatndgi-1oKsGXLqowuafbAsAwqdE/edit#gid=1066897161"
+        },
         "options": {}
       },
-      "id": "e2660213-a8b5-448f-a1aa-9bdda4d2451d",
-      "name": "OneAtATime",
-      "type": "n8n-nodes-base.splitInBatches",
+      "id": "3434f918-a451-49e4-b41d-9d4b7fea67bd",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
       "position": [
-        -440,
-        660
+        680,
+        360
       ],
-      "typeVersion": 1
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FfUGbVhS6rnOSQqB",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
+        }
+      }
     },
     {
       "parameters": {
-        "values": {
-          "string": [
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
             {
-              "name": "repo.owner",
-              "value": "leofreymuth"
+              "id": "c2a55ff4-ec8f-4bbc-ab5e-acc854b46a4a",
+              "leftValue": "={{ $node[\"Edit Fields\"].json[\"content\"][\"qualificacao\"] }}",
+              "rightValue": "qualificado",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "caf9bc61-e4f2-469f-a56d-22353e6b3a32",
+      "name": "lead qualificado?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3620,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c2a55ff4-ec8f-4bbc-ab5e-acc854b46a4a",
+              "leftValue": "={{ $node[\"Edit Fields\"].json[\"content\"][\"qualificacao\"] }}",
+              "rightValue": "=qualificado",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3351509a-fd24-47e9-a5e6-419f79860dd0",
+      "name": "lead qualificado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3860,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1j4JDlga8k8uCx5fatndgi-1oKsGXLqowuafbAsAwqdE",
+          "mode": "list",
+          "cachedResultName": "Karine - High Ticket",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1j4JDlga8k8uCx5fatndgi-1oKsGXLqowuafbAsAwqdE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1j4JDlga8k8uCx5fatndgi-1oKsGXLqowuafbAsAwqdE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+            "Nome": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"] }}",
+            "Telefone": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"whatsapp\"] }}",
+            "ID Lead Pipedrive": "={{   $node[\"cria_lead\"].runIndex >= 0        ? $node[\"cria_lead\"].json[\"id\"] : $node[\"atualiza_lead\"].runIndex >= 0      ? $node[\"atualiza_lead\"].json[\"id\"]     : null }}",
+            "ID Deal Pipedrive": "={{   $node[\"cria_deal_qualificado\"].runIndex >= 0        ? $node[\"cria_deal_qualificado\"].json[\"id\"] : $node[\"atualiza_deal_qualificado\"].runIndex >= 0      ? $node[\"atualiza_deal_qualificado\"].json[\"id\"]     : null }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
             },
             {
-              "name": "repo.name",
-              "value": "n8n-karinewaldrich"
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
-              "name": "repo.path",
-              "value": "workflows/"
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "UTM Source",
+              "displayName": "UTM Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "UTM Medium",
+              "displayName": "UTM Medium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "UTM Campaign",
+              "displayName": "UTM Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "UTM Term",
+              "displayName": "UTM Term",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "UTM Content",
+              "displayName": "UTM Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ID Lead Pipedrive",
+              "displayName": "ID Lead Pipedrive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID Deal Pipedrive",
+              "displayName": "ID Deal Pipedrive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
             }
           ]
         },
         "options": {}
       },
-      "id": "6d491d96-65d8-4273-834e-9078dd914302",
-      "name": "Globals",
-      "type": "n8n-nodes-base.set",
+      "id": "86b89cb6-8774-493c-ba70-4c3a61638aed",
+      "name": "insere_no_sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
       "position": [
-        -880,
-        660
+        4480,
+        20
       ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "triggerTimes": {
-          "item": [
-            {
-              "mode": "everyX",
-              "value": 12
-            }
-          ]
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FfUGbVhS6rnOSQqB",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
         }
       },
-      "id": "31dda9ea-23dc-427b-94ca-878b41253dbe",
-      "name": "Every 12 hours",
-      "type": "n8n-nodes-base.cron",
-      "position": [
-        -1065,
-        795
-      ],
-      "typeVersion": 1
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
-        "content": "## Workflow Backups\nThis workflow will automatically backup your workflows to your Github account every 12 hours.\n\n### Setup\nOpen Globals and update the values below\n**repo.owner:** This is your Github username\n**repo.name:** This is the name of your repository\n**repo.path:** This is the folder to use within the repository, If it doesn't exist it will be created.\n\nIf your username was `n8n-io` and your repository was called `n8n-backups` and you wanted the workflows to go into a `workflows` folder you would set:\n\nrepo.owner - n8n-io\nrepo.name - n8n-backups\nrepo.path - workflows",
-        "height": 464.79920462713443,
-        "width": 389.78906250000017
+        "documentId": {
+          "__rl": true,
+          "value": "1j4JDlga8k8uCx5fatndgi-1oKsGXLqowuafbAsAwqdE",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1j4JDlga8k8uCx5fatndgi-1oKsGXLqowuafbAsAwqdE/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email",
+              "lookupValue": "={{ $node[\"Edit Fields\"].json[\"content\"][\"email\"] || 'sem email' }}"
+            }
+          ]
+        },
+        "options": {}
       },
-      "id": "e09c1f8e-e624-4ef1-a9ff-30e819539fe9",
-      "name": "Note",
-      "type": "n8n-nodes-base.stickyNote",
+      "id": "57e541d1-3364-4872-b553-98758a301a42",
+      "name": "pesquisa_no_sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
       "position": [
-        -1520,
-        440
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "content": "## Single Item Loop\nWe process each workflow item one at a time, We first check Github to see if a file exists then we merge the Github Data and the API item so we can check if the values match in the function node `isDiffOrNew` we then set a status of `same`, `different` or `new`",
-        "height": 424.04333333333386,
-        "width": 755.2349999999991
-      },
-      "id": "0f3903df-15b1-499f-b7b2-97924efc8355",
-      "name": "Note2",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -460,
+        2680,
         380
       ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "content": "## Save the data\nUsing the switch node we work out what to do based on the previous status,  If it is the same we do nothing, If it is different we update the file in Github and if it is new we create a new file. After this is done we loop back to the Split in Batches node (OneAtAtTime) to start the process again.",
-        "height": 693.9283333333326,
-        "width": 666.4416666666662
-      },
-      "id": "7794a4d4-e169-456d-9e1a-f4dd9b057646",
-      "name": "Note3",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        380,
-        320
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "filters": {},
-        "requestOptions": {}
-      },
-      "id": "9981070f-8a5d-461c-aef8-7ac80dfbbff6",
-      "name": "n8n",
-      "type": "n8n-nodes-base.n8n",
-      "position": [
-        -680,
-        660
-      ],
-      "typeVersion": 1,
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
       "credentials": {
-        "n8nApi": {
-          "id": "3rQ6f3UMFkfdUCPT",
-          "name": "[N8N] - KarineWaldrich (novo)"
+        "googleSheetsOAuth2Api": {
+          "id": "FfUGbVhS6rnOSQqB",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com (atualizado)"
         }
       }
     },
     {
       "parameters": {
-        "jsCode": "// File Returned with Content\nif (Object.keys($input.all()[0].json).includes(\"content\")) {\n  // Get JSON Objects\n  var origWorkflow = JSON.parse(Buffer.from($input.all()[0].json.content, 'base64'));\n  var n8nWorkflow = $input.all()[1].json;\n  \n  // Order JSON Objects\n  var orderedOriginal = {}\n  var orderedActual = {}\n  \n  Object.keys(origWorkflow).sort().forEach(function(key) {\n    orderedOriginal[key] = origWorkflow[key];\n  });\n  \n  Object.keys(n8nWorkflow).sort().forEach(function(key) {\n    orderedActual[key] = n8nWorkflow[key];\n  });\n\n  // Determine Difference\n  if ( JSON.stringify(orderedOriginal) === JSON.stringify(orderedActual) ) {\n    $input.all()[0].json.github_status = \"same\";\n    $input.all()[0].json.content_decoded = orderedOriginal;\n  } else {\n    $input.all()[0].json.github_status = \"different\";\n    $input.all()[0].json.content_decoded = orderedOriginal;\n    $input.all()[0].json.n8n_data_stringy = JSON.stringify(orderedActual, null, 2);\n  }\n// No File Returned / New Workflow\n} else {\n  // Order JSON Object\n  var n8nWorkflow = ($input.all()[1].json);\n  var orderedActual = {}\n  Object.keys(n8nWorkflow).sort().forEach(function(key) {\n    orderedActual[key] = n8nWorkflow[key];\n  });\n  \n  // Proper Formatting\n  $input.all()[0].json.github_status = \"new\";\n  $input.all()[0].json.n8n_data_stringy = JSON.stringify(orderedActual, null, 2);\n}\n\n// Return Items\nreturn $input.all();"
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1j4JDlga8k8uCx5fatndgi-1oKsGXLqowuafbAsAwqdE",
+          "mode": "list",
+          "cachedResultName": "Karine - High Ticket",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1j4JDlga8k8uCx5fatndgi-1oKsGXLqowuafbAsAwqdE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Agendamento",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1j4JDlga8k8uCx5fatndgi-1oKsGXLqowuafbAsAwqdE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"email\"] }}",
+            "Nome": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"fullname\"] }}",
+            "Telefone": "={{ $node[\"chega_da_fila\"].json[\"content\"][\"whatsapp\"] }}",
+            "ID Lead Pipedrive": "={{   $node[\"cria_lead\"].runIndex >= 0        ? $node[\"cria_lead\"].json[\"id\"] : $node[\"atualiza_lead\"].runIndex >= 0      ? $node[\"atualiza_lead\"].json[\"id\"]     : null }}",
+            "ID Deal Pipedrive": "={{   $node[\"cria_deal_desqualificado\"].runIndex >= 0        ? $node[\"cria_deal_desqualificado\"].json[\"id\"] : $node[\"atualiza_deal_desqualificado\"].runIndex >= 0      ? $node[\"atualiza_deal_desqualificado\"].json[\"id\"]     : null }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "UTM Source",
+              "displayName": "UTM Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "UTM Medium",
+              "displayName": "UTM Medium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "UTM Campaign",
+              "displayName": "UTM Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "UTM Term",
+              "displayName": "UTM Term",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "UTM Content",
+              "displayName": "UTM Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ID Lead Pipedrive",
+              "displayName": "ID Lead Pipedrive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID Deal Pipedrive",
+              "displayName": "ID Deal Pipedrive",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
       },
-      "id": "09c8c3e7-8f54-4f54-a0c2-df150e0d6b16",
-      "name": "isDiffOrNew",
-      "type": "n8n-nodes-base.code",
+      "id": "a8c8bceb-311c-48ba-9c0e-7a934e432ae1",
+      "name": "insere_no_sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
       "position": [
-        180,
-        640
+        4720,
+        520
       ],
-      "typeVersion": 1
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GkwdOuW9sYg3j9Px",
+          "name": "[SHEETS] - apoiowaldrich7@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
     },
     {
-      "parameters": {},
-      "id": "72d23edc-f203-4c70-8aed-a78cfef417b1",
-      "name": "Merge",
-      "type": "n8n-nodes-base.merge",
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "b66e3516-3d21-4653-99af-dffff1bbb7b8",
+              "leftValue": "={{ $json.content.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4890e940-ecbf-4afd-9925-0dcdfc9557e0",
+      "name": "tem_email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
       "position": [
-        0,
-        640
+        1400,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $node[\"Edit Fields\"].json[\"content\"][\"email\"] }}",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "id": "bf052f51-91e3-4d29-86e7-d7ffdcf203a6",
+      "name": "procura_pessoa_pelo_email",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        60
       ],
-      "typeVersion": 2
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "operation": "search",
+        "term": "={{ $node[\"Edit Fields\"].json[\"content\"][\"whatsapp\"] }}",
+        "additionalFields": {
+          "fields": "email"
+        }
+      },
+      "id": "1fa25cd4-91a9-4834-9f38-b76d0f17e095",
+      "name": "procura_pessoa_pelo_telefone",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        540
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "8af697ad-d947-412c-b0f7-19fa896d6d6b",
+              "leftValue": "={{ $node[\"procura_pessoa_pelo_telefone\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b3e0af9c-a19e-4978-b444-f1c091958c4b",
+      "name": "pessoa_existe?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "8af697ad-d947-412c-b0f7-19fa896d6d6b",
+              "leftValue": "={{ $node[\"procura_pessoa_pelo_email\"].json[\"id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "edea8218-b448-4c44-8d19-108a7984ee34",
+      "name": "pessoa_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "name": "={{ $node[\"Edit Fields\"].json[\"content\"][\"fullname\"].trim() }}",
+        "additionalFields": {
+          "email": [
+            "={{ $node[\"Edit Fields\"].json[\"content\"][\"email\"] }}"
+          ],
+          "phone": [
+            "={{ $node[\"Edit Fields\"].json[\"content\"][\"whatsapp\"] }}"
+          ]
+        }
+      },
+      "id": "05892a7e-43ee-4e78-a878-092d61bb10f5",
+      "name": "cria_pessoa",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2280,
+        40
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "person",
+        "name": "={{ $node[\"Edit Fields\"].json[\"content\"][\"fullname\"].trim() }}",
+        "additionalFields": {
+          "email": [],
+          "phone": [
+            "={{ $node[\"Edit Fields\"].json[\"content\"][\"whatsapp\"] }}"
+          ]
+        }
+      },
+      "id": "c5f1de70-92f6-4dbc-a90c-ca65bd51beb7",
+      "name": "cria_pessoa1",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        2260,
+        720
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "793d5083-f531-4652-87db-57a3a9f73005",
+              "leftValue": "={{ $node[\"pesquisa_no_sheets\"].json[\"ID Lead Pipedrive\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3f6891f1-ad96-4a2e-8c2d-9c8a16935622",
+      "name": "lead_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2920,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "lead",
+        "operation": "update",
+        "leadId": "={{ $node[\"pesquisa_no_sheets\"].json[\"ID Lead Pipedrive\"] }}",
+        "updateFields": {}
+      },
+      "id": "320fc9ac-e46d-4a6d-92e2-c1c131536087",
+      "name": "atualiza_lead",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        3140,
+        220
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "lead",
+        "title": "={{ $node[\"Edit Fields\"].json[\"content\"][\"fullname\"].trim() }}",
+        "associateWith": "person",
+        "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
+        "additionalFields": {}
+      },
+      "id": "4e220ea5-d16d-448b-983f-733131bbe84a",
+      "name": "cria_lead",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        3140,
+        540
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "793d5083-f531-4652-87db-57a3a9f73005",
+              "leftValue": "={{ $node[\"pesquisa_no_sheets\"].json[\"ID Deal Pipedrive\"].toString() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c92ee7b9-b3ee-46dc-ad26-26084cb228e2",
+      "name": "deal_existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3400,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dealId": "={{ $node[\"pesquisa_no_sheets\"].json[\"ID Deal Pipedrive\"] }}",
+        "updateFields": {
+          "currency": "BRL",
+          "customProperties": {
+            "property": [
+              {
+                "name": "72177281bc92f4917e68c142219825d35f35f1d4",
+                "value": "={{ $node[\"Edit Fields\"].json[\"content\"][\"carreira\"] }}"
+              },
+              {
+                "name": "069d3029e6033eca5dde1bb12a76fdca9c9b34f0",
+                "value": "={{ $node[\"Edit Fields\"].json[\"content\"][\"tempo\"] }}"
+              }
+            ]
+          },
+          "user_id": "={{ Math.random() < 0.5 ? 21330817 : 21963603 }}",
+          "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
+          "stage_id": 8,
+          "title": "={{ $node[\"Edit Fields\"].json[\"content\"][\"fullname\"].trim() }}"
+        }
+      },
+      "id": "3a6f455a-2cb1-4f75-bb79-7de32ec5fe4f",
+      "name": "atualiza_deal_qualificado",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        3900,
+        -60
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dealId": "={{ $node[\"pesquisa_no_sheets\"].json[\"ID Deal Pipedrive\"] }}",
+        "updateFields": {
+          "currency": "BRL",
+          "customProperties": {
+            "property": [
+              {
+                "name": "72177281bc92f4917e68c142219825d35f35f1d4",
+                "value": "={{ $node[\"Edit Fields\"].json[\"content\"][\"carreira\"] }}"
+              },
+              {
+                "name": "069d3029e6033eca5dde1bb12a76fdca9c9b34f0",
+                "value": "={{ $node[\"Edit Fields\"].json[\"content\"][\"tempo\"] }}"
+              }
+            ]
+          },
+          "user_id": 21330817,
+          "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
+          "stage_id": 7,
+          "title": "={{ $node[\"Edit Fields\"].json[\"content\"][\"fullname\"].trim() }}"
+        }
+      },
+      "id": "2dd98854-cd33-43af-b7a8-3a9c6cdb1e3f",
+      "name": "atualiza_deal_desqualificado",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        3900,
+        180
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "=[HT] - {{ $node[\"Edit Fields\"].json[\"content\"][\"fullname\"].trim() }}",
+        "associateWith": "person",
+        "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
+        "additionalFields": {
+          "currency": "BRL",
+          "customProperties": {
+            "property": [
+              {
+                "name": "72177281bc92f4917e68c142219825d35f35f1d4",
+                "value": "={{ $node[\"Edit Fields\"].json[\"content\"][\"carreira\"] }}"
+              },
+              {
+                "name": "069d3029e6033eca5dde1bb12a76fdca9c9b34f0",
+                "value": "={{ $node[\"Edit Fields\"].json[\"content\"][\"tempo\"] }}"
+              }
+            ]
+          },
+          "stage_id": 8,
+          "status": "open",
+          "user_id": "={{ Math.random() < 0.5 ? 21330817 : 21963603 }}"
+        }
+      },
+      "id": "29112243-c3e7-4477-bb97-717e0c292a95",
+      "name": "cria_deal_qualificado",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        4080,
+        400
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "=[HT] - {{ $node[\"Edit Fields\"].json[\"content\"][\"fullname\"].trim() }}",
+        "associateWith": "person",
+        "person_id": "={{ $node[\"insere_id\"].json[\"clientId\"] }}",
+        "additionalFields": {
+          "currency": "BRL",
+          "customProperties": {
+            "property": [
+              {
+                "name": "72177281bc92f4917e68c142219825d35f35f1d4",
+                "value": "={{ $node[\"Edit Fields\"].json[\"content\"][\"carreira\"] }}"
+              },
+              {
+                "name": "069d3029e6033eca5dde1bb12a76fdca9c9b34f0",
+                "value": "={{ $node[\"Edit Fields\"].json[\"content\"][\"tempo\"] }}"
+              }
+            ]
+          },
+          "stage_id": 7,
+          "status": "open",
+          "user_id": "={{ Math.random() < 0.5 ? 21330817 : 21963603 }}"
+        }
+      },
+      "id": "8642e3aa-6963-4f2b-b1e7-0df117703997",
+      "name": "cria_deal_desqualificado",
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        4080,
+        700
+      ],
+      "credentials": {
+        "pipedriveApi": {
+          "id": "39J8KZF1iPy2gjSt",
+          "name": "[PIPEDRIVE] - KarineWaldrich"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let clientId = '';\n\n// Verificar se o node \"procura_pessoa_pelo_email\" foi executado e tem dados\ntry {\n    if ($node[\"procura_pessoa_pelo_email\"].json[\"id\"]) {\n        clientId = $node[\"procura_pessoa_pelo_email\"].json[\"id\"];\n    }\n} catch (e) {}\n\n// Verificar se o node \"procura_pessoa_pelo_telefone\" foi executado e tem dados\ntry {\n    if (!clientId && $node[\"procura_pessoa_pelo_telefone\"].json[\"id\"]) {\n        clientId = $node[\"procura_pessoa_pelo_telefone\"].json[\"id\"];\n    }\n} catch (e) {}\n\n// Verificar se o node \"cria_pessoa1\" foi executado e tem dados\ntry {\n    if (!clientId && $node[\"cria_pessoa1\"].json[\"id\"]) {\n        clientId = $node[\"cria_pessoa1\"].json[\"id\"];\n    }\n} catch (e) {}\n\n// Verificar se o node \"cria_pessoa\" foi executado e tem dados\ntry {\n    if (!clientId && $node[\"cria_pessoa\"].json[\"id\"]) {\n        clientId = $node[\"cria_pessoa\"].json[\"id\"];\n    }\n} catch (e) {}\n\nreturn [{ json: { clientId } }];\n"
+      },
+      "id": "ee619154-f859-4715-8cd7-446623fba1d5",
+      "name": "insere_id",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2460,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"content\": {\n    \"fname\": \"{{ $json.Nome.trim().split(' ')[0] }}\",\n    \"lname\": \"{{ $json.Nome.trim().split(' ').pop() }}\",\n    \"fullname\": \"{{ $json.Nome }}\",\n    \"email\": \"{{ $json['E-mail'] }}\",\n    \"whatsapp\": \"{{ $json.TELEFONE }}\",\n    \"qualificacao\": \"qualificado\",\n    \"carreira\": \"{{ $json.Carreira }}\",\n    \"tempo\": \"{{ $json['Tempo de estudo'] }}\"\n  }\n}",
+        "options": {}
+      },
+      "id": "faa74f17-a801-47fd-83a5-3cbb727efec2",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1160,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "6ac2b546-6a64-415e-bcb0-67932793d75b",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        900,
+        360
+      ]
     }
   ],
   "pinData": {},
@@ -493,7 +1300,7 @@
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 1,
-  "updatedAt": "2024-08-23T00:40:16.229Z",
-  "versionId": "ad3974fb-a3b0-4972-aa5e-230433b1fe52"
+  "triggerCount": 0,
+  "updatedAt": "2024-09-19T16:39:26.054Z",
+  "versionId": "44d9db67-b8a2-47d1-a086-c84922d83bea"
 }
